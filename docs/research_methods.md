@@ -1,5 +1,7 @@
 # Scientific basis for visualizing the PLA–ChAT exports
 
+The expanded **13-file dataset**, explicit interrupted-run exclusion, twelve primary analyses, high-resolution maps, and research-based alignment strategy are now documented in [PLA_ChAT_scientific_analysis.ipynb](../PLA_ChAT_scientific_analysis.ipynb). These earlier notes describe the original selection comparison and general visualization methods. The original exports now live in `Initial Data/`; the expanded exports live in `entire Chat dataset/`.
+
 The repository now includes both box and tissue-outline analyses of the same four regions. See the [tissue-outline review](tissue_outline_review.md) for the eight-file audit, explicit pairing, new comparison figures and the distinction between outlined selection and exported ROI geometry. The methods below apply to either selection mode; the notebook keeps repeat analyses separate.
 
 The available data can describe where HALO detected objects, how those objects differ in size and intensity, and how their reported overlap with ChAT varies across four named regions. The strongest presentation combines spatial maps, clearly defined overlap summaries, full distributions, and detection-quality checks. Biological interpretation requires the sample identities, image evidence, and experimental controls that connect these measurements to the experiment.
