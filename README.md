@@ -12,7 +12,7 @@ The notebook loads and audits all eight exports, then uses `ROI_MODE = 'outline'
 
 Count reconstructions use 250-coordinate-unit bins; supported fraction maps use 1,000-unit bins with at least 10 raw PLA objects. These are editable display choices. Both types of image use bounding-box midpoints, not recovered microscopy pixels.
 
-The scientific notebook writes its figures, supporting tables, Excel workbook, and provenance under `outputs/scientific_notebook/`. The earlier analysis artifacts remain under `outputs/outline/`, `outputs/roi_comparison/`, and the original root `outputs/` files. Read the [tissue-outline review](docs/tissue_outline_review.md) for the complete comparison and its limitations.
+The scientific notebook writes its figures, supporting tables, Excel workbook, and provenance under `outputs/scientific_notebook/`. Saved PNG figures use a 300 DPI export setting; PDFs retain vector text and linework. The earlier analysis artifacts remain under `outputs/outline/`, `outputs/roi_comparison/`, and the original root `outputs/` files. Read the [tissue-outline review](docs/tissue_outline_review.md) for the complete comparison and its limitations.
 
 ## New tissue-outline exports
 

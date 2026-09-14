@@ -10,8 +10,8 @@ import pandas as pd
 from openpyxl import Workbook
 
 
-def save_figure(fig, name, output_dir, dpi=180):
-    """Export a standalone PNG and a PDF with readable vector labels."""
+def save_figure(fig, name, output_dir, dpi=300):
+    """Export a publication-quality PNG and a PDF with vector labels."""
     folder = Path(output_dir) / "figures"
     folder.mkdir(parents=True, exist_ok=True)
     paths = []
