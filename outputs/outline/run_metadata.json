@@ -1,0 +1,86 @@
+{
+  "python": "3.9.6",
+  "packages": {
+    "numpy": "2.0.2",
+    "pandas": "2.3.3",
+    "scipy": "1.13.1",
+    "matplotlib": "3.9.4",
+    "nbformat": "5.10.4",
+    "nbclient": "0.10.2",
+    "nbconvert": "7.17.1",
+    "jupyterlab": "4.5.10",
+    "ipywidgets": "8.1.9",
+    "openpyxl": "3.1.5"
+  },
+  "parameters": {
+    "roi_mode": "outline",
+    "count_bin_width": 250,
+    "fraction_bin_width": 1000,
+    "minimum_raw_PLA_support": 10,
+    "spatial_smoothing_sigma_bins": 0,
+    "focus_job": "5000",
+    "comparison_bin_width": 500,
+    "actual_roi_geometry_available": false
+  },
+  "input_manifest": [
+    {
+      "job": "4999",
+      "roi_mode": "outline",
+      "pair_id": "22M_Pfkp-TDP43",
+      "region": "22M_TDP43-Pfkp_tight",
+      "source_file": "20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2_backSUB.ome.ome.tiff_job4999PLA and ChaT Object Colocalization FL v3.0.0_object_results.csv",
+      "rows": 184684,
+      "bytes": 61192544,
+      "sha256": "9f77bd5d8f148edd95e8035445d2c22d46218ed9e5bc6fc9872616627dd44cf2",
+      "image_location": "H:\\20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2\\20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2_backSUB.ome.ome.tiff",
+      "normalized_image_location": "h:\\20260515_173745_2_jqw0p1_ellie_pla_05152026_2\\20260515_173745_2_jqw0p1_ellie_pla_05152026_2_backsub.ome.ome.tiff",
+      "algorithm": "PLA and ChaT Object Colocalization FL v3.0.0",
+      "ids_start_at_zero_and_contiguous": true
+    },
+    {
+      "job": "5000",
+      "roi_mode": "outline",
+      "pair_id": "24M_Pfkp-TDP43",
+      "region": "24M_TDP43-Pfkp_tight",
+      "source_file": "20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2_backSUB.ome.ome.tiff_job5000PLA and ChaT Object Colocalization FL v3.0.0_object_results.csv",
+      "rows": 295677,
+      "bytes": 98176902,
+      "sha256": "4a05d72249ab4b9f5a55ae90173078664f39fc8287c24f19ee1a1c5af3f5e748",
+      "image_location": "H:\\20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2\\20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2_backSUB.ome.ome.tiff",
+      "normalized_image_location": "h:\\20260515_173745_2_jqw0p1_ellie_pla_05152026_2\\20260515_173745_2_jqw0p1_ellie_pla_05152026_2_backsub.ome.ome.tiff",
+      "algorithm": "PLA and ChaT Object Colocalization FL v3.0.0",
+      "ids_start_at_zero_and_contiguous": true
+    },
+    {
+      "job": "5001",
+      "roi_mode": "outline",
+      "pair_id": "22M_Hk1-TDP43",
+      "region": "22M_TDP43-Hk1_tight",
+      "source_file": "20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2_backSUB.ome.ome.tiff_job5001PLA and ChaT Object Colocalization FL v3.0.0_object_results.csv",
+      "rows": 237144,
+      "bytes": 78774493,
+      "sha256": "2e4e329f0623bd2bb3407cf4a1cee8d28460d76308fe89d53386617e0e3d2226",
+      "image_location": "H:\\20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2\\20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2_backSUB.ome.ome.tiff",
+      "normalized_image_location": "h:\\20260515_173745_2_jqw0p1_ellie_pla_05152026_2\\20260515_173745_2_jqw0p1_ellie_pla_05152026_2_backsub.ome.ome.tiff",
+      "algorithm": "PLA and ChaT Object Colocalization FL v3.0.0",
+      "ids_start_at_zero_and_contiguous": true
+    },
+    {
+      "job": "5002",
+      "roi_mode": "outline",
+      "pair_id": "24M_Hk1-TDP43",
+      "region": "24M_TDP43-Hk1_tight",
+      "source_file": "20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2_backSUB.ome.ome.tiff_job5002PLA and ChaT Object Colocalization FL v3.0.0_object_results.csv",
+      "rows": 349776,
+      "bytes": 116417417,
+      "sha256": "1ba6bbfc4ca4a37ac075783b31255795a0c2d6ebc708ca1a208077fc8fcb9371",
+      "image_location": "H:\\20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2\\20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2_backSUB.ome.ome.tiff",
+      "normalized_image_location": "h:\\20260515_173745_2_jqw0p1_ellie_pla_05152026_2\\20260515_173745_2_jqw0p1_ellie_pla_05152026_2_backsub.ome.ome.tiff",
+      "algorithm": "PLA and ChaT Object Colocalization FL v3.0.0",
+      "ids_start_at_zero_and_contiguous": true
+    }
+  ],
+  "interpretation": "Descriptive object-level analysis; biological replicate identities unconfirmed.",
+  "coordinates": "Export units; x/y are bounding-box midpoints. No physical scale inferred.",
+  "source_images_available": false
+}

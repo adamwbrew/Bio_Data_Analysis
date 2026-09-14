@@ -9,10 +9,13 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
 from matplotlib.ticker import PercentFormatter, FuncFormatter
+from .data import require_single_roi
 
 
 COLORS = {"4594": "#0072B2", "4595": "#D55E00", "4596": "#009E73", "4597": "#CC79A7"}
 STYLES = {"4594": "-", "4595": "--", "4596": "-", "4597": "--"}
+COLORS.update({"4999": COLORS["4594"], "5000": COLORS["4595"], "5001": COLORS["4596"], "5002": COLORS["4597"]})
+STYLES.update({"4999": "-", "5000": "--", "5001": "-", "5002": "--"})
 
 
 def setup_style():
@@ -28,12 +31,14 @@ def setup_style():
 
 
 def _groups(objects, object_type=None):
+    require_single_roi(objects)
     data = objects if object_type is None else objects[objects.object_type == object_type]
     return data.groupby("job", observed=True, sort=True)
 
 
 def _label(group):
-    return str(group.region.iloc[0]).replace("_", " · ").replace(" PLA", "")
+    column = "pair_id" if "pair_id" in group else "region"
+    return str(group[column].iloc[0]).replace("_", " · ").replace(" PLA", "")
 
 
 def _footer(fig, text):
