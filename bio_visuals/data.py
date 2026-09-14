@@ -1,11 +1,11 @@
-"""Read and audit the four HALO exports without removing any object rows.
+"""Read and audit box and tissue-outline HALO exports without removing rows.
 
 Coordinates remain in the uncalibrated units exported by HALO. ``x`` and ``y``
 are bounding-box midpoints, not measured object centroids. Object areas and
 diameters retain the micrometer units explicitly named by the CSV headers.
 """
 
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 import csv
 import hashlib
 
@@ -21,7 +21,16 @@ REGIONS = {
     "4596": "22M_Hk1-TDP43 PLA",
     "4597": "24M_Hk1-TDP43 PLA",
 }
-KNOWN_ROWS = {"4594": 186343, "4595": 297584, "4596": 238084, "4597": 356745}
+OUTLINE_REGIONS = {
+    "4999": "22M_TDP43-Pfkp_tight",
+    "5000": "24M_TDP43-Pfkp_tight",
+    "5001": "22M_TDP43-Hk1_tight",
+    "5002": "24M_TDP43-Hk1_tight",
+}
+ALL_REGIONS = {**REGIONS, **OUTLINE_REGIONS}
+ROI_PAIRS = {"4594": "4999", "4595": "5000", "4596": "5001", "4597": "5002"}
+KNOWN_ROWS = {"4594": 186343, "4595": 297584, "4596": 238084, "4597": 356745,
+              "4999": 184684, "5000": 295677, "5001": 237144, "5002": 349776}
 OBJECT_TYPES = {"PLA - TRITC_E1": "PLA", "ChAt-50 - FITC_E1": "ChAT"}
 MEASUREMENTS = {
     "Area in PLA and Chat coloc": "overlap_area",
@@ -54,8 +63,19 @@ def _sha256(path):
     return digest.hexdigest()
 
 
-def load_data(root=".", verify_hashes=True):
-    """Return ``(objects, manifest)`` after reading all four source CSVs.
+def require_single_roi(objects):
+    """Prevent accidental pooling/overdrawing of repeat analyses of the tissue."""
+    if "roi_mode" in objects and objects.roi_mode.nunique() > 1:
+        raise ValueError("Select one roi_mode ('box' or 'outline') for this plot. "
+                         "Use the paired comparison functions to compare repeat analyses.")
+
+
+def load_data(root=".", verify_hashes=True, roi_mode="box"):
+    """Return ``(objects, manifest)`` for ``box``, ``outline`` or ``all``.
+
+    The default preserves the original four-file API. The notebook chooses
+    outline for its main figures and loads all eight for paired comparisons.
+    ROI modes are repeat analyses, not extra biological replicates.
 
     ``root`` is the directory containing the CSVs. Source filenames, the image
     reference, and algorithm name live in the manifest, keyed by ``job``. The
@@ -70,16 +90,20 @@ def load_data(root=".", verify_hashes=True):
     not compare files with a remote copy or establish biological provenance.
     """
     root = Path(root).expanduser().resolve()
-    expected_names = {FILE_PREFIX + job + FILE_SUFFIX for job in REGIONS}
+    if roi_mode not in ("box", "outline", "all"):
+        raise ValueError("roi_mode must be 'box', 'outline', or 'all'.")
+    regions = REGIONS if roi_mode == "box" else OUTLINE_REGIONS if roi_mode == "outline" else ALL_REGIONS
+    expected_names = {FILE_PREFIX + job + FILE_SUFFIX for job in regions}
+    known_names = {FILE_PREFIX + job + FILE_SUFFIX for job in ALL_REGIONS}
     missing = sorted(name for name in expected_names if not (root / name).is_file())
     if missing:
         raise FileNotFoundError(
-            "Place all four original HALO CSVs in DATA_ROOT. Missing:\n"
+            f"Place the {roi_mode} HALO CSVs in DATA_ROOT. Missing:\n"
             + "\n".join(missing)
         )
     unexpected = sorted(
         path.name for path in root.glob("*object_results.csv")
-        if path.name not in expected_names
+        if path.name not in known_names
     )
     if unexpected:
         raise ValueError(
@@ -88,7 +112,10 @@ def load_data(root=".", verify_hashes=True):
         )
 
     frames, manifest = [], []
-    for job, expected_region in REGIONS.items():
+    for job, expected_region in regions.items():
+        mode = "box" if job in REGIONS else "outline"
+        box_job = job if mode == "box" else next(k for k, v in ROI_PAIRS.items() if v == job)
+        pair_id = REGIONS[box_job].replace(" PLA", "")
         path = root / (FILE_PREFIX + job + FILE_SUFFIX)
         with path.open(encoding="utf-8-sig", newline="") as handle:
             header = next(csv.reader(handle), [])
@@ -132,12 +159,15 @@ def load_data(root=".", verify_hashes=True):
 
         manifest.append({
             "job": job,
+            "roi_mode": mode,
+            "pair_id": pair_id,
             "region": expected_region,
             "source_file": path.name,
             "rows": len(frame),
             "bytes": path.stat().st_size,
             "sha256": _sha256(path) if verify_hashes else None,
             "image_location": unique_metadata["Image Location"],
+            "normalized_image_location": str(PureWindowsPath(unique_metadata["Image Location"])).casefold(),
             "algorithm": unique_metadata["Algorithm Name"],
             "ids_start_at_zero_and_contiguous": bool(
                 np.array_equal(np.sort(ids), np.arange(len(frame)))
@@ -151,6 +181,8 @@ def load_data(root=".", verify_hashes=True):
             "Object Type": "object_type",
         })
         frame.insert(0, "job", job)
+        frame["roi_mode"] = mode
+        frame["pair_id"] = pair_id
         frame["object_id"] = frame["object_id"].astype("int64")
         frame["object_type"] = frame["object_type"].map(OBJECT_TYPES)
         frame["pla_present"] = frame["pla_present"].astype(bool)
@@ -160,7 +192,12 @@ def load_data(root=".", verify_hashes=True):
         frames.append(frame)
 
     objects = pd.concat(frames, ignore_index=True)
-    return objects, pd.DataFrame.from_records(manifest)
+    manifest = pd.DataFrame.from_records(manifest)
+    if manifest.normalized_image_location.nunique() != 1:
+        raise ValueError("Exports no longer reference one common image; review alignment before spatial comparison.")
+    if manifest.algorithm.nunique() != 1:
+        raise ValueError("Algorithm names differ across exports; review the analysis versions.")
+    return objects, manifest
 
 
 def summarize(objects):
@@ -219,7 +256,10 @@ def summarize(objects):
             "zero_bbox_count": int(zero_bbox.sum()),
             "zero_bbox_pct": 100.0 * zero_bbox.mean(),
         })
-    return pd.DataFrame.from_records(records)
+    result = pd.DataFrame.from_records(records)
+    if "roi_mode" in objects:
+        result = result.merge(objects[["job", "roi_mode", "pair_id"]].drop_duplicates(), on="job", validate="many_to_one")
+    return result
 
 
 def quality_control(objects):

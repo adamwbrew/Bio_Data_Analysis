@@ -1,5 +1,7 @@
 # Scientific basis for visualizing the PLA–ChAT exports
 
+The repository now includes both box and tissue-outline analyses of the same four regions. See the [tissue-outline review](tissue_outline_review.md) for the eight-file audit, explicit pairing, new comparison figures and the distinction between outlined selection and exported ROI geometry. The methods below apply to either selection mode; the notebook keeps repeat analyses separate.
+
 The available data can describe where HALO detected objects, how those objects differ in size and intensity, and how their reported overlap with ChAT varies across four named regions. The strongest presentation combines spatial maps, clearly defined overlap summaries, full distributions, and detection-quality checks. Biological interpretation requires the sample identities, image evidence, and experimental controls that connect these measurements to the experiment.
 
 The evidence for this dataset is [abstract.txt](../abstract.txt), the four local CSV exports, and their documented inventory in [README.md](../README.md). The abstract describes a tissue/animal/condition structure, but the exports do not identify that structure explicitly. `22M`, `24M`, `Pfkp-TDP43 PLA`, and `Hk1-TDP43 PLA` therefore remain literal labels. One shared image reference does not determine how many specimens, sections, or animals contributed.

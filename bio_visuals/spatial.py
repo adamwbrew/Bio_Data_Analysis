@@ -20,6 +20,7 @@ from matplotlib.collections import PatchCollection
 from matplotlib.patches import Rectangle
 from matplotlib.ticker import MaxNLocator
 from scipy.ndimage import gaussian_filter
+from .data import require_single_roi
 
 
 METRICS = {
@@ -35,6 +36,7 @@ _MAX_GRID_CELLS = 2_000_000
 
 
 def _check(df, bin_width, min_support, smoothing):
+    require_single_roi(df)
     required = {
         "job", "region", "object_type", "x", "y", "xmin", "xmax",
         "ymin", "ymax", "chat_present", "overlap_pct",
