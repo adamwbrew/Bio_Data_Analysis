@@ -1,0 +1,71 @@
+{
+  "python": "3.9.6",
+  "packages": {
+    "numpy": "2.0.2",
+    "pandas": "2.3.3",
+    "scipy": "1.13.1",
+    "matplotlib": "3.9.4",
+    "nbformat": "5.10.4",
+    "nbclient": "0.10.2",
+    "nbconvert": "7.17.1",
+    "jupyterlab": "4.5.10",
+    "ipywidgets": "8.1.9",
+    "openpyxl": "3.1.5"
+  },
+  "parameters": {
+    "spatial_bin_width": 250,
+    "minimum_raw_PLA_support": 10,
+    "spatial_smoothing_sigma_bins": 0,
+    "focus_job": "4595",
+    "source_image_available": false
+  },
+  "input_manifest": [
+    {
+      "job": "4594",
+      "region": "22M_Pfkp-TDP43 PLA",
+      "source_file": "20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2_backSUB.ome.ome.tiff_job4594PLA and ChaT Object Colocalization FL v3.0.0_object_results.csv",
+      "rows": 186343,
+      "bytes": 61368709,
+      "sha256": "83839e1e12719dd022d1e594a8effec80ba1059bcb3af2de3b2f6fd1430620a1",
+      "image_location": "H:\\20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2\\20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2_backSUB.ome.ome.tiff",
+      "algorithm": "PLA and ChaT Object Colocalization FL v3.0.0",
+      "ids_start_at_zero_and_contiguous": true
+    },
+    {
+      "job": "4595",
+      "region": "24M_Pfkp-TDP43 PLA",
+      "source_file": "20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2_backSUB.ome.ome.tiff_job4595PLA and ChaT Object Colocalization FL v3.0.0_object_results.csv",
+      "rows": 297584,
+      "bytes": 98212792,
+      "sha256": "8013fb5553aebe4457dccfa42d13f52bb5497f186df5443d8c46bd36af549afc",
+      "image_location": "H:\\20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2\\20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2_backSUB.ome.ome.tiff",
+      "algorithm": "PLA and ChaT Object Colocalization FL v3.0.0",
+      "ids_start_at_zero_and_contiguous": true
+    },
+    {
+      "job": "4596",
+      "region": "22M_Hk1-TDP43 PLA",
+      "source_file": "20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2_backSUB.ome.ome.tiff_job4596PLA and ChaT Object Colocalization FL v3.0.0_object_results.csv",
+      "rows": 238084,
+      "bytes": 78610195,
+      "sha256": "e1a16aada3ad0f589395f5567c64571d3a98c87d3771878bc6574d909bf12d3e",
+      "image_location": "H:\\20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2\\20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2_backSUB.ome.ome.tiff",
+      "algorithm": "PLA and ChaT Object Colocalization FL v3.0.0",
+      "ids_start_at_zero_and_contiguous": true
+    },
+    {
+      "job": "4597",
+      "region": "24M_Hk1-TDP43 PLA",
+      "source_file": "20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2_backSUB.ome.ome.tiff_job4597PLA and ChaT Object Colocalization FL v3.0.0_object_results.csv",
+      "rows": 356745,
+      "bytes": 118022846,
+      "sha256": "47a953163ff19d35e2c34ba3f483a9b38035b3dda29eb2312d0a77c68ff45950",
+      "image_location": "H:\\20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2\\20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2_backSUB.ome.ome.tiff",
+      "algorithm": "PLA and ChaT Object Colocalization FL v3.0.0",
+      "ids_start_at_zero_and_contiguous": true
+    }
+  ],
+  "interpretation": "Descriptive object-level analysis; biological replicate identities unconfirmed.",
+  "coordinates": "Export units; x/y are bounding-box midpoints. No physical scale inferred.",
+  "source_images_available": false
+}

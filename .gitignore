@@ -3,3 +3,8 @@
 *.csv
 *.tiff
 *.ome
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+outputs/.cache/
