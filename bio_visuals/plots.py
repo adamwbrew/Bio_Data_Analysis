@@ -22,8 +22,8 @@ def setup_style():
     plt.rcParams.update({
         "font.family": "DejaVu Sans", "font.size": 10,
         "axes.titlesize": 11, "axes.labelsize": 10,
-        "figure.titlesize": 16, "figure.dpi": 110,
-        "savefig.dpi": 190, "axes.spines.top": False,
+        "figure.titlesize": 16, "figure.dpi": 140,
+        "savefig.dpi": 300, "axes.spines.top": False,
         "axes.spines.right": False, "axes.axisbelow": True,
         "pdf.fonttype": 42, "svg.fonttype": "none",
         "figure.facecolor": "white", "axes.facecolor": "white",
