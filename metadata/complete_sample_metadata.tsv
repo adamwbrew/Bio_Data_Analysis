@@ -1,0 +1,13 @@
+job	image_id	sample_label	pla_type	animal_id	running_group	section_id	anatomical_region	anatomical_level	species	tissue	section_relationship	acquisition_batch	notes
+4998	20260515_173745_1_ZAbMVm_Ellie_PLA_05152026_1	21F	Hk1										
+5020	20260515_173745_1_ZAbMVm_Ellie_PLA_05152026_1	21F	Pfkp										
+4997	20260515_173745_1_ZAbMVm_Ellie_PLA_05152026_1	22F	Hk1										
+5403	20260515_173745_1_ZAbMVm_Ellie_PLA_05152026_1	22F	Pfkp										
+5001	20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2	22M	Hk1										
+4999	20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2	22M	Pfkp										
+5002	20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2	24M	Hk1										
+5000	20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2	24M	Pfkp										
+5006	20260515_173746_3_G9eDHt_Ellie_PLA_05152026_3	21M	Hk1										
+5003	20260515_173746_3_G9eDHt_Ellie_PLA_05152026_3	21M	Pfkp										
+5007	20260515_173746_3_G9eDHt_Ellie_PLA_05152026_3	23M	Hk1										
+5005	20260515_173746_3_G9eDHt_Ellie_PLA_05152026_3	23M	Pfkp										

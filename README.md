@@ -1,6 +1,8 @@
 # PLA–ChAT image analysis data
 
-This repository documents measurements extracted from fluorescence images of tissue using **HALO image analysis**. Eight CSV exports represent **two analyses of the same four regions**: the original box selections contain **1,078,756 object rows**, and the new tissue-outline selections contain **1,067,281 object rows**. Both use **20 measurements or identifiers per object**. These totals describe repeated analyses and must not be added as unique biological objects. They describe PLA puncta and ChAT-labeled objects: where they appear in an image, their size and brightness, and how much the two signals overlap. The accompanying [abstract](abstract.txt) describes the data as object-level measurements associated with tissue sections, animals, experimental conditions, and marker combinations.[^1]
+This repository contains object measurements exported from **HALO fluorescence image analysis**. The primary expanded dataset contains **12 completed region/assay analyses and 3,010,776 objects**: **310,024 PLA** and **2,700,752 ChAT** detections. The files reference three source images and six literal labels, each represented by Hk1–TDP43 and Pfkp–TDP43 analyses. Sample identities, running groups, and anatomical correspondence are not defined by those labels alone.
+
+`Initial Data/` preserves eight original box/outline exports. `entire Chat dataset/` contains thirteen exports: four identical copies of the original outlines, eight additional completed analyses, and interrupted job **4978**, superseded by **5403**. Every one of the interrupted export's **94,409 measurement signatures** occurs in the replacement's **190,915 rows**. Copies and the interrupted run are excluded from the primary summaries and retained in the audit.
 
 **The data is at the image-analysis export stage.** Tissue has been imaged, objects have been detected, and their measurements have been exported to tables. The available files contain individual object measurements; sample metadata, source images, analysis settings, and biological conclusions are not included.
 
@@ -8,13 +10,13 @@ This repository documents measurements extracted from fluorescence images of tis
 
 Open [PLA_ChAT_scientific_analysis.ipynb](PLA_ChAT_scientific_analysis.ipynb) in Jupyter or VS Code for the current end-to-end workflow: measurement audit, box-versus-outline comparison, denominator-aware summaries, spatial reconstructions, quality checks, literature framing, actionable findings, and next-step guidance. The earlier [PLA_ChAT_visual_analysis.ipynb](PLA_ChAT_visual_analysis.ipynb) remains available as the original exploratory notebook. Select the project's `.venv` Python kernel and choose **Run All** to recompute the scientific notebook; install the packages in [requirements.txt](requirements.txt) in your selected kernel's environment if needed (`python -m pip install -r requirements.txt`).
 
-The notebook loads and audits all eight exports, then uses `ROI_MODE = 'outline'` for its main figures. Change this to `'box'` to explore the original selections. A separate comparison section pairs the two runs by region, shows changes in counts and overlap, and maps spatial count differences. The interactive explorer switches between selection modes, regions, and heatmap settings without pooling the runs.
+The scientific notebook audits all thirteen expanded exports, analyzes twelve primary exports, and retains the original box/outline comparison from `Initial Data/`. It includes paired PLA-type summaries, explicit averaging denominators, maps of every section, distribution and sensitivity figures, and coordinates for image review. The interactive explorer varies the selected section and map resolution. The earlier visual notebook uses `Initial Data/` and keeps its `ROI_MODE` selector.
 
-Count reconstructions use 250-coordinate-unit bins; supported fraction maps use 1,000-unit bins with at least 10 raw PLA objects. These are editable display choices. Both types of image use bounding-box midpoints, not recovered microscopy pixels.
+The scientific notebook uses 50-coordinate-unit bins for detailed count reconstructions; supported fraction maps use 1,000-unit bins with at least 10 raw PLA objects. These are editable display choices. Both types of image use bounding-box midpoints, not recovered microscopy pixels.
 
-The scientific notebook writes its figures, supporting tables, Excel workbook, and provenance under `outputs/scientific_notebook/`. Saved PNG figures use a 300 DPI export setting; PDFs retain vector text and linework. The earlier analysis artifacts remain under `outputs/outline/`, `outputs/roi_comparison/`, and the original root `outputs/` files. Read the [tissue-outline review](docs/tissue_outline_review.md) for the complete comparison and its limitations.
+The scientific notebook writes its figures, supporting tables, Excel workbook, and provenance under `outputs/scientific_notebook/`. Saved PNG figures use a 300 DPI export setting; PDFs retain vector text and linework. The earlier analysis artifacts remain under `outputs/outline/`, `outputs/roi_comparison/`, and the original root `outputs/` files. The notebook also exports lossless fine-grid arrays. For running-group summaries, complete [metadata/complete_sample_metadata.tsv](metadata/complete_sample_metadata.tsv); the notebook validates those assignments and averages sections within animals before summarizing groups. Whole-section summaries can precede registration, while anatomical spatial comparisons require validated correspondence. The full cited alignment strategy is in the notebook.
 
-## New tissue-outline exports
+## Original box and tissue-outline comparison
 
 The dataset owner identifies these as reruns with a tissue outline replacing the rectangular selection. The `_tight` region names and common image reference support the following explicit pairing. The CSVs themselves do not contain the outline polygon, a tissue mask, or analyzed tissue area.[^9]
 
@@ -256,7 +258,7 @@ With this context, the next stage would be to review detections against images, 
 
 ## Sources
 
-The abstract and eight local exports are the primary evidence for this dataset. Box/outline pairing additionally uses the dataset owner’s description of the rerun. External sources below provide assay, software, and protein terminology only. Web references were accessed on September 13, 2026.
+The abstract and local exports in both data folders are the primary evidence for this dataset. The detailed tables below describe the original box/outline subset; the expanded twelve-analysis results and current literature review are in the scientific notebook. Box/outline pairing additionally uses the dataset owner’s description of the rerun. External sources below provide assay, software, and protein terminology only. Web references were accessed on September 13, 2026.
 
 [^1]: Repository author unspecified. [abstract.txt](abstract.txt), two-paragraph dataset description, undated. Source for the intended object-level organization and tissue/animal/condition context.
 [^2]: Local HALO object-results exports, jobs [4594][csv4594], [4595][csv4595], [4596][csv4596], and [4597][csv4597], all reporting `PLA and ChaT Object Colocalization FL v3.0.0`; export dates unconfirmed. Source for column names, region/image references, complete-file counts, consistency checks, and example values. The full filenames are defined above; these files are present locally and excluded from Git.
@@ -267,17 +269,17 @@ The abstract and eight local exports are the primary evidence for this dataset. 
 [^7]: NCBI Gene. [CHAT — choline O-acetyltransferase](https://www.ncbi.nlm.nih.gov/gene/1103), Gene ID 1103. Reference for ChAT's function and association with cholinergic neurons.
 [^8]: Indica Labs. [Object Colocalization FL Module](https://indicalab.com/halo/halo-modules/object-colocalization-fl/), undated. Public overview of object measurement and colocalization. The [v3.0 user-guide page](https://learn.indicalab.com/courses/halo-modules/lessons/object-colocalization-fl-module/topic/user-guide-object-colocalization-fl-v3/) requires login; its detailed measurement definitions are not used here.
 
-[csv4594]: 20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2_backSUB.ome.ome.tiff_job4594PLA%20and%20ChaT%20Object%20Colocalization%20FL%20v3.0.0_object_results.csv
-[csv4595]: 20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2_backSUB.ome.ome.tiff_job4595PLA%20and%20ChaT%20Object%20Colocalization%20FL%20v3.0.0_object_results.csv
-[csv4596]: 20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2_backSUB.ome.ome.tiff_job4596PLA%20and%20ChaT%20Object%20Colocalization%20FL%20v3.0.0_object_results.csv
-[csv4597]: 20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2_backSUB.ome.ome.tiff_job4597PLA%20and%20ChaT%20Object%20Colocalization%20FL%20v3.0.0_object_results.csv
+[csv4594]: Initial%20Data/20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2_backSUB.ome.ome.tiff_job4594PLA%20and%20ChaT%20Object%20Colocalization%20FL%20v3.0.0_object_results.csv
+[csv4595]: Initial%20Data/20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2_backSUB.ome.ome.tiff_job4595PLA%20and%20ChaT%20Object%20Colocalization%20FL%20v3.0.0_object_results.csv
+[csv4596]: Initial%20Data/20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2_backSUB.ome.ome.tiff_job4596PLA%20and%20ChaT%20Object%20Colocalization%20FL%20v3.0.0_object_results.csv
+[csv4597]: Initial%20Data/20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2_backSUB.ome.ome.tiff_job4597PLA%20and%20ChaT%20Object%20Colocalization%20FL%20v3.0.0_object_results.csv
 
 [^9]: Dataset owner, September 14, 2026: jobs 4999–5002 use an outline around the same tissue sections previously analyzed with a box. Local exports: [4999][csv4999], [5000][csv5000], [5001][csv5001], [5002][csv5002]. See [tissue-outline review](docs/tissue_outline_review.md) for complete-file checks and comparison methods.
 
-[csv4999]: 20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2_backSUB.ome.ome.tiff_job4999PLA%20and%20ChaT%20Object%20Colocalization%20FL%20v3.0.0_object_results.csv
+[csv4999]: Initial%20Data/20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2_backSUB.ome.ome.tiff_job4999PLA%20and%20ChaT%20Object%20Colocalization%20FL%20v3.0.0_object_results.csv
 
-[csv5000]: 20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2_backSUB.ome.ome.tiff_job5000PLA%20and%20ChaT%20Object%20Colocalization%20FL%20v3.0.0_object_results.csv
+[csv5000]: Initial%20Data/20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2_backSUB.ome.ome.tiff_job5000PLA%20and%20ChaT%20Object%20Colocalization%20FL%20v3.0.0_object_results.csv
 
-[csv5001]: 20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2_backSUB.ome.ome.tiff_job5001PLA%20and%20ChaT%20Object%20Colocalization%20FL%20v3.0.0_object_results.csv
+[csv5001]: Initial%20Data/20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2_backSUB.ome.ome.tiff_job5001PLA%20and%20ChaT%20Object%20Colocalization%20FL%20v3.0.0_object_results.csv
 
-[csv5002]: 20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2_backSUB.ome.ome.tiff_job5002PLA%20and%20ChaT%20Object%20Colocalization%20FL%20v3.0.0_object_results.csv
+[csv5002]: Initial%20Data/20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2_backSUB.ome.ome.tiff_job5002PLA%20and%20ChaT%20Object%20Colocalization%20FL%20v3.0.0_object_results.csv
