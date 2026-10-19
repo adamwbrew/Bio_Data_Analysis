@@ -1,0 +1,350 @@
+{
+  "parameters": {
+    "features": [
+      "log10(area)",
+      "min_diameter / max_diameter"
+    ],
+    "k_primary": 3,
+    "k_sensitivity": [
+      2,
+      3,
+      4
+    ],
+    "sample_per_animal": 3000,
+    "n_init": 8,
+    "iterations": 60,
+    "random_seed": 1729,
+    "min_cluster_per_animal": 10,
+    "spatial_bin": 500.0,
+    "min_spatial_n": 10,
+    "scaling": "Median and IQR fitted to the equal-animal sample; if IQR=0 use SD, then 1 for a constant feature",
+    "invalid": "Exclude nonfinite/nonpositive area, nonfinite diameters, max<=0, min<0 or min>max from ML only; zero min with positive max is retained",
+    "weighting": "Same training count per animal within each arm; the smallest available count caps every animal",
+    "sampling": "Fixed seed per animal, reused across leave-one-animal-out fits when the limiting count is unchanged; no condition balancing or outcome-aware sampling",
+    "selection": "K=3 is prespecified for interpretation; K=2 and K=4 are sensitivity checks, not selected by condition differences",
+    "stability": "Leave one animal out, refit scaler and centroids on the other five; held-out agreement to the full-data reference is descriptive stability, NOT predictive accuracy",
+    "normalization": "Equal-animal common phenotype mixture, with at least 10 objects and complete association in every animal per retained phenotype",
+    "spatial": "500-unit native bins; phenotype percentage among valid PLA objects, masked below 10 valid PLA; no cross-animal registration or tissue-area inference"
+  },
+  "models": [
+    {
+      "pla_arm": "TDP43–HK1",
+      "k": 3,
+      "feature_set": "area_only",
+      "center": [
+        -1.161201265165393,
+        0.0
+      ],
+      "scale": [
+        0.9229848157088828,
+        1.0
+      ],
+      "centroids_log10_area_shape": [
+        [
+          -1.8576698433770487,
+          0.0
+        ],
+        [
+          -0.9788617381962135,
+          0.0
+        ],
+        [
+          0.007430415414193758,
+          0.0
+        ]
+      ],
+      "training_animals": [
+        "21F",
+        "21M",
+        "22F",
+        "22M",
+        "23M",
+        "24M"
+      ],
+      "n_per_animal": 3000,
+      "seed": 1729,
+      "n_init": 8,
+      "inertia": 2364.865139052359
+    },
+    {
+      "pla_arm": "TDP43–HK1",
+      "k": 2,
+      "feature_set": "area_and_shape",
+      "center": [
+        -1.0122622521533264,
+        0.44327410698737196
+      ],
+      "scale": [
+        0.7891466346851067,
+        0.3252426526242659
+      ],
+      "centroids_log10_area_shape": [
+        [
+          -1.4581867290325188,
+          0.13449595306368306
+        ],
+        [
+          -0.6800225483418727,
+          0.5260044854388269
+        ]
+      ],
+      "training_animals": [
+        "21F",
+        "21M",
+        "22F",
+        "22M",
+        "23M",
+        "24M"
+      ],
+      "n_per_animal": 3000,
+      "seed": 1729,
+      "n_init": 8,
+      "inertia": 11535.300903980386
+    },
+    {
+      "pla_arm": "TDP43–HK1",
+      "k": 3,
+      "feature_set": "area_and_shape",
+      "center": [
+        -1.0122622521533264,
+        0.44327410698737196
+      ],
+      "scale": [
+        0.7891466346851067,
+        0.3252426526242659
+      ],
+      "centroids_log10_area_shape": [
+        [
+          -1.5132526490000755,
+          0.05711960250599185
+        ],
+        [
+          -1.0409087303808446,
+          0.5272369704628742
+        ],
+        [
+          -0.03356124462359977,
+          0.4562995644271346
+        ]
+      ],
+      "training_animals": [
+        "21F",
+        "21M",
+        "22F",
+        "22M",
+        "23M",
+        "24M"
+      ],
+      "n_per_animal": 3000,
+      "seed": 1729,
+      "n_init": 8,
+      "inertia": 7034.550884427516
+    },
+    {
+      "pla_arm": "TDP43–HK1",
+      "k": 4,
+      "feature_set": "area_and_shape",
+      "center": [
+        -1.0122622521533264,
+        0.44327410698737196
+      ],
+      "scale": [
+        0.7891466346851067,
+        0.3252426526242659
+      ],
+      "centroids_log10_area_shape": [
+        [
+          -1.63574263024576,
+          0.0018001727403670342
+        ],
+        [
+          -1.1243718611963056,
+          0.3843664568008133
+        ],
+        [
+          -0.8258479873313713,
+          0.6475582127136914
+        ],
+        [
+          0.11028715155442592,
+          0.4315712121084279
+        ]
+      ],
+      "training_animals": [
+        "21F",
+        "21M",
+        "22F",
+        "22M",
+        "23M",
+        "24M"
+      ],
+      "n_per_animal": 3000,
+      "seed": 1729,
+      "n_init": 8,
+      "inertia": 5127.82550032118
+    },
+    {
+      "pla_arm": "TDP43–PFKP",
+      "k": 3,
+      "feature_set": "area_only",
+      "center": [
+        -1.072260181828612,
+        0.0
+      ],
+      "scale": [
+        0.9378520932511555,
+        1.0
+      ],
+      "centroids_log10_area_shape": [
+        [
+          -1.8832049050349067,
+          0.0
+        ],
+        [
+          -0.9891002336737739,
+          0.0
+        ],
+        [
+          -0.061937598141804884,
+          0.0
+        ]
+      ],
+      "training_animals": [
+        "21F",
+        "21M",
+        "22F",
+        "22M",
+        "23M",
+        "24M"
+      ],
+      "n_per_animal": 3000,
+      "seed": 101729,
+      "n_init": 8,
+      "inertia": 2203.591417311971
+    },
+    {
+      "pla_arm": "TDP43–PFKP",
+      "k": 2,
+      "feature_set": "area_and_shape",
+      "center": [
+        -0.9473214452203119,
+        0.4743417801934072
+      ],
+      "scale": [
+        0.7923916894982539,
+        0.3288058021711864
+      ],
+      "centroids_log10_area_shape": [
+        [
+          -1.4056656910968726,
+          0.18483792563323986
+        ],
+        [
+          -0.6189058319010687,
+          0.5592286973662008
+        ]
+      ],
+      "training_animals": [
+        "21F",
+        "21M",
+        "22F",
+        "22M",
+        "23M",
+        "24M"
+      ],
+      "n_per_animal": 3000,
+      "seed": 101729,
+      "n_init": 8,
+      "inertia": 10782.714811309292
+    },
+    {
+      "pla_arm": "TDP43–PFKP",
+      "k": 3,
+      "feature_set": "area_and_shape",
+      "center": [
+        -0.9473214452203119,
+        0.4743417801934072
+      ],
+      "scale": [
+        0.7923916894982539,
+        0.3288058021711864
+      ],
+      "centroids_log10_area_shape": [
+        [
+          -1.4899951788636423,
+          0.0693962984937484
+        ],
+        [
+          -1.0217636242416612,
+          0.5443357954949102
+        ],
+        [
+          -0.08742072807048595,
+          0.5077938401502405
+        ]
+      ],
+      "training_animals": [
+        "21F",
+        "21M",
+        "22F",
+        "22M",
+        "23M",
+        "24M"
+      ],
+      "n_per_animal": 3000,
+      "seed": 101729,
+      "n_init": 8,
+      "inertia": 6726.05873512407
+    },
+    {
+      "pla_arm": "TDP43–PFKP",
+      "k": 4,
+      "feature_set": "area_and_shape",
+      "center": [
+        -0.9473214452203119,
+        0.4743417801934072
+      ],
+      "scale": [
+        0.7923916894982539,
+        0.3288058021711864
+      ],
+      "centroids_log10_area_shape": [
+        [
+          -1.6333382335337352,
+          0.0028173250292931606
+        ],
+        [
+          -1.108139666526653,
+          0.3921844117562259
+        ],
+        [
+          -0.8034789842650057,
+          0.6628666889658396
+        ],
+        [
+          0.05984270174924433,
+          0.47949871520664256
+        ]
+      ],
+      "training_animals": [
+        "21F",
+        "21M",
+        "22F",
+        "22M",
+        "23M",
+        "24M"
+      ],
+      "n_per_animal": 3000,
+      "seed": 101729,
+      "n_init": 8,
+      "inertia": 4801.867165537794
+    }
+  ],
+  "difference": "Home cage minus Running; reverse is exact negation",
+  "exclusions_scope": "ML only. Primary unfiltered association remains unchanged; raw_difference_pp retains its full denominator.",
+  "uncertainty": "Six animals, three per condition. No inferential p-values, predictive claims, cell identities or causal mechanisms are inferred.",
+  "interpretation": "Morphology clusters are descriptive measurement partitions. They may reflect segmentation or section/acquisition effects.",
+  "profiles": "Medians use all assigned valid objects; they are descriptive pooled profiles. Fit sampling is balanced by animal.",
+  "source_review": "72 native-coordinate review targets: one typical and one 99th-distance-percentile detection per animal/arm/phenotype. Original microscopy images are unavailable.",
+  "alignment": "Native maps only; unapproved image alignment never enters fitting, normalization or stability checks."
+}

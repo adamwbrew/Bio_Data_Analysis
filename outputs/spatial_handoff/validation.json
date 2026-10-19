@@ -1,47 +1,49 @@
 {
-  "verified_utc": "2026-10-19T19:57:53.605180+00:00",
-  "execution": "Both notebooks completed fresh-kernel Run All from all raw CSVs; outputs include normalization, both subtraction directions, within-animal arm comparison and feature-based alignment proposals.",
+  "verified_utc": "2026-10-19T20:20:15.300474+00:00",
+  "execution": "Both notebooks completed fresh-kernel Run All from all raw CSVs; outputs include outcome-blind morphology machine learning, area-only sensitivity, whole-animal omission stability, native morphology/exclusion maps and source-linked review targets.",
   "notebooks": [
     {
       "notebook": "PLA_ChAT_scientific_analysis.ipynb",
-      "notebook_sha256": "ffb005efcaec22f8054b5af3ed17b631847c2a279f5da0f3b8460723a372132e",
-      "code_cells": 22,
-      "code_cells_with_saved_execution": 22,
+      "notebook_sha256": "1cbec5a301b7a1d32dbf97357eab5a720fc8a641265cf0d06ae5b549a237e8ed",
+      "code_cells": 26,
+      "code_cells_with_saved_execution": 26,
       "error_outputs": 0,
       "stderr_outputs": 0,
       "embedded_explorers": 1,
-      "embedded_condition_comparisons": 1
+      "embedded_condition_comparisons": 1,
+      "embedded_morphology_explorers": 1
     },
     {
       "notebook": "PLA_ChAT_spatial_handoff_analysis.ipynb",
-      "notebook_sha256": "1478a67e3894ba794fe1f597a6ff7069522930d7b3a8d3fb80745abe6138845a",
-      "code_cells": 40,
-      "code_cells_with_saved_execution": 40,
+      "notebook_sha256": "00a6be5e43d11d184410ad5c1723f0621c7c2cc10007eff41be36af75f6b9dd5",
+      "code_cells": 44,
+      "code_cells_with_saved_execution": 44,
       "error_outputs": 0,
       "stderr_outputs": 0,
       "embedded_explorers": 1,
-      "embedded_condition_comparisons": 1
+      "embedded_condition_comparisons": 1,
+      "embedded_morphology_explorers": 1
     }
   ],
-  "automated_tests_passed": 73,
+  "automated_tests_passed": 83,
   "test_log": "test_results.txt",
-  "javascript_syntax_check": "node --check passed for both HTML templates",
+  "javascript_syntax_check": "node --check passed for all three HTML templates",
   "browser_checks": [
-    "Both subtraction directions, reversed deletion endpoints, size contrasts and normalization audit checked in live app and trusted JupyterLab main notebook",
-    "PFKP reverse-direction normalization CSV matches all four saved analysis rows",
-    "All 12 proposed layers visible; per-animal stepping, flat overlay, 3D stack and internal orientation cues render",
-    "No browser console errors in final app checks; anatomical review gate remains 0/12"
+    "Morphology arm, animal, cluster, native exclusion-map and review-target selectors verified in the local app",
+    "Both morphology subtraction directions show exact sign reversal; model summaries and support remain visible",
+    "Saved ML figures and methods are present in the fully executed main and audit notebooks",
+    "No browser console errors during final app checks; anatomical review gate remains 0/12"
   ],
   "figure_exports": {
-    "png": 61,
-    "svg": 61,
+    "png": 65,
+    "svg": 65,
     "png_export_dpi": 300,
     "new_figures": [
       {
-        "file": "17_normalization_both_directions.png",
+        "file": "21_morphology_patterns.png",
         "pixels": [
-          4768,
-          1932
+          5134,
+          2879
         ],
         "dpi": [
           299.9994,
@@ -49,10 +51,10 @@
         ]
       },
       {
-        "file": "18_within_animal_arm_comparison.png",
+        "file": "22_morphology_stability.png",
         "pixels": [
-          4171,
-          1789
+          4234,
+          2817
         ],
         "dpi": [
           299.9994,
@@ -60,10 +62,10 @@
         ]
       },
       {
-        "file": "19_feature_alignment_before_after.png",
+        "file": "23_morphology_native_hk1.png",
         "pixels": [
-          5070,
-          3580
+          4587,
+          7371
         ],
         "dpi": [
           299.9994,
@@ -71,21 +73,10 @@
         ]
       },
       {
-        "file": "20_proposed_cavity_traces_hk1.png",
+        "file": "23_morphology_native_pfkp.png",
         "pixels": [
-          4541,
-          2964
-        ],
-        "dpi": [
-          299.9994,
-          299.9994
-        ]
-      },
-      {
-        "file": "20_proposed_cavity_traces_pfkp.png",
-        "pixels": [
-          4772,
-          2964
+          4713,
+          7371
         ],
         "dpi": [
           299.9994,
@@ -94,21 +85,21 @@
       }
     ]
   },
-  "protocol": "protocols/v1.3.0_1ad711eaf12e.json",
+  "protocol": "protocols/v1.4.0_e0ba18c24cd2.json",
   "protocol_code_hashes_match": true,
   "anatomical_approval_records_unchanged": true,
-  "limits": "n=3 animals per condition per arm. PLA-count and size normalization do not correct tissue area, ChAT availability or confounding. Cavity traces and adjacent-structure cues are computational visual proposals from detections; source microscopy, scale, homology and support remain unapproved. Group anatomical subtraction remains gated.",
+  "limits": "ML groups are exploratory measurement partitions; 49,618 diameter-invalid PLA are excluded only from morphology. Area-only sensitivity retains them. Refit agreement is stability, not prediction accuracy. n=3 animals per condition per arm. PLA-count and size normalization do not correct tissue area, ChAT availability or confounding. Cavity traces and adjacent-structure cues are computational visual proposals from detections; source microscopy, scale, homology and support remain unapproved. Group anatomical subtraction remains gated.",
   "standalone_app": {
     "path": "outputs/spatial_handoff/app/index.html",
-    "sha256": "0c487bd41f4b408cd7bc92408d16a5fb429040b486a29036cd6abd12265d7edf",
-    "bytes": 19882041,
+    "sha256": "512b0a7f9f1cec783b492afc99a1817206a9a6cc03c48012f043c240b2cbc9d8",
+    "bytes": 26144790,
     "sections": 12,
     "object_totals": {
       "n_all": 3010776,
       "n_pla": 310024,
       "n_chat": 2700752
     },
-    "embedded_scientific_figures": 11,
+    "embedded_scientific_figures": 15,
     "comparison_tabs": 5,
     "remote_assets": 0,
     "bind": "127.0.0.1:8050"

@@ -42,6 +42,12 @@ Outputs are under `outputs/spatial_handoff/`: 300-DPI PNGs and SVGs, compressed 
 
 **The data is at the image-analysis export stage.** Tissue has been imaged, objects have been detected, and their measurements have been exported to tables. The CSVs contain individual object measurements. The local handoff adds experimental assignments and an analysis protocol; source images, complete analysis settings and validated spatial registration are still needed.
 
+## Exploratory machine learning
+
+The [main scientific notebook](PLA_ChAT_scientific_analysis.ipynb#machine-learning) adds an outcome-blind morphology analysis of PLA detections. It learns size-and-shape groups separately for HK1 and PFKP, balances animals during fitting, checks leave-one-animal-out stability, and compares ChAT association after standardizing morphology-group composition. These are exploratory measurement groups, not validated cell types or a running-status predictor.
+
+Use **Machine learning** in the local [Plotly app](http://127.0.0.1:8050/#machine-learning) for native-coordinate maps, animal-level comparisons and source-linked review targets. The notebook generates the full tables and 300-dpi PNG/SVG companions. Six animals remain the biological sample size. Raw files and anatomical approvals are unchanged.
+
 ## Run the visual analysis
 
 Open [PLA_ChAT_scientific_analysis.ipynb](PLA_ChAT_scientific_analysis.ipynb) in Jupyter or VS Code for the current workflow: spatial exploration, animal-level summaries, size and proximity checks, alignment review and actionable findings. Use the linked Plotly app if your notebook viewer does not render the custom controls. Select the project's `.venv` Python kernel and choose **Run All** to recompute; install [requirements.txt](requirements.txt) in that environment if needed (`python -m pip install -r requirements.txt`).

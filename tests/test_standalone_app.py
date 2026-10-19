@@ -27,12 +27,16 @@ class StandaloneAppTests(unittest.TestCase):
             (figures / name).write_bytes(png)
         fragment = '<div id="test-explorer"></div><script>window.testExplorer=true;</script>'
         comparison = '<div id="condition-comparison">Home cage minus Running</div>'
-        path = app.write_standalone_app(fragment, self.root, comparison_fragment=comparison)
+        ml = '<div id="morphology-test">Exploratory morphology</div>'
+        path = app.write_standalone_app(fragment, self.root, comparison_fragment=comparison, ml_fragment=ml)
         html = path.read_text()
         self.assertEqual(path, self.root / "outputs/spatial_handoff/app/index.html")
         self.assertIn(fragment, html)
         self.assertEqual(html.count("data:image/png;base64," + base64.b64encode(png).decode()), len(app.GALLERY))
         self.assertIn(comparison, html)
+        self.assertIn(ml, html)
+        self.assertIn('href="#machine-learning"', html)
+        self.assertNotIn("__MACHINE_LEARNING__", html)
         self.assertLess(html.index(comparison), html.index(fragment))
         self.assertNotIn(str(self.root), html)
         self.assertNotIn('src="http', html)

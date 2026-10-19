@@ -66,6 +66,8 @@ import nbformat
 from IPython.terminal.interactiveshell import TerminalInteractiveShell
 import bio_visuals.handoff as h
 import bio_visuals.explorer as explorer
+import bio_visuals.morphology_ml as ml
+import bio_visuals.morphology_views as mv
 expected_version = h.VERSION
 nb = nbformat.read('PLA_ChAT_scientific_analysis.ipynb', as_version=4)
 setup = next(c.source for c in nb.cells if c.cell_type == 'code')
@@ -73,10 +75,14 @@ shell = TerminalInteractiveShell.instance()
 for _ in range(2):
     h.VERSION = 'stale'
     explorer.explorer_html = lambda *a, **k: 'stale'
+    ml.run_analysis = lambda *a, **k: 'stale'
+    mv.explorer_html = lambda *a, **k: 'stale'
     shell.run_cell(setup).raise_error()
     assert h.VERSION == expected_version
     assert shell.user_ns['explorer_html'] is explorer.explorer_html
     assert explorer.explorer_html.__name__ == 'explorer_html'
+    assert shell.user_ns['ml'].run_analysis.__name__ == 'run_analysis'
+    assert shell.user_ns['mv'].explorer_html.__name__ == 'explorer_html'
 '''
         result = subprocess.run([sys.executable, '-c', script], cwd=root,
                                 capture_output=True, text=True, timeout=120)

@@ -1,0 +1,1768 @@
+{
+  "parameters": {
+    "protocol_version": "1.4.0",
+    "reconstruction_bin": 100.0,
+    "geometry_bin": 250.0,
+    "surface_bin": 500.0,
+    "surface_height": "log(1 + PLA count per full bin); not anatomical depth",
+    "metric_bin": 1000.0,
+    "min_pla_per_bin": 10,
+    "large_area_um2": 1.0,
+    "small_area_um2": 0.1,
+    "size_edges_um2": [
+      0,
+      0.03,
+      0.1,
+      0.3,
+      1,
+      "infinity"
+    ],
+    "edge_buffer_export_units": 500.0,
+    "smoothing": "none",
+    "support": "occupied all-object geometry bins only; provisional sampling support, not a tissue mask",
+    "candidate_void": "largest enclosed hole after 2 iterations of 3x3-cross binary closing on occupied 250-unit bins; >=6 bins",
+    "orientation": "Feature preview uses adjacent-structure above/below cue when visible, then trimmed boundary distance with fixed cavity anchor; independent anatomical approval required",
+    "coordinate_units": "HALO export units; physical scale unverified",
+    "display_exception": "Native descriptive maps and whole-section summaries may be inspected before registration QC. No anatomical condition maps are inferred.",
+    "min_animals_per_group_bin": 3,
+    "feature_alignment": "Visual cavity polygons in metadata/handoff_landmark_proposals.json; fixed 21F reference per arm; visible adjacent-structure above/below cue; 80% trimmed symmetric boundary distance; all four flips; 250/500-unit geometry sensitivity; no approvals",
+    "exclusions": "4978 superseded by 5403; Initial Data copies not concatenated; no primary object filtering",
+    "interactive_views": "3D measurements, 100-unit channel overlay, flat layer overlay and ordinal exploded stack",
+    "layer_order": "21F,23M,24M,22F,21M,22M; display order, not anatomical section order",
+    "candidate_layer_scope": "Legacy candidates: geometry only. New feature proposals: separate per-section measurement layers; no pooled anatomical inference",
+    "explorer_bins": [
+      250,
+      500,
+      1000
+    ],
+    "explorer_default_bin": 500,
+    "explorer_threshold": "Display control 1–50 PLA per metric bin, default 10; no raw rows removed",
+    "condition_difference": "Both directions; equal animal means per arm, reversed contrast and endpoints exactly negated",
+    "size_standardization": "Equal-animal reference size proportions; require 10 PLA and observed association in every animal per included stratum",
+    "exact_enumeration": "20 allocations of six animals; design diagnostic only, exchangeability unverified",
+    "morphology_ml": "Outcome-blind size-and-shape K-means separately by arm; equal-animal fit sample; K=3 descriptive, K=2/4 sensitivity; leave-one-animal-out refits; native 500-unit composition maps, minimum 10 eligible PLA per bin; exact model settings saved in ml_definitions.json",
+    "changelog": "1.4.0: exploratory morphology machine learning, animal-aware stability, phenotype-standardized association contrasts and native review targets. Primary analysis and anatomical approvals unchanged."
+  },
+  "section_reviews": [
+    {
+      "job": "4998",
+      "section_id": "21F_Hk1",
+      "animal_id": "21F",
+      "pla_arm": "TDP43–HK1",
+      "running_group": "Home cage",
+      "source_sha256": "3dc2fffe5a7369172f95578c11b5b8188e718922bcb687936ca02382463b1bd9",
+      "candidate": {
+        "polygon_native": [
+          [
+            30875.0,
+            34750.0
+          ],
+          [
+            31000.0,
+            34875.0
+          ],
+          [
+            31125.0,
+            35000.0
+          ],
+          [
+            31250.0,
+            35125.0
+          ],
+          [
+            31375.0,
+            35250.0
+          ],
+          [
+            31500.0,
+            35375.0
+          ],
+          [
+            31500.0,
+            35625.0
+          ],
+          [
+            31625.0,
+            35750.0
+          ],
+          [
+            31750.0,
+            35875.0
+          ],
+          [
+            31625.0,
+            36000.0
+          ],
+          [
+            31500.0,
+            36125.0
+          ],
+          [
+            31375.0,
+            36250.0
+          ],
+          [
+            31250.0,
+            36375.0
+          ],
+          [
+            31125.0,
+            36500.0
+          ],
+          [
+            31000.0,
+            36625.0
+          ],
+          [
+            30875.0,
+            36750.0
+          ],
+          [
+            30750.0,
+            36625.0
+          ],
+          [
+            30625.0,
+            36500.0
+          ],
+          [
+            30500.0,
+            36375.0
+          ],
+          [
+            30375.0,
+            36250.0
+          ],
+          [
+            30250.0,
+            36125.0
+          ],
+          [
+            30250.0,
+            35875.0
+          ],
+          [
+            30375.0,
+            35750.0
+          ],
+          [
+            30500.0,
+            35625.0
+          ],
+          [
+            30375.0,
+            35500.0
+          ],
+          [
+            30250.0,
+            35375.0
+          ],
+          [
+            30375.0,
+            35250.0
+          ],
+          [
+            30500.0,
+            35125.0
+          ],
+          [
+            30625.0,
+            35000.0
+          ],
+          [
+            30750.0,
+            34875.0
+          ],
+          [
+            30875.0,
+            34750.0
+          ]
+        ],
+        "centroid_native": [
+          30920.454545454544,
+          35759.09090909091
+        ],
+        "hole_bins": 28,
+        "status": "unreviewed geometric candidate"
+      },
+      "reviewed_polygon_native": null,
+      "landmark_reviewed": false,
+      "orientation": "none",
+      "orientation_reviewed": false,
+      "scale_common_confirmed": false,
+      "coordinate_units": "export units",
+      "support_reviewed": false,
+      "support_qc": "uncertain",
+      "clipping_note": "Expected straight cut edge is not automatically tissue loss; inspect source image/ROI.",
+      "reviewer": "",
+      "second_reviewer": "",
+      "review_notes": "",
+      "protocol_version": "1.0.0"
+    },
+    {
+      "job": "5006",
+      "section_id": "21M_Hk1",
+      "animal_id": "21M",
+      "pla_arm": "TDP43–HK1",
+      "running_group": "Running",
+      "source_sha256": "b36743617af5013290dc326bde525772098c6b31b2a0ae5eab2092550c8943ea",
+      "candidate": {
+        "polygon_native": [
+          [
+            3625.0,
+            32750.0
+          ],
+          [
+            3750.0,
+            32875.0
+          ],
+          [
+            3875.0,
+            33000.0
+          ],
+          [
+            4000.0,
+            33125.0
+          ],
+          [
+            4125.0,
+            33250.0
+          ],
+          [
+            4375.0,
+            33250.0
+          ],
+          [
+            4500.0,
+            33125.0
+          ],
+          [
+            4625.0,
+            33000.0
+          ],
+          [
+            4750.0,
+            33125.0
+          ],
+          [
+            4875.0,
+            33250.0
+          ],
+          [
+            5000.0,
+            33125.0
+          ],
+          [
+            5125.0,
+            33000.0
+          ],
+          [
+            5250.0,
+            33125.0
+          ],
+          [
+            5375.0,
+            33250.0
+          ],
+          [
+            5500.0,
+            33375.0
+          ],
+          [
+            5625.0,
+            33500.0
+          ],
+          [
+            5750.0,
+            33625.0
+          ],
+          [
+            5625.0,
+            33750.0
+          ],
+          [
+            5500.0,
+            33875.0
+          ],
+          [
+            5375.0,
+            34000.0
+          ],
+          [
+            5250.0,
+            34125.0
+          ],
+          [
+            5125.0,
+            34250.0
+          ],
+          [
+            5000.0,
+            34375.0
+          ],
+          [
+            4875.0,
+            34500.0
+          ],
+          [
+            4750.0,
+            34625.0
+          ],
+          [
+            4625.0,
+            34750.0
+          ],
+          [
+            4500.0,
+            34625.0
+          ],
+          [
+            4375.0,
+            34500.0
+          ],
+          [
+            4250.0,
+            34375.0
+          ],
+          [
+            4125.0,
+            34250.0
+          ],
+          [
+            4000.0,
+            34125.0
+          ],
+          [
+            4125.0,
+            34000.0
+          ],
+          [
+            4250.0,
+            33875.0
+          ],
+          [
+            4125.0,
+            33750.0
+          ],
+          [
+            3875.0,
+            33750.0
+          ],
+          [
+            3750.0,
+            33875.0
+          ],
+          [
+            3625.0,
+            34000.0
+          ],
+          [
+            3500.0,
+            33875.0
+          ],
+          [
+            3375.0,
+            33750.0
+          ],
+          [
+            3250.0,
+            33625.0
+          ],
+          [
+            3125.0,
+            33500.0
+          ],
+          [
+            3000.0,
+            33375.0
+          ],
+          [
+            3125.0,
+            33250.0
+          ],
+          [
+            3250.0,
+            33125.0
+          ],
+          [
+            3375.0,
+            33000.0
+          ],
+          [
+            3500.0,
+            32875.0
+          ],
+          [
+            3625.0,
+            32750.0
+          ]
+        ],
+        "centroid_native": [
+          4425.925925925926,
+          33662.03703703704
+        ],
+        "hole_bins": 41,
+        "status": "unreviewed geometric candidate"
+      },
+      "reviewed_polygon_native": null,
+      "landmark_reviewed": false,
+      "orientation": "none",
+      "orientation_reviewed": false,
+      "scale_common_confirmed": false,
+      "coordinate_units": "export units",
+      "support_reviewed": false,
+      "support_qc": "uncertain",
+      "clipping_note": "Expected straight cut edge is not automatically tissue loss; inspect source image/ROI.",
+      "reviewer": "",
+      "second_reviewer": "",
+      "review_notes": "",
+      "protocol_version": "1.0.0"
+    },
+    {
+      "job": "4997",
+      "section_id": "22F_Hk1",
+      "animal_id": "22F",
+      "pla_arm": "TDP43–HK1",
+      "running_group": "Running",
+      "source_sha256": "2eeb66efe0a7918ed3b89066d94723f6944e53fdc68a084ba8824af6d3b282ef",
+      "candidate": {
+        "polygon_native": [
+          [
+            6125.0,
+            34750.0
+          ],
+          [
+            6375.0,
+            34750.0
+          ],
+          [
+            6500.0,
+            34875.0
+          ],
+          [
+            6625.0,
+            35000.0
+          ],
+          [
+            6750.0,
+            35125.0
+          ],
+          [
+            6875.0,
+            35250.0
+          ],
+          [
+            7000.0,
+            35375.0
+          ],
+          [
+            7000.0,
+            35625.0
+          ],
+          [
+            6875.0,
+            35750.0
+          ],
+          [
+            6750.0,
+            35875.0
+          ],
+          [
+            6625.0,
+            36000.0
+          ],
+          [
+            6500.0,
+            36125.0
+          ],
+          [
+            6375.0,
+            36250.0
+          ],
+          [
+            6250.0,
+            36375.0
+          ],
+          [
+            6125.0,
+            36500.0
+          ],
+          [
+            6000.0,
+            36375.0
+          ],
+          [
+            5875.0,
+            36250.0
+          ],
+          [
+            5750.0,
+            36125.0
+          ],
+          [
+            5625.0,
+            36000.0
+          ],
+          [
+            5500.0,
+            35875.0
+          ],
+          [
+            5625.0,
+            35750.0
+          ],
+          [
+            5750.0,
+            35625.0
+          ],
+          [
+            5625.0,
+            35500.0
+          ],
+          [
+            5500.0,
+            35375.0
+          ],
+          [
+            5625.0,
+            35250.0
+          ],
+          [
+            5750.0,
+            35125.0
+          ],
+          [
+            5875.0,
+            35000.0
+          ],
+          [
+            6000.0,
+            34875.0
+          ],
+          [
+            6125.0,
+            34750.0
+          ]
+        ],
+        "centroid_native": [
+          6232.434640522876,
+          35566.58496732026
+        ],
+        "hole_bins": 26,
+        "status": "unreviewed geometric candidate"
+      },
+      "reviewed_polygon_native": null,
+      "landmark_reviewed": false,
+      "orientation": "none",
+      "orientation_reviewed": false,
+      "scale_common_confirmed": false,
+      "coordinate_units": "export units",
+      "support_reviewed": false,
+      "support_qc": "uncertain",
+      "clipping_note": "Expected straight cut edge is not automatically tissue loss; inspect source image/ROI.",
+      "reviewer": "",
+      "second_reviewer": "",
+      "review_notes": "",
+      "protocol_version": "1.0.0"
+    },
+    {
+      "job": "5001",
+      "section_id": "22M_Hk1",
+      "animal_id": "22M",
+      "pla_arm": "TDP43–HK1",
+      "running_group": "Running",
+      "source_sha256": "2e4e329f0623bd2bb3407cf4a1cee8d28460d76308fe89d53386617e0e3d2226",
+      "candidate": null,
+      "reviewed_polygon_native": null,
+      "landmark_reviewed": false,
+      "orientation": "none",
+      "orientation_reviewed": false,
+      "scale_common_confirmed": false,
+      "coordinate_units": "export units",
+      "support_reviewed": false,
+      "support_qc": "uncertain",
+      "clipping_note": "Expected straight cut edge is not automatically tissue loss; inspect source image/ROI.",
+      "reviewer": "",
+      "second_reviewer": "",
+      "review_notes": "",
+      "protocol_version": "1.0.0"
+    },
+    {
+      "job": "5007",
+      "section_id": "23M_Hk1",
+      "animal_id": "23M",
+      "pla_arm": "TDP43–HK1",
+      "running_group": "Home cage",
+      "source_sha256": "7c7a087618700ccb3ea05306b4bfa7e166f0b114bc9f53107742152033204397",
+      "candidate": {
+        "polygon_native": [
+          [
+            29375.0,
+            34500.0
+          ],
+          [
+            29625.0,
+            34500.0
+          ],
+          [
+            29750.0,
+            34625.0
+          ],
+          [
+            29875.0,
+            34750.0
+          ],
+          [
+            30000.0,
+            34875.0
+          ],
+          [
+            30125.0,
+            35000.0
+          ],
+          [
+            30250.0,
+            35125.0
+          ],
+          [
+            30125.0,
+            35250.0
+          ],
+          [
+            30000.0,
+            35375.0
+          ],
+          [
+            29875.0,
+            35500.0
+          ],
+          [
+            29750.0,
+            35625.0
+          ],
+          [
+            29625.0,
+            35750.0
+          ],
+          [
+            29375.0,
+            35750.0
+          ],
+          [
+            29250.0,
+            35875.0
+          ],
+          [
+            29125.0,
+            36000.0
+          ],
+          [
+            29000.0,
+            35875.0
+          ],
+          [
+            28875.0,
+            35750.0
+          ],
+          [
+            28750.0,
+            35625.0
+          ],
+          [
+            28625.0,
+            35500.0
+          ],
+          [
+            28500.0,
+            35375.0
+          ],
+          [
+            28625.0,
+            35250.0
+          ],
+          [
+            28750.0,
+            35125.0
+          ],
+          [
+            28875.0,
+            35000.0
+          ],
+          [
+            29000.0,
+            34875.0
+          ],
+          [
+            29125.0,
+            34750.0
+          ],
+          [
+            29250.0,
+            34625.0
+          ],
+          [
+            29375.0,
+            34500.0
+          ]
+        ],
+        "centroid_native": [
+          29375.0,
+          35222.22222222222
+        ],
+        "hole_bins": 23,
+        "status": "unreviewed geometric candidate"
+      },
+      "reviewed_polygon_native": null,
+      "landmark_reviewed": false,
+      "orientation": "none",
+      "orientation_reviewed": false,
+      "scale_common_confirmed": false,
+      "coordinate_units": "export units",
+      "support_reviewed": false,
+      "support_qc": "uncertain",
+      "clipping_note": "Expected straight cut edge is not automatically tissue loss; inspect source image/ROI.",
+      "reviewer": "",
+      "second_reviewer": "",
+      "review_notes": "",
+      "protocol_version": "1.0.0"
+    },
+    {
+      "job": "5002",
+      "section_id": "24M_Hk1",
+      "animal_id": "24M",
+      "pla_arm": "TDP43–HK1",
+      "running_group": "Home cage",
+      "source_sha256": "1ba6bbfc4ca4a37ac075783b31255795a0c2d6ebc708ca1a208077fc8fcb9371",
+      "candidate": {
+        "polygon_native": [
+          [
+            32375.0,
+            32500.0
+          ],
+          [
+            32500.0,
+            32625.0
+          ],
+          [
+            32625.0,
+            32750.0
+          ],
+          [
+            32750.0,
+            32875.0
+          ],
+          [
+            32875.0,
+            33000.0
+          ],
+          [
+            33000.0,
+            33125.0
+          ],
+          [
+            33125.0,
+            33250.0
+          ],
+          [
+            33250.0,
+            33375.0
+          ],
+          [
+            33250.0,
+            33625.0
+          ],
+          [
+            33125.0,
+            33750.0
+          ],
+          [
+            33000.0,
+            33875.0
+          ],
+          [
+            32875.0,
+            34000.0
+          ],
+          [
+            32750.0,
+            34125.0
+          ],
+          [
+            32625.0,
+            34250.0
+          ],
+          [
+            32500.0,
+            34125.0
+          ],
+          [
+            32375.0,
+            34000.0
+          ],
+          [
+            32250.0,
+            33875.0
+          ],
+          [
+            32125.0,
+            33750.0
+          ],
+          [
+            32000.0,
+            33625.0
+          ],
+          [
+            31875.0,
+            33500.0
+          ],
+          [
+            31750.0,
+            33375.0
+          ],
+          [
+            31750.0,
+            33125.0
+          ],
+          [
+            31875.0,
+            33000.0
+          ],
+          [
+            32000.0,
+            32875.0
+          ],
+          [
+            32125.0,
+            32750.0
+          ],
+          [
+            32250.0,
+            32625.0
+          ],
+          [
+            32375.0,
+            32500.0
+          ]
+        ],
+        "centroid_native": [
+          32500.0,
+          33375.0
+        ],
+        "hole_bins": 24,
+        "status": "unreviewed geometric candidate"
+      },
+      "reviewed_polygon_native": null,
+      "landmark_reviewed": false,
+      "orientation": "none",
+      "orientation_reviewed": false,
+      "scale_common_confirmed": false,
+      "coordinate_units": "export units",
+      "support_reviewed": false,
+      "support_qc": "uncertain",
+      "clipping_note": "Expected straight cut edge is not automatically tissue loss; inspect source image/ROI.",
+      "reviewer": "",
+      "second_reviewer": "",
+      "review_notes": "",
+      "protocol_version": "1.0.0"
+    },
+    {
+      "job": "5020",
+      "section_id": "21F_Pfkp",
+      "animal_id": "21F",
+      "pla_arm": "TDP43–PFKP",
+      "running_group": "Home cage",
+      "source_sha256": "aad88d53e52707b222e9386adf8e8b7d0dbfced87e37aa805e5f3cc16eca6c13",
+      "candidate": {
+        "polygon_native": [
+          [
+            30375.0,
+            7000.0
+          ],
+          [
+            30500.0,
+            7125.0
+          ],
+          [
+            30625.0,
+            7250.0
+          ],
+          [
+            30875.0,
+            7250.0
+          ],
+          [
+            31125.0,
+            7250.0
+          ],
+          [
+            31250.0,
+            7375.0
+          ],
+          [
+            31375.0,
+            7500.0
+          ],
+          [
+            31500.0,
+            7625.0
+          ],
+          [
+            31625.0,
+            7750.0
+          ],
+          [
+            31750.0,
+            7875.0
+          ],
+          [
+            31625.0,
+            8000.0
+          ],
+          [
+            31500.0,
+            8125.0
+          ],
+          [
+            31375.0,
+            8250.0
+          ],
+          [
+            31250.0,
+            8375.0
+          ],
+          [
+            31125.0,
+            8500.0
+          ],
+          [
+            31000.0,
+            8625.0
+          ],
+          [
+            30875.0,
+            8750.0
+          ],
+          [
+            30750.0,
+            8625.0
+          ],
+          [
+            30625.0,
+            8500.0
+          ],
+          [
+            30500.0,
+            8375.0
+          ],
+          [
+            30375.0,
+            8250.0
+          ],
+          [
+            30250.0,
+            8125.0
+          ],
+          [
+            30125.0,
+            8000.0
+          ],
+          [
+            30000.0,
+            7875.0
+          ],
+          [
+            29875.0,
+            7750.0
+          ],
+          [
+            29750.0,
+            7625.0
+          ],
+          [
+            29875.0,
+            7500.0
+          ],
+          [
+            30000.0,
+            7375.0
+          ],
+          [
+            30125.0,
+            7250.0
+          ],
+          [
+            30250.0,
+            7125.0
+          ],
+          [
+            30375.0,
+            7000.0
+          ]
+        ],
+        "centroid_native": [
+          30754.385964912282,
+          7823.099415204679
+        ],
+        "hole_bins": 29,
+        "status": "unreviewed geometric candidate"
+      },
+      "reviewed_polygon_native": null,
+      "landmark_reviewed": false,
+      "orientation": "none",
+      "orientation_reviewed": false,
+      "scale_common_confirmed": false,
+      "coordinate_units": "export units",
+      "support_reviewed": false,
+      "support_qc": "uncertain",
+      "clipping_note": "Expected straight cut edge is not automatically tissue loss; inspect source image/ROI.",
+      "reviewer": "",
+      "second_reviewer": "",
+      "review_notes": "",
+      "protocol_version": "1.0.0"
+    },
+    {
+      "job": "5003",
+      "section_id": "21M_Pfkp",
+      "animal_id": "21M",
+      "pla_arm": "TDP43–PFKP",
+      "running_group": "Running",
+      "source_sha256": "c3e33c682c1709daabfe5922b2dd707eef6cb783d8f34baa4779205656e34755",
+      "candidate": null,
+      "reviewed_polygon_native": null,
+      "landmark_reviewed": false,
+      "orientation": "none",
+      "orientation_reviewed": false,
+      "scale_common_confirmed": false,
+      "coordinate_units": "export units",
+      "support_reviewed": false,
+      "support_qc": "uncertain",
+      "clipping_note": "Expected straight cut edge is not automatically tissue loss; inspect source image/ROI.",
+      "reviewer": "",
+      "second_reviewer": "",
+      "review_notes": "",
+      "protocol_version": "1.0.0"
+    },
+    {
+      "job": "5403",
+      "section_id": "22F_Pfkp",
+      "animal_id": "22F",
+      "pla_arm": "TDP43–PFKP",
+      "running_group": "Running",
+      "source_sha256": "f56b395ae0825e5fdb05dafae7112be24277895cca467b7bda84480d702665e7",
+      "candidate": {
+        "polygon_native": [
+          [
+            6375.0,
+            7500.0
+          ],
+          [
+            6500.0,
+            7625.0
+          ],
+          [
+            6625.0,
+            7750.0
+          ],
+          [
+            6750.0,
+            7875.0
+          ],
+          [
+            6875.0,
+            8000.0
+          ],
+          [
+            7000.0,
+            8125.0
+          ],
+          [
+            7125.0,
+            8250.0
+          ],
+          [
+            7250.0,
+            8375.0
+          ],
+          [
+            7125.0,
+            8500.0
+          ],
+          [
+            7000.0,
+            8625.0
+          ],
+          [
+            7125.0,
+            8750.0
+          ],
+          [
+            7250.0,
+            8875.0
+          ],
+          [
+            7125.0,
+            9000.0
+          ],
+          [
+            7000.0,
+            9125.0
+          ],
+          [
+            6875.0,
+            9250.0
+          ],
+          [
+            6750.0,
+            9375.0
+          ],
+          [
+            6625.0,
+            9500.0
+          ],
+          [
+            6375.0,
+            9500.0
+          ],
+          [
+            6250.0,
+            9375.0
+          ],
+          [
+            6125.0,
+            9250.0
+          ],
+          [
+            6000.0,
+            9125.0
+          ],
+          [
+            5875.0,
+            9000.0
+          ],
+          [
+            5750.0,
+            8875.0
+          ],
+          [
+            5875.0,
+            8750.0
+          ],
+          [
+            6000.0,
+            8625.0
+          ],
+          [
+            5875.0,
+            8500.0
+          ],
+          [
+            5750.0,
+            8375.0
+          ],
+          [
+            5750.0,
+            8125.0
+          ],
+          [
+            5875.0,
+            8000.0
+          ],
+          [
+            6000.0,
+            7875.0
+          ],
+          [
+            6125.0,
+            7750.0
+          ],
+          [
+            6250.0,
+            7625.0
+          ],
+          [
+            6375.0,
+            7500.0
+          ]
+        ],
+        "centroid_native": [
+          6463.456284153005,
+          8552.937158469946
+        ],
+        "hole_bins": 31,
+        "status": "unreviewed geometric candidate"
+      },
+      "reviewed_polygon_native": null,
+      "landmark_reviewed": false,
+      "orientation": "none",
+      "orientation_reviewed": false,
+      "scale_common_confirmed": false,
+      "coordinate_units": "export units",
+      "support_reviewed": false,
+      "support_qc": "uncertain",
+      "clipping_note": "Expected straight cut edge is not automatically tissue loss; inspect source image/ROI.",
+      "reviewer": "",
+      "second_reviewer": "",
+      "review_notes": "",
+      "protocol_version": "1.0.0"
+    },
+    {
+      "job": "4999",
+      "section_id": "22M_Pfkp",
+      "animal_id": "22M",
+      "pla_arm": "TDP43–PFKP",
+      "running_group": "Running",
+      "source_sha256": "9f77bd5d8f148edd95e8035445d2c22d46218ed9e5bc6fc9872616627dd44cf2",
+      "candidate": {
+        "polygon_native": [
+          [
+            7875.0,
+            2750.0
+          ],
+          [
+            8000.0,
+            2875.0
+          ],
+          [
+            8125.0,
+            3000.0
+          ],
+          [
+            8250.0,
+            3125.0
+          ],
+          [
+            8375.0,
+            3250.0
+          ],
+          [
+            8500.0,
+            3375.0
+          ],
+          [
+            8625.0,
+            3500.0
+          ],
+          [
+            8750.0,
+            3375.0
+          ],
+          [
+            8875.0,
+            3250.0
+          ],
+          [
+            9000.0,
+            3125.0
+          ],
+          [
+            9125.0,
+            3000.0
+          ],
+          [
+            9250.0,
+            3125.0
+          ],
+          [
+            9375.0,
+            3250.0
+          ],
+          [
+            9500.0,
+            3375.0
+          ],
+          [
+            9625.0,
+            3500.0
+          ],
+          [
+            9750.0,
+            3625.0
+          ],
+          [
+            9625.0,
+            3750.0
+          ],
+          [
+            9500.0,
+            3875.0
+          ],
+          [
+            9375.0,
+            4000.0
+          ],
+          [
+            9250.0,
+            4125.0
+          ],
+          [
+            9125.0,
+            4250.0
+          ],
+          [
+            9000.0,
+            4125.0
+          ],
+          [
+            8875.0,
+            4000.0
+          ],
+          [
+            8750.0,
+            4125.0
+          ],
+          [
+            8625.0,
+            4250.0
+          ],
+          [
+            8500.0,
+            4375.0
+          ],
+          [
+            8375.0,
+            4500.0
+          ],
+          [
+            8250.0,
+            4375.0
+          ],
+          [
+            8125.0,
+            4250.0
+          ],
+          [
+            8000.0,
+            4125.0
+          ],
+          [
+            7875.0,
+            4000.0
+          ],
+          [
+            7750.0,
+            3875.0
+          ],
+          [
+            7625.0,
+            3750.0
+          ],
+          [
+            7500.0,
+            3625.0
+          ],
+          [
+            7375.0,
+            3500.0
+          ],
+          [
+            7250.0,
+            3375.0
+          ],
+          [
+            7375.0,
+            3250.0
+          ],
+          [
+            7500.0,
+            3125.0
+          ],
+          [
+            7625.0,
+            3000.0
+          ],
+          [
+            7750.0,
+            2875.0
+          ],
+          [
+            7875.0,
+            2750.0
+          ]
+        ],
+        "centroid_native": [
+          8470.149253731342,
+          3619.402985074627
+        ],
+        "hole_bins": 34,
+        "status": "unreviewed geometric candidate"
+      },
+      "reviewed_polygon_native": null,
+      "landmark_reviewed": false,
+      "orientation": "none",
+      "orientation_reviewed": false,
+      "scale_common_confirmed": false,
+      "coordinate_units": "export units",
+      "support_reviewed": false,
+      "support_qc": "uncertain",
+      "clipping_note": "Expected straight cut edge is not automatically tissue loss; inspect source image/ROI.",
+      "reviewer": "",
+      "second_reviewer": "",
+      "review_notes": "",
+      "protocol_version": "1.0.0"
+    },
+    {
+      "job": "5005",
+      "section_id": "23M_Pfkp",
+      "animal_id": "23M",
+      "pla_arm": "TDP43–PFKP",
+      "running_group": "Home cage",
+      "source_sha256": "391641f73ddc1f6fa64c6cca5f9e16058fcaa9589af7a4c0823b2b50c0f71b6e",
+      "candidate": {
+        "polygon_native": [
+          [
+            29625.0,
+            7000.0
+          ],
+          [
+            29750.0,
+            7125.0
+          ],
+          [
+            29875.0,
+            7250.0
+          ],
+          [
+            30000.0,
+            7375.0
+          ],
+          [
+            30125.0,
+            7500.0
+          ],
+          [
+            30250.0,
+            7625.0
+          ],
+          [
+            30125.0,
+            7750.0
+          ],
+          [
+            30000.0,
+            7875.0
+          ],
+          [
+            29875.0,
+            8000.0
+          ],
+          [
+            29750.0,
+            8125.0
+          ],
+          [
+            29625.0,
+            8250.0
+          ],
+          [
+            29500.0,
+            8375.0
+          ],
+          [
+            29375.0,
+            8500.0
+          ],
+          [
+            29250.0,
+            8375.0
+          ],
+          [
+            29125.0,
+            8250.0
+          ],
+          [
+            29000.0,
+            8125.0
+          ],
+          [
+            28875.0,
+            8000.0
+          ],
+          [
+            28750.0,
+            7875.0
+          ],
+          [
+            28875.0,
+            7750.0
+          ],
+          [
+            29000.0,
+            7625.0
+          ],
+          [
+            29125.0,
+            7500.0
+          ],
+          [
+            29250.0,
+            7375.0
+          ],
+          [
+            29375.0,
+            7250.0
+          ],
+          [
+            29500.0,
+            7125.0
+          ],
+          [
+            29625.0,
+            7000.0
+          ]
+        ],
+        "centroid_native": [
+          29500.0,
+          7750.0
+        ],
+        "hole_bins": 18,
+        "status": "unreviewed geometric candidate"
+      },
+      "reviewed_polygon_native": null,
+      "landmark_reviewed": false,
+      "orientation": "none",
+      "orientation_reviewed": false,
+      "scale_common_confirmed": false,
+      "coordinate_units": "export units",
+      "support_reviewed": false,
+      "support_qc": "uncertain",
+      "clipping_note": "Expected straight cut edge is not automatically tissue loss; inspect source image/ROI.",
+      "reviewer": "",
+      "second_reviewer": "",
+      "review_notes": "",
+      "protocol_version": "1.0.0"
+    },
+    {
+      "job": "5000",
+      "section_id": "24M_Pfkp",
+      "animal_id": "24M",
+      "pla_arm": "TDP43–PFKP",
+      "running_group": "Home cage",
+      "source_sha256": "4a05d72249ab4b9f5a55ae90173078664f39fc8287c24f19ee1a1c5af3f5e748",
+      "candidate": null,
+      "reviewed_polygon_native": null,
+      "landmark_reviewed": false,
+      "orientation": "none",
+      "orientation_reviewed": false,
+      "scale_common_confirmed": false,
+      "coordinate_units": "export units",
+      "support_reviewed": false,
+      "support_qc": "uncertain",
+      "clipping_note": "Expected straight cut edge is not automatically tissue loss; inspect source image/ROI.",
+      "reviewer": "",
+      "second_reviewer": "",
+      "review_notes": "",
+      "protocol_version": "1.0.0"
+    }
+  ],
+  "input_files": [
+    {
+      "job": "4998",
+      "source_file": "20260515_173745_1_ZAbMVm_Ellie_PLA_05152026_1_backSUB.ome.ome.tiff_job4998PLA and ChaT Object Colocalization FL v3.0.0_object_results.csv",
+      "sha256": "3dc2fffe5a7369172f95578c11b5b8188e718922bcb687936ca02382463b1bd9",
+      "is_primary": true,
+      "rows": 323082
+    },
+    {
+      "job": "5020",
+      "source_file": "20260515_173745_1_ZAbMVm_Ellie_PLA_05152026_1_backSUB.ome.ome.tiff_job5020PLA and ChaT Object Colocalization FL v3.0.0_object_results.csv",
+      "sha256": "aad88d53e52707b222e9386adf8e8b7d0dbfced87e37aa805e5f3cc16eca6c13",
+      "is_primary": true,
+      "rows": 240702
+    },
+    {
+      "job": "4997",
+      "source_file": "20260515_173745_1_ZAbMVm_Ellie_PLA_05152026_1_backSUB.ome.ome.tiff_job4997PLA and ChaT Object Colocalization FL v3.0.0_object_results.csv",
+      "sha256": "2eeb66efe0a7918ed3b89066d94723f6944e53fdc68a084ba8824af6d3b282ef",
+      "is_primary": true,
+      "rows": 163549
+    },
+    {
+      "job": "4978",
+      "source_file": "20260515_173745_1_ZAbMVm_Ellie_PLA_05152026_1_backSUB.ome.ome.tiff_job4978PLA and ChaT Object Colocalization FL v3.0.0_object_results.csv",
+      "sha256": "24eb76d091ba17a6ccd1fc8449c361943bf9c25c6d4df04acbee0686fd8b5867",
+      "is_primary": false,
+      "rows": 94409
+    },
+    {
+      "job": "5403",
+      "source_file": "20260515_173745_1_ZAbMVm_Ellie_PLA_05152026_1_backSUB.ome.ome.tiff_job5403PLA and ChaT Object Colocalization FL v3.0.0_object_results.csv",
+      "sha256": "f56b395ae0825e5fdb05dafae7112be24277895cca467b7bda84480d702665e7",
+      "is_primary": true,
+      "rows": 190915
+    },
+    {
+      "job": "5001",
+      "source_file": "20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2_backSUB.ome.ome.tiff_job5001PLA and ChaT Object Colocalization FL v3.0.0_object_results.csv",
+      "sha256": "2e4e329f0623bd2bb3407cf4a1cee8d28460d76308fe89d53386617e0e3d2226",
+      "is_primary": true,
+      "rows": 237144
+    },
+    {
+      "job": "4999",
+      "source_file": "20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2_backSUB.ome.ome.tiff_job4999PLA and ChaT Object Colocalization FL v3.0.0_object_results.csv",
+      "sha256": "9f77bd5d8f148edd95e8035445d2c22d46218ed9e5bc6fc9872616627dd44cf2",
+      "is_primary": true,
+      "rows": 184684
+    },
+    {
+      "job": "5002",
+      "source_file": "20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2_backSUB.ome.ome.tiff_job5002PLA and ChaT Object Colocalization FL v3.0.0_object_results.csv",
+      "sha256": "1ba6bbfc4ca4a37ac075783b31255795a0c2d6ebc708ca1a208077fc8fcb9371",
+      "is_primary": true,
+      "rows": 349776
+    },
+    {
+      "job": "5000",
+      "source_file": "20260515_173745_2_jqw0p1_Ellie_PLA_05152026_2_backSUB.ome.ome.tiff_job5000PLA and ChaT Object Colocalization FL v3.0.0_object_results.csv",
+      "sha256": "4a05d72249ab4b9f5a55ae90173078664f39fc8287c24f19ee1a1c5af3f5e748",
+      "is_primary": true,
+      "rows": 295677
+    },
+    {
+      "job": "5006",
+      "source_file": "20260515_173746_3_G9eDHt_Ellie_PLA_05152026_3_backSUB.ome.ome.tiff_job5006PLA and ChaT Object Colocalization FL v3.0.0_object_results.csv",
+      "sha256": "b36743617af5013290dc326bde525772098c6b31b2a0ae5eab2092550c8943ea",
+      "is_primary": true,
+      "rows": 176423
+    },
+    {
+      "job": "5003",
+      "source_file": "20260515_173746_3_G9eDHt_Ellie_PLA_05152026_3_backSUB.ome.ome.tiff_job5003PLA and ChaT Object Colocalization FL v3.0.0_object_results.csv",
+      "sha256": "c3e33c682c1709daabfe5922b2dd707eef6cb783d8f34baa4779205656e34755",
+      "is_primary": true,
+      "rows": 193552
+    },
+    {
+      "job": "5007",
+      "source_file": "20260515_173746_3_G9eDHt_Ellie_PLA_05152026_3_backSUB.ome.ome.tiff_job5007PLA and ChaT Object Colocalization FL v3.0.0_object_results.csv",
+      "sha256": "7c7a087618700ccb3ea05306b4bfa7e166f0b114bc9f53107742152033204397",
+      "is_primary": true,
+      "rows": 306291
+    },
+    {
+      "job": "5005",
+      "source_file": "20260515_173746_3_G9eDHt_Ellie_PLA_05152026_3_backSUB.ome.ome.tiff_job5005PLA and ChaT Object Colocalization FL v3.0.0_object_results.csv",
+      "sha256": "391641f73ddc1f6fa64c6cca5f9e16058fcaa9589af7a4c0823b2b50c0f71b6e",
+      "is_primary": true,
+      "rows": 348981
+    }
+  ],
+  "code_sha256": {
+    "bio_visuals/handoff.py": "2124ed48497db9f1cb4bfafd0301c32b8954064ee238fee3d1175ad647dc6c5e",
+    "bio_visuals/handoff_plots.py": "0c3be854711918657d076b67a75ad14e85702941fd4b2fb1b2fded2bdbba2356",
+    "bio_visuals/explorer.py": "43651fbb69559d6457297f9781750a829c160638c63342fa6c1b42853ab507e9",
+    "bio_visuals/explorer.html": "f2e3c7b9c3bfebf17fd894f7be742734d362aee0046444a06366cad11ca04ee0",
+    "bio_visuals/standalone_app.py": "e118c4288c8459f68988c350280e2c91d5dd70265b396b8f461ea39459a8503b",
+    "bio_visuals/condition_comparison.py": "b5bcc891a46080a6eba9f79cc1b769b0b2cfefde9a6f31263c9df8ef2b2257bf",
+    "bio_visuals/condition_views.py": "8db9238e7e7f726ad92c926424ab4ef8b895e22340f5d071fdacbeb719790f0c",
+    "bio_visuals/condition_comparison.html": "81853f3d6ff63da6ce3b8e6ec25f2b5f9b0880b0d7bc5cec7b56e347cf453bb4",
+    "bio_visuals/condition_layout.py": "7b94632eae60ef8b840eb010c98201988ca586e46d07001a6d8d757f166c427d",
+    "bio_visuals/normalization.py": "adaad6250efd42dc48d5267cb88f7ca3a0ad9db27155dde8b2d77060543cfaad",
+    "bio_visuals/feature_alignment.py": "4f64b097601267a6b8adbcdaf6026b41703a146b3491020172db3cba5f60e388",
+    "bio_visuals/morphology_ml.py": "b83e9289f364fbabde7d920a28e14a253cec53c87108cb0dda82a8ee2ac92b95",
+    "bio_visuals/morphology_views.py": "9ab5bf51a035cba6a8e71c0874821853213ad9aa34d7f2608c60f96c1fc03a3d",
+    "bio_visuals/morphology_explorer.html": "7f1eb4979bbb2664324a72141c789d3bc694ae9e21a9dcd1949abdfb45ac2af3",
+    "metadata/handoff_landmark_proposals.json": "6f791881faae75f03a49b4d2a0e1bfaf6806b5a4310e62b7f66454c49acadd7f",
+    "bio_visuals/entire_dataset.py": "b310c20b2889ecaddfa9188622f2b8cf7d351e68ade6dfdd0dd1e3a4d34c40b0",
+    "bio_visuals/data.py": "8885d606b40ad50dca714ce693e3e9fd0f82c11f2abbc1f84114ef4fb0f3effc",
+    "scripts/build_spatial_handoff_notebook.py": "deb312c6836ef1364941efad63cac1582e7972736bbfb462c716153d2308d633",
+    "scripts/build_scientific_notebook.py": "aef50554590ba78c6a94c14f711f45b52c4fff4c6667655cd6d4fdb722bab417",
+    "scripts/serve_spatial_app.py": "f1b7016eb86fdc5c9227babb73888cc64dcb377bf271ceae86183cbdb95c498d"
+  },
+  "software": {
+    "numpy": "2.0.2",
+    "pandas": "2.3.3",
+    "scipy": "1.13.1",
+    "matplotlib": "3.9.4",
+    "plotly": "6.9.0",
+    "nbformat": "5.10.4",
+    "nbclient": "0.10.2"
+  },
+  "python": "3.9.6",
+  "handoff_sha256": "47d7e76f75e55b000d953c6ea2ec95a7410cff32f233836af904c45becdbbb73",
+  "execution_utc": "2026-10-19T20:17:30.386409+00:00",
+  "git_commit": "47d2715837b612231ea7ab54c47502ebea8a1c1b",
+  "git_status": [
+    " M PLA_ChAT_scientific_analysis.ipynb",
+    " M PLA_ChAT_spatial_handoff_analysis.ipynb",
+    " M README.md",
+    " M bio_visuals/handoff.py",
+    " M bio_visuals/standalone_app.py",
+    " M outputs/spatial_handoff/figures/02_native_overlay_hk1.svg",
+    " M outputs/spatial_handoff/figures/08_surface_companion_hk1.svg",
+    " M outputs/spatial_handoff/figures/10_size_and_filter_sensitivity.svg",
+    " M outputs/spatial_handoff/figures/11_nearest_chat_distance.svg",
+    " M outputs/spatial_handoff/figures/13_condition_averages_difference.svg",
+    " M outputs/spatial_handoff/figures/14_condition_robustness.svg",
+    " M outputs/spatial_handoff/figures/15_condition_size_standardization.svg",
+    " M outputs/spatial_handoff/figures/16_condition_image_layout.svg",
+    " M outputs/spatial_handoff/figures/17_normalization_both_directions.svg",
+    " M outputs/spatial_handoff/figures/18_within_animal_arm_comparison.svg",
+    " M outputs/spatial_handoff/figures/19_feature_alignment_before_after.svg",
+    " M outputs/spatial_handoff/figures/20_proposed_cavity_traces_hk1.svg",
+    " M outputs/spatial_handoff/figures/20_proposed_cavity_traces_pfkp.svg",
+    " M outputs/spatial_handoff/tables/alignment_flip_scores.csv.gz",
+    " M outputs/spatial_handoff/tables/alignment_geometry_diagnostics.csv.gz",
+    " M outputs/spatial_handoff/tables/animal_summary.csv.gz",
+    " M outputs/spatial_handoff/tables/area_filter_sensitivity.csv.gz",
+    " M outputs/spatial_handoff/tables/condition_animal_metrics.csv.gz",
+    " M outputs/spatial_handoff/tables/condition_contrasts.csv.gz",
+    " M outputs/spatial_handoff/tables/condition_cross_animal.csv.gz",
+    " M outputs/spatial_handoff/tables/condition_denominators.csv.gz",
+    " M outputs/spatial_handoff/tables/condition_directions.csv.gz",
+    " M outputs/spatial_handoff/tables/condition_exact_allocations.csv.gz",
+    " M outputs/spatial_handoff/tables/condition_exact_summary.csv.gz",
+    " M outputs/spatial_handoff/tables/condition_image_layout_sections.csv.gz",
+    " M outputs/spatial_handoff/tables/condition_leave_pair_out.csv.gz",
+    " M outputs/spatial_handoff/tables/condition_normalization.csv.gz",
+    " M outputs/spatial_handoff/tables/condition_paired_arms.csv.gz",
+    " M outputs/spatial_handoff/tables/condition_size_animals.csv.gz",
+    " M outputs/spatial_handoff/tables/condition_size_contrasts.csv.gz",
+    " M outputs/spatial_handoff/tables/condition_size_groups.csv.gz",
+    " M outputs/spatial_handoff/tables/condition_source_image_contrasts.csv.gz",
+    " M outputs/spatial_handoff/tables/condition_standard_weights.csv.gz",
+    " M outputs/spatial_handoff/tables/condition_standardization.csv.gz",
+    " M outputs/spatial_handoff/tables/condition_standardized_animals.csv.gz",
+    " M outputs/spatial_handoff/tables/image_review_windows.csv.gz",
+    " M outputs/spatial_handoff/tables/image_review_windows_with_sources.csv.gz",
+    " M outputs/spatial_handoff/tables/initial_copy_audit.csv.gz",
+    " M outputs/spatial_handoff/tables/input_manifest.csv.gz",
+    " M outputs/spatial_handoff/tables/interrupted_repeat_audit.csv.gz",
+    " M outputs/spatial_handoff/tables/nearest_chat_quantile_curves.csv.gz",
+    " M outputs/spatial_handoff/tables/nearest_chat_summary.csv.gz",
+    " M outputs/spatial_handoff/tables/section_metadata.csv.gz",
+    " M outputs/spatial_handoff/tables/size_bin_denominators.csv.gz",
+    " M scripts/build_scientific_notebook.py",
+    " M scripts/build_spatial_handoff_notebook.py",
+    " M tests/test_notebook_setup.py",
+    " M tests/test_standalone_app.py",
+    "?? bio_visuals/morphology_ml.py",
+    "?? bio_visuals/morphology_views.py",
+    "?? output/",
+    "?? outputs/spatial_handoff/figures/21_morphology_patterns.png",
+    "?? outputs/spatial_handoff/figures/21_morphology_patterns.svg",
+    "?? outputs/spatial_handoff/figures/22_morphology_stability.png",
+    "?? outputs/spatial_handoff/figures/22_morphology_stability.svg",
+    "?? outputs/spatial_handoff/figures/23_morphology_native_hk1.png",
+    "?? outputs/spatial_handoff/figures/23_morphology_native_hk1.svg",
+    "?? outputs/spatial_handoff/figures/23_morphology_native_pfkp.png",
+    "?? outputs/spatial_handoff/figures/23_morphology_native_pfkp.svg",
+    "?? outputs/spatial_handoff/tables/ml_animals.csv.gz",
+    "?? outputs/spatial_handoff/tables/ml_area_only_standardized.csv.gz",
+    "?? outputs/spatial_handoff/tables/ml_audit.csv.gz",
+    "?? outputs/spatial_handoff/tables/ml_contrasts.csv.gz",
+    "?? outputs/spatial_handoff/tables/ml_definitions.json",
+    "?? outputs/spatial_handoff/tables/ml_fit_audit.csv.gz",
+    "?? outputs/spatial_handoff/tables/ml_profiles.csv.gz",
+    "?? outputs/spatial_handoff/tables/ml_review_targets.csv.gz",
+    "?? outputs/spatial_handoff/tables/ml_scatter.csv.gz",
+    "?? outputs/spatial_handoff/tables/ml_stability.csv.gz",
+    "?? outputs/spatial_handoff/tables/ml_stability_clusters.csv.gz",
+    "?? outputs/spatial_handoff/tables/ml_standardized.csv.gz",
+    "?? outputs/spatial_handoff/tables/ml_standardized_animals.csv.gz",
+    "?? outputs/spatial_handoff/tables/ml_weights.csv.gz",
+    "?? tests/test_morphology_ml.py",
+    "?? tests/test_morphology_views.py"
+  ],
+  "investigator": "Codex computational first pass; anatomical review pending"
+}

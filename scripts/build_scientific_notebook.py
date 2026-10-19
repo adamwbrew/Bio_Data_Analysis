@@ -26,7 +26,7 @@ def reuse(prefix):
 
 md('''
 # PLA–ChAT · explore the sections and test the findings
-**Main scientific notebook · interactive edition · 19 October 2026 · protocol 1.3.0**
+**Main scientific notebook · interactive edition · 19 October 2026 · protocol 1.4.0**
 
 ### Open the Plotly app
 **[Open the spatial app in your browser](http://127.0.0.1:8050/)** for a full-window view of the 3D surfaces, channel overlays, overlapping layers and scientific comparison figures.
@@ -40,7 +40,7 @@ Start with the **non-running versus Running comparison**: overlay animal values,
 **Open this file in JupyterLab or VS Code**, select the project Python environment, and **Run All**. Review and trust the notebook to enable embedded JavaScript. GitHub shows the saved static figures but suppresses interactive controls. The explorer is saved **inside this notebook**, with its data and plotting library; it does not require a separate website or a live kernel after rendering.
 
 ### Go directly to a result
-[Non-running minus Running](#comparison) · [Interactive 3D / channels / layers](#explore) · [Size sensitivity](#sizes) · [Layer alignment review](#registration) · [Image-review coordinates and decisions](#actions)
+[Non-running minus Running](#comparison) · [Machine learning](#machine-learning) · [Interactive 3D / channels / layers](#explore) · [Size sensitivity](#sizes) · [Layer alignment review](#registration) · [Image-review coordinates and decisions](#actions)
 
 **What is reconstructed:** 12 physical sections from six animals, measured by HALO; 3,010,776 detected objects after excluding the interrupted duplicate. HK1–TDP43 and PFKP–TDP43 are different PLA arms and stay separate. Coordinates reconstruct detections, not microscope pixels. The 3D measurement view uses signal height; the exploded stack uses an ordinal layer axis. Neither is an anatomical volume.
 ''')

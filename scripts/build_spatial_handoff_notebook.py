@@ -10,7 +10,7 @@ def code(s):cells.append(nbf.v4.new_code_cell(dedent(s).strip(),metadata={'scrol
 
 md('''
 # PLA–ChAT spatial analysis · from raw HALO detections to scientific review
-**Raw-data handoff edition · protocol 1.3.0 · research checked 19 October 2026**
+**Raw-data handoff edition · protocol 1.4.0 · research checked 19 October 2026**
 
 ### Open the Plotly app
 **[Open the spatial app in your browser](http://127.0.0.1:8050/)** for the 3D, channel and layer controls plus the main scientific figures. First double-click `Launch_Spatial_Explorer.command` in this repository on your Mac, or run `python scripts/serve_spatial_app.py` in a terminal. Leave the terminal open while using the link. The app works from the saved results without running this notebook or installing extra packages.
@@ -21,7 +21,7 @@ This notebook reconstructs all **12 ChAT-panel sections** from the expanded data
 
 **What these images represent:** colored maps are computed from detected-object bounding-box midpoints. They are not recovered microscope photographs. The CSVs have no tissue-depth coordinate; the 3D views show **signal height over a 2D section**, with a slider to change animals. They do not reconstruct a brain volume or assume serial-section order.
 
-**Start here:** [non-running minus Running](#comparison) → [interactive control center](#explore) → [experiment and inputs](#experiment) → [native overlays](#native) → [registration review](#registration) → [heat maps and zoom](#maps) → [interactive 3D](#three-d) → [animal-level findings](#findings) → [scientist action list](#actions).
+**Start here:** [non-running minus Running](#comparison) → [machine learning](#machine-learning) → [interactive control center](#explore) → [experiment and inputs](#experiment) → [native overlays](#native) → [registration review](#registration) → [heat maps and zoom](#maps) → [interactive 3D](#three-d) → [animal-level findings](#findings) → [scientist action list](#actions).
 
 The [main scientific notebook](PLA_ChAT_scientific_analysis.ipynb) now puts the interactive control center first, followed by the main findings. This longer notebook retains the full audit, static figure collection and research methods. The [original exploratory notebook](PLA_ChAT_visual_analysis.ipynb) remains available for the historical box/outline analysis.
 
@@ -47,12 +47,13 @@ import matplotlib.pyplot as plt
 import plotly.io as pio
 from IPython.display import display, Markdown, HTML
 # Reload in dependency order so a second Run All uses edited local functions.
-for name in ['bio_visuals.data', 'bio_visuals.entire_dataset', 'bio_visuals.handoff', 'bio_visuals.handoff_plots', 'bio_visuals.explorer', 'bio_visuals.condition_comparison', 'bio_visuals.condition_views', 'bio_visuals.condition_layout', 'bio_visuals.normalization', 'bio_visuals.feature_alignment', 'bio_visuals.standalone_app']:
+for name in ['bio_visuals.data', 'bio_visuals.entire_dataset', 'bio_visuals.handoff', 'bio_visuals.handoff_plots', 'bio_visuals.explorer', 'bio_visuals.condition_comparison', 'bio_visuals.condition_views', 'bio_visuals.condition_layout', 'bio_visuals.normalization', 'bio_visuals.feature_alignment', 'bio_visuals.morphology_ml', 'bio_visuals.morphology_views', 'bio_visuals.standalone_app']:
     importlib.reload(importlib.import_module(name))
 from bio_visuals import entire_dataset as raw, handoff as h, handoff_plots as hp
 from bio_visuals.explorer import explorer_html
 from bio_visuals import condition_comparison as cc, condition_views as cv, condition_layout as cl
 from bio_visuals import normalization as norm, feature_alignment as fa
+from bio_visuals import morphology_ml as ml, morphology_views as mv
 from bio_visuals.standalone_app import write_standalone_app
 hp.style()
 pd.set_option('display.max_columns', 18)
@@ -319,6 +320,114 @@ md('''
 **What still needs the scientist:** confirm the traced cavity in each original image, independently review proposed flips and the expected cut edge, verify common coordinate scale and section level, and supply tissue ROI masks. No approval records were changed. All 12 sections are visible for review now; group anatomical subtraction remains gated until correspondence and support are defensible. Missing tissue stays unmeasured rather than being filled from another animal.
 ''')
 md('''
+<a id="machine-learning"></a>
+## Exploratory machine learning · what size and shape reveal
+
+**Question:** does the Home-cage–Running ChAT-association difference mainly reflect a different mixture of PLA object shapes, or does it persist among similarly measured objects? The model learns a small dictionary of PLA **measurement patterns**. It then locates those patterns and compares association within them. This extends the fixed size-bin checks; it does not change the primary measurements.
+
+**[Open the machine-learning explorer](http://127.0.0.1:8050/#machine-learning)** after launching the app. All numerical results, static figures and interactive controls also appear below.
+
+### Scientific process and safeguards
+
+1. **Choose fitting inputs without condition labels or ChAT outcomes.** Use log₁₀ exported PLA area and minimum/maximum diameter. A ratio near 1 means similar reported diameters; a lower ratio means a greater difference between them. A zero minimum is a measurement limit to review, not evidence of elongation. This is an exported shape descriptor, not a segmentation contour or cell identity. Zero minimum diameter remains a recorded value when the maximum is positive; invalid area, invalid diameter order or zero maximum cannot supply both features. Report these exclusions separately. No imputation and no change to the full-data primary analysis.
+2. **Learn without the answer.** Sample equally from every animal within each arm, fit median/IQR scaling, and fit K-means with three groups. Running status, ChAT flags/overlap, image coordinates and intensity are excluded from fitting. Intensity is omitted because its channel/acquisition comparability is not established. Each arm has its own dictionary: a group number does not identify the same biological population across arms.
+3. **Check model dependence.** Repeat with two and four groups without selecting the number that maximizes the condition difference. Leave out each animal, refit both scaling and clustering on the other five, and compare assignments on the omitted animal with the full-data reference. These are stability checks; the reference itself used all animals, so agreement is **not out-of-sample predictive accuracy**.
+4. **Reveal the outcomes after fitting.** Calculate morphology-group abundance and ChAT association within each animal. Average animals equally. Apply the same group mixture to every animal as a descriptive sensitivity check, requiring at least 10 eligible PLA objects in every animal for an included group. Compare this to the unadjusted eligible-object result and the all-PLA result so excluded measurements cannot silently change the denominator.
+5. **Return to the microscope.** Map the groups in native coordinates and export representative and extreme detections with source job, object ID and review windows. Extreme means unusual under this measurement model—not an error, disease state or automatically removable observation.
+
+K-means partitions continuous measurements even when nature has no discrete classes. We therefore call these *morphology groups*, not discovered cell types. Morphology profiling can prioritize biological hypotheses, but mechanistic interpretations need independent experiments ([Rohban et al., 2017](https://elifesciences.org/articles/24060)). Animal-grouped refits address repeated-subject leakage ([Rosenblatt et al., 2024](https://www.nature.com/articles/s41467-024-46150-w)); six animals are insufficient for a credible running-status predictor ([Varoquaux, 2018](https://pubmed.ncbi.nlm.nih.gov/28655633/)). Cluster stability does not establish biological meaning ([Hennig, 2007](https://www.homepages.ucl.ac.uk/~ucakche/papers/clusta.pdf)).
+''')
+code('''
+ml_results = ml.run_analysis(objects, metadata)
+for name, value in ml_results.items():
+    if isinstance(value, pd.DataFrame):
+        value.to_csv(TABLES / ('ml_' + name + '.csv.gz'), index=False, compression='gzip')
+(TABLES / 'ml_definitions.json').write_text(json.dumps(ml_results['definitions'], indent=2, ensure_ascii=False, allow_nan=False) + '\\n')
+display(ml_results['audit'])
+show(mv.overview_figure(ml_results), '21_morphology_patterns')
+''')
+code('''
+ml_audit = ml_results['audit']
+n_valid, n_pla = int(ml_audit.n_valid.sum()), int(ml_audit.n_pla.sum())
+ml_findings = [f'### Findings from this run\\n\\nThe size-and-shape model includes **{n_valid:,}/{n_pla:,} PLA detections ({100*n_valid/n_pla:.1f}%)**. '
+               f'The remaining **{n_pla-n_valid:,}** stay in the primary analysis and the area-only sensitivity where area is valid.']
+for arm in sorted(ml_results['standardized'].pla_arm.unique()):
+    s = ml_results['standardized'].query('pla_arm == @arm and k == 3').iloc[0]
+    a = ml_results['area_only_standardized'].query('pla_arm == @arm').iloc[0]
+    contrasts = ml_results['contrasts'].query('pla_arm == @arm and metric == "association_pct"')
+    stable = ml_results['stability'].query('pla_arm == @arm')
+    jaccard = ml_results['stability_clusters'].query('pla_arm == @arm').jaccard
+    text = (f'**{arm}:** Home cage minus Running is **{s.raw_difference_pp:.2f} percentage points** in all PLA, '
+            f'**{s.valid_difference_pp:.2f} pp** among usable morphology measurements, and '
+            f'**{s.standardized_difference_pp:.2f} pp** after applying the common three-group morphology mixture. '
+            f'The area-only sensitivity gives **{a.standardized_difference_pp:.2f} pp**, retaining {a.input_coverage_pct:.1f}% of PLA. '
+            f'Within-group differences range from **{contrasts.difference_pp.min():.2f} to {contrasts.difference_pp.max():.2f} pp**. '
+            f'The morphology standardization retains {s.retained_pct:.1f}% of eligible measurements across supported groups. '
+            f'Leaving an animal out yields adjusted Rand agreement **{stable.ari.min():.3f}–{stable.ari.max():.3f}**; '
+            f'the lowest group-specific Jaccard agreement is **{jaccard.min():.3f}**. These measure partition stability, not biological validation.')
+    ml_findings.append(text)
+    weakest = stable.loc[stable.ari.idxmin()]
+    ml_findings.append(f'**Stability review priority: {weakest.animal_id} in {arm}.** Leaving this animal out produces the lowest adjusted Rand agreement '
+                       f'({weakest.ari:.3f}); {weakest.agreement_pct:.1f}% of its assigned labels match the full-data reference. '
+                       'Inspect this section’s measurement distribution and representative crops before treating cluster boundaries as reproducible biological groups.')
+    profiles = ml_results['profiles'].query('pla_arm == @arm').sort_values('cluster')
+    small, large = profiles.iloc[0], profiles.iloc[-1]
+    mix = ml_results['contrasts'].query('pla_arm == @arm and metric == "proportion_pct"')
+    large_mix = mix.loc[mix.cluster.eq(large.cluster)].iloc[0]
+    small_gap = contrasts.loc[contrasts.cluster.eq(small.cluster), 'difference_pp'].iloc[0]
+    large_gap = contrasts.loc[contrasts.cluster.eq(large.cluster), 'difference_pp'].iloc[0]
+    ml_findings.append(f'**A concrete review lead for {arm}:** the smallest-area group has median area **{small.median_area:.4f} µm²**, '
+                       f'and **{small.zero_min_pct:.1f}%** of its detections have zero exported minimum diameter. '
+                       f'Its association gap is **{small_gap:.2f} pp**, versus **{large_gap:.2f} pp** in the largest-area group. '
+                       f'The largest-area group represents **{large_mix.home_pct:.1f}%** of eligible Home-cage PLA and '
+                       f'**{large_mix.running_pct:.1f}%** of eligible Running PLA. '
+                       'Inspect the small, diameter-limited detections first, while also checking representative large detections; '
+                       'these descriptive patterns do not establish biological object classes.')
+ml_findings.append('**Interpretation:** inspect the direction and magnitude across the full-data, eligible-data, common-mixture and area-only results together. '
+                   'A persistent gap across these checks is not explained solely by this coarse size/shape mixture. It remains compatible with biological differences, marker availability or detection/acquisition differences; this model does not separate those explanations. '
+                   'A shape ratio of zero reflects an exported zero minimum diameter, so inspect those groups for measurement-resolution or segmentation effects before calling them elongated structures.')
+display(Markdown('\\n\\n'.join(ml_findings)))
+display(ml_results['profiles'])
+display(ml_results['area_only_standardized'])
+''')
+md('''
+### Reading the learned patterns
+
+Read the scatter as a map of measured size and shape, then compare **individual animal dots**. The scatter is a deterministic display sample; summaries use every eligible PLA object. Group abundance is the percentage of eligible PLA assigned to that morphology group. Association is the percentage with ChAT signal **within that group in that animal**. Different denominators answer different questions. Neither is normalized to tissue area or ChAT availability.
+
+Compare the same morphology group across conditions within an arm. A persistent association difference among similar size/shape groups makes a simple composition-only explanation less sufficient; it does not remove image layout, thresholding, sampled anatomy or marker-availability confounding. No automatic clusterwise significance testing or condition classifier is used.
+''')
+code('''
+show(mv.robustness_figure(ml_results), '22_morphology_stability')
+display(ml_results['standardized'])
+display(ml_results['stability'])
+''')
+md('''
+### Locate the patterns and choose concrete follow-up fields
+
+The controls below show **one physical section at a time** in native coordinates. A map value is the percentage of eligible PLA in that bin assigned to the selected morphology group. Bins with fewer than 10 eligible PLA are blank; blank is not zero. Inspect count support on hover. The additional **Excluded shape measurements** map uses all PLA as its denominator, revealing where unusable diameters occur; its percentages are not morphology-group abundance. There is no interpolation, anatomical pooling or recovered microscopy texture.
+
+The spatial panels use the same 500-unit bin width for every section. Export x/y units remain uncalibrated. High-resolution figure export improves readability, not the physical resolution of the measurements. Source photographs and ROI masks are still needed to judge edges, merged detections and biological structures.
+''')
+code('''
+display(HTML(mv.explorer_html(ml_results)))
+for arm, key in [('TDP43–HK1', 'hk1'), ('TDP43–PFKP', 'pfkp')]:
+    show(mv.spatial_figure(ml_results, arm), f'23_morphology_native_{key}')
+display(ml_results['review_targets'].head(12))
+display(Markdown('**All selected review targets:** [download the source-linked table](outputs/spatial_handoff/tables/ml_review_targets.csv.gz). '
+                 'Selections are balanced across animals and morphology groups; do not treat them as independently tested biological hotspots.'))
+''')
+md('''
+### What the scientist can do with these results
+
+- **Inspect the model groups:** request the representative and extreme source-image crops, with segmentation outlines and both channels. Check whether large or low-diameter-ratio groups reflect meaningful structures, merged detections or edge effects before naming them biologically.
+- **Test the composition explanation:** compare the all-PLA, eligible-PLA and common-morphology-mixture contrasts. If a gap persists, prioritize ChAT availability, detection thresholds and matched anatomy alongside a biological explanation; morphology standardization alone cannot distinguish them.
+- **Follow unstable groups cautiously:** inspect leave-one-animal-out agreement, including group-specific Jaccard values in `ml_stability_clusters.csv.gz`. If a group is unstable, use its underlying continuous measurements and avoid interpreting its boundary as a distinct population.
+- **Validate a focused hypothesis:** lock the feature definitions, scaling and group centroids before analyzing an independent animal cohort. Add original-image review, negative controls, section levels and acquisition metadata. More object rows cannot replace more animals.
+
+The ML layer improves the *questions and review targets* available from these exports. It does not improve the raw image resolution, validate anatomy, establish binding or make the observed condition difference causal.
+''')
+md('''
 <a id="explore"></a>
 ## Interactive control center · start with the data
 
@@ -570,7 +679,8 @@ All core results are embedded in this notebook. Supplementary outputs live in `o
 ''')
 code('''
 app_path = write_standalone_app(explorer_html(fine, geometry, surfaces, metrics, metadata, reviews, include_plotly=False, proposals=alignment_proposals), ROOT,
-                                comparison_fragment=cv.comparison_html(condition_results, registration=cc.condition_registration(objects, reviews, PARAMETERS['metric_bin'], PARAMETERS['min_pla_per_bin'])))
+                                comparison_fragment=cv.comparison_html(condition_results, registration=cc.condition_registration(objects, reviews, PARAMETERS['metric_bin'], PARAMETERS['min_pla_per_bin'])),
+                                ml_fragment=mv.explorer_html(ml_results, include_plotly=False))
 display(Markdown(f'**Plotly app refreshed.** [Open the running app](http://127.0.0.1:8050/) · '
                  f'[Portable browser copy]({app_path.relative_to(ROOT).as_posix()}). '
                  'Start `Launch_Spatial_Explorer.command` or `python scripts/serve_spatial_app.py` for the local link. '
