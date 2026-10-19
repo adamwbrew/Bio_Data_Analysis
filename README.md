@@ -1,10 +1,22 @@
 # PLA–ChAT image analysis data
 
-This repository contains object measurements exported from **HALO fluorescence image analysis**. The primary expanded dataset contains **12 completed region/assay analyses and 3,010,776 objects**: **310,024 PLA** and **2,700,752 ChAT** detections. The files reference three source images and six literal labels, each represented by Hk1–TDP43 and Pfkp–TDP43 analyses. Sample identities, running groups, and anatomical correspondence are not defined by those labels alone.
+This repository contains object measurements exported from **HALO fluorescence image analysis**. The primary expanded dataset contains **12 completed region/assay analyses and 3,010,776 objects**: **310,024 PLA** and **2,700,752 ChAT** detections. The files reference three source images and six animals, each represented by separate Hk1–TDP43 and Pfkp–TDP43 physical sections. The new local handoff identifies Running animals **22F, 21M, 22M** and Home-cage animals **21F, 23M, 24M**. Anatomical correspondence still needs review.
+
+## Latest: spatial handoff notebook
+
+Open **[PLA_ChAT_spatial_handoff_analysis.ipynb](PLA_ChAT_spatial_handoff_analysis.ipynb)** for the new handoff-based workflow. It includes reconstructed PLA/ChAT overlays for all sections, denominator-aware heat maps, zoomable section explorers, rotatable 3D signal-height surfaces, cavity/orientation/support review, equal-animal condition summaries, size sensitivity, nearest-ChAT distances, literature context and actionable image-review coordinates. All core results are embedded in the executed notebook. The two previous notebooks are preserved.
+
+The source is the locally supplied `HALO_spatial_analysis_raw_data_handoff.pdf`, which stays outside Git. No original microscopy pixels, verified coordinate calibration or tissue-depth coordinates were supplied. The overlays are reconstructions from object bounding-box midpoints; 3D height represents PLA counts, **not anatomical depth**. Unreviewed cavity alignment previews are clearly labeled. Registered biological condition maps remain gated on documented landmark, orientation, scale and support review.
+
+Select the project `.venv` Python kernel and **Run All**. Dependencies, including Plotly, are in [requirements.txt](requirements.txt). For a reproducible command-line execution using your selected Python, run `python scripts/execute_spatial_handoff_notebook.py`. Interactive figures support section selection, mouse-wheel zoom and rotation in JupyterLab/VS Code; static figures remain visible in GitHub. The notebook is the primary deliverable, not an HTML report.
+
+Outputs are under `outputs/spatial_handoff/`: 300-DPI PNGs and SVGs, compressed tables, lossless count arrays, and content-addressed protocol snapshots with input/code hashes. [metadata/handoff_section_reviews.json](metadata/handoff_section_reviews.json) stores geometric proposals and explicit review fields; no anatomical approvals are pre-filled. Optional per-object exports retain native coordinates and leave unapproved aligned coordinates blank.
+
+**Scope of the older documentation below:** the original box/outline analysis predates the handoff. Statements about missing animal assignments describe what the earlier abstract/CSV files established on their own. The new spatial notebook uses the handoff's assignments and keeps each PLA arm separate. Other marker panels described in that document are not present in the ChAT folder.
 
 `Initial Data/` preserves eight original box/outline exports. `entire Chat dataset/` contains thirteen exports: four identical copies of the original outlines, eight additional completed analyses, and interrupted job **4978**, superseded by **5403**. Every one of the interrupted export's **94,409 measurement signatures** occurs in the replacement's **190,915 rows**. Copies and the interrupted run are excluded from the primary summaries and retained in the audit.
 
-**The data is at the image-analysis export stage.** Tissue has been imaged, objects have been detected, and their measurements have been exported to tables. The available files contain individual object measurements; sample metadata, source images, analysis settings, and biological conclusions are not included.
+**The data is at the image-analysis export stage.** Tissue has been imaged, objects have been detected, and their measurements have been exported to tables. The CSVs contain individual object measurements. The local handoff adds experimental assignments and an analysis protocol; source images, complete analysis settings and validated spatial registration are still needed.
 
 ## Run the visual analysis
 

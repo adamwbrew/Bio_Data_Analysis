@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="1097.28pt" height="292.916062pt" viewBox="0 0 1097.28 292.916062" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-10-18T18:31:46.360152</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.9.4, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 292.916062 
+L 1097.28 292.916062 
+L 1097.28 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 34.272 260.982622 
+L 194.53824 260.982622 
+Q 216.19584 260.982622 216.19584 256.605022 
+L 216.19584 93.758302 
+Q 216.19584 89.380702 194.53824 89.380702 
+L 34.272 89.380702 
+Q 12.6144 89.380702 12.6144 93.758302 
+L 12.6144 256.605022 
+Q 12.6144 260.982622 34.272 260.982622 
+z
+" clip-path="url(#p8ca2e76efd)" style="fill: #edf3f5; stroke: #cbd9df; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 249.76512 260.982622 
+L 410.03136 260.982622 
+Q 431.68896 260.982622 431.68896 256.605022 
+L 431.68896 93.758302 
+Q 431.68896 89.380702 410.03136 89.380702 
+L 249.76512 89.380702 
+Q 228.10752 89.380702 228.10752 93.758302 
+L 228.10752 256.605022 
+Q 228.10752 260.982622 249.76512 260.982622 
+z
+" clip-path="url(#p8ca2e76efd)" style="fill: #edf3f5; stroke: #cbd9df; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 465.25824 260.982622 
+L 625.52448 260.982622 
+Q 647.18208 260.982622 647.18208 256.605022 
+L 647.18208 93.758302 
+Q 647.18208 89.380702 625.52448 89.380702 
+L 465.25824 89.380702 
+Q 443.60064 89.380702 443.60064 93.758302 
+L 443.60064 256.605022 
+Q 443.60064 260.982622 465.25824 260.982622 
+z
+" clip-path="url(#p8ca2e76efd)" style="fill: #edf3f5; stroke: #cbd9df; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 680.75136 260.982622 
+L 841.0176 260.982622 
+Q 862.6752 260.982622 862.6752 256.605022 
+L 862.6752 93.758302 
+Q 862.6752 89.380702 841.0176 89.380702 
+L 680.75136 89.380702 
+Q 659.09376 89.380702 659.09376 93.758302 
+L 659.09376 256.605022 
+Q 659.09376 260.982622 680.75136 260.982622 
+z
+" clip-path="url(#p8ca2e76efd)" style="fill: #fff0da; stroke: #cbd9df; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 896.24448 260.982622 
+L 1056.51072 260.982622 
+Q 1078.16832 260.982622 1078.16832 256.605022 
+L 1078.16832 93.758302 
+Q 1078.16832 89.380702 1056.51072 89.380702 
+L 896.24448 89.380702 
+Q 874.58688 89.380702 874.58688 93.758302 
+L 874.58688 256.605022 
+Q 874.58688 260.982622 896.24448 260.982622 
+z
+" clip-path="url(#p8ca2e76efd)" style="fill: #edf3f5; stroke: #cbd9df; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <text style="fill: #173447; font: 700 11px 'DejaVu Sans'; text-anchor: start" x="29.94048" y="119.367262" transform="rotate(-0 29.94048 119.367262)">01  Experiment</text>
+   </g>
+   <g id="text_2">
+    <text style="fill: #173447; font: 9.5px 'DejaVu Sans'" transform="translate(29.94048 165.984178)">6 animals · 3 per condition</text>
+    <text style="fill: #173447; font: 9.5px 'DejaVu Sans'" transform="translate(29.94048 180.231358)">Two physical PLA sections</text>
+    <text style="fill: #173447; font: 9.5px 'DejaVu Sans'" transform="translate(29.94048 194.478537)">ChAT is the available marker</text>
+   </g>
+   <g id="patch_7">
+    <path d="M 219.276602 176.276062 
+Q 223.233892 176.276062 226.073148 176.276062 
+" style="fill: none; stroke: #173447; stroke-linecap: round"/>
+    <path d="M 222.073148 174.276062 
+L 226.073148 176.276062 
+L 222.073148 178.276062 
+" style="fill: none; stroke: #173447; stroke-linecap: round"/>
+   </g>
+   <g id="text_3">
+    <text style="fill: #173447; font: 700 11px 'DejaVu Sans'; text-anchor: start" x="245.4336" y="119.367262" transform="rotate(-0 245.4336 119.367262)">02  Raw measurements</text>
+   </g>
+   <g id="text_4">
+    <text style="fill: #173447; font: 9.5px 'DejaVu Sans'" transform="translate(245.4336 165.984178)">13 CSV exports audited</text>
+    <text style="fill: #173447; font: 9.5px 'DejaVu Sans'" transform="translate(245.4336 180.231358)">Interrupted run excluded</text>
+    <text style="fill: #173447; font: 9.5px 'DejaVu Sans'" transform="translate(245.4336 194.478537)">12 sections · 3.01M objects</text>
+   </g>
+   <g id="patch_8">
+    <path d="M 434.769722 176.276062 
+Q 438.727012 176.276062 441.566268 176.276062 
+" style="fill: none; stroke: #173447; stroke-linecap: round"/>
+    <path d="M 437.566268 174.276062 
+L 441.566268 176.276062 
+L 437.566268 178.276062 
+" style="fill: none; stroke: #173447; stroke-linecap: round"/>
+   </g>
+   <g id="text_5">
+    <text style="fill: #173447; font: 700 11px 'DejaVu Sans'; text-anchor: start" x="460.92672" y="119.367262" transform="rotate(-0 460.92672 119.367262)">03  This notebook</text>
+   </g>
+   <g id="text_6">
+    <text style="fill: #173447; font: 9.5px 'DejaVu Sans'" transform="translate(460.92672 165.984178)">Native overlays + heat maps</text>
+    <text style="fill: #173447; font: 9.5px 'DejaVu Sans'" transform="translate(460.92672 180.231358)">Animal-level summaries</text>
+    <text style="fill: #173447; font: 9.5px 'DejaVu Sans'" transform="translate(460.92672 194.478537)">Interactive signal-height views</text>
+   </g>
+   <g id="patch_9">
+    <path d="M 650.262842 176.276062 
+Q 654.220132 176.276062 657.059388 176.276062 
+" style="fill: none; stroke: #173447; stroke-linecap: round"/>
+    <path d="M 653.059388 174.276062 
+L 657.059388 176.276062 
+L 653.059388 178.276062 
+" style="fill: none; stroke: #173447; stroke-linecap: round"/>
+   </g>
+   <g id="text_7">
+    <text style="fill: #173447; font: 700 11px 'DejaVu Sans'; text-anchor: start" x="676.41984" y="119.367262" transform="rotate(-0 676.41984 119.367262)">04  Scientist review</text>
+   </g>
+   <g id="text_8">
+    <text style="fill: #173447; font: 9.5px 'DejaVu Sans'" transform="translate(676.41984 165.984178)">Trace cavity · confirm flips</text>
+    <text style="fill: #173447; font: 9.5px 'DejaVu Sans'" transform="translate(676.41984 180.231358)">Verify scale + tissue support</text>
+    <text style="fill: #173447; font: 9.5px 'DejaVu Sans'" transform="translate(676.41984 194.478537)">Review candidate QC package</text>
+   </g>
+   <g id="patch_10">
+    <path d="M 865.755962 176.276062 
+Q 869.713252 176.276062 872.552508 176.276062 
+" style="fill: none; stroke: #173447; stroke-linecap: round"/>
+    <path d="M 868.552508 174.276062 
+L 872.552508 176.276062 
+L 868.552508 178.276062 
+" style="fill: none; stroke: #173447; stroke-linecap: round"/>
+   </g>
+   <g id="text_9">
+    <text style="fill: #173447; font: 700 11px 'DejaVu Sans'; text-anchor: start" x="891.91296" y="119.367262" transform="rotate(-0 891.91296 119.367262)">05  Registered maps</text>
+   </g>
+   <g id="text_10">
+    <text style="fill: #173447; font: 9.5px 'DejaVu Sans'" transform="translate(891.91296 165.984178)">After review only:</text>
+    <text style="fill: #173447; font: 9.5px 'DejaVu Sans'" transform="translate(891.91296 180.231358)">Equal-animal condition maps</text>
+    <text style="fill: #173447; font: 9.5px 'DejaVu Sans'" transform="translate(891.91296 194.478537)">Geometry-aware null tests</text>
+   </g>
+  </g>
+  <g id="text_11">
+   <text style="fill: #173447; font: 700 21px 'DejaVu Sans'; text-anchor: start" x="7.2" y="23.156719" transform="rotate(-0 7.2 23.156719)">From the experiment to a spatial result</text>
+  </g>
+  <g id="text_12">
+   <text style="fill: #173447; font: 10px 'DejaVu Sans'; text-anchor: start" x="7.2" y="49.204375" transform="rotate(-0 7.2 49.204375)">All values remain traceable to raw files; the PLA arms stay separate at every stage.</text>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p8ca2e76efd">
+   <rect x="7.2" y="66.836062" width="1082.88" height="218.88"/>
+  </clipPath>
+ </defs>
+</svg>

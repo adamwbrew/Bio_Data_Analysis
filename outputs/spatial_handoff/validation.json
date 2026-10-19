@@ -1,0 +1,25 @@
+{
+  "verified_utc": "2026-10-18T22:37:36.564788+00:00",
+  "notebook": "PLA_ChAT_spatial_handoff_analysis.ipynb",
+  "notebook_sha256": "54193dce6af38f253bff76d1d90f5ef493010b40175ab92ed2b2130f51542a2d",
+  "execution": "Fresh-kernel Run All succeeded from raw CSVs. Static 3D companion cells and provenance were then re-executed from fresh raw data after a layout-only fix.",
+  "code_cells_with_saved_execution": 29,
+  "error_outputs": 0,
+  "stderr_outputs": 0,
+  "plotly_outputs": 4,
+  "automated_tests_passed": 33,
+  "test_log": "test_results.txt",
+  "browser_checks": [
+    "2D section selection and zoom",
+    "3D section selection, rotation, top-down view and wheel zoom",
+    "full notebook embedded interactive rendering"
+  ],
+  "figure_exports": {
+    "png": 52,
+    "svg": 52,
+    "png_export_dpi": 300
+  },
+  "protocol": "protocols/v1.0.0_d54f16e13e13.json",
+  "protocol_code_hashes_match": true,
+  "limits": "Object reconstructions, not original microscopy. 3D signal height, not anatomical depth. Registered group maps remain gated on scientist landmark/orientation/support/scale review."
+}
