@@ -1,25 +1,48 @@
 {
-  "verified_utc": "2026-10-18T22:37:36.564788+00:00",
-  "notebook": "PLA_ChAT_spatial_handoff_analysis.ipynb",
-  "notebook_sha256": "54193dce6af38f253bff76d1d90f5ef493010b40175ab92ed2b2130f51542a2d",
-  "execution": "Fresh-kernel Run All succeeded from raw CSVs. Static 3D companion cells and provenance were then re-executed from fresh raw data after a layout-only fix.",
-  "code_cells_with_saved_execution": 29,
-  "error_outputs": 0,
-  "stderr_outputs": 0,
-  "plotly_outputs": 4,
-  "automated_tests_passed": 33,
+  "verified_utc": "2026-10-19T18:09:52.927578+00:00",
+  "execution": "Both notebooks completed fresh-kernel Run All from the raw CSVs with the final explorer source.",
+  "notebooks": [
+    {
+      "notebook": "PLA_ChAT_scientific_analysis.ipynb",
+      "notebook_sha256": "22ecabfc065dcd5ad23b866305091ff2e24bbf23a5d0caf130e18d9e38c58568",
+      "code_cells_with_saved_execution": 12,
+      "code_cells": 12,
+      "error_outputs": 0,
+      "stderr_outputs": 0,
+      "embedded_explorers": 1,
+      "additional_plotly_outputs": 0
+    },
+    {
+      "notebook": "PLA_ChAT_spatial_handoff_analysis.ipynb",
+      "notebook_sha256": "4c5f21c25ee4bbbf202d8886c89985164a6b2355c1fe9c6c49a04419c588b41e",
+      "code_cells_with_saved_execution": 30,
+      "code_cells": 30,
+      "error_outputs": 0,
+      "stderr_outputs": 0,
+      "embedded_explorers": 1,
+      "additional_plotly_outputs": 4
+    }
+  ],
+  "automated_tests_passed": 39,
   "test_log": "test_results.txt",
+  "javascript_syntax_check": "node --check passed",
   "browser_checks": [
-    "2D section selection and zoom",
-    "3D section selection, rotation, top-down view and wheel zoom",
-    "full notebook embedded interactive rendering"
+    "Trusted JupyterLab renders embedded controls from saved notebook output without a live kernel",
+    "Actual main scientific notebook opened in JupyterLab with project Python environment",
+    "Combined PLA arm, group, section, bin and minimum-denominator filters",
+    "21M HK1 at 1,000-unit bins and minimum 25 PLA: 218/296 observed bins retained, matching independent Python calculation",
+    "3D rotation, top-down view, wheel zoom and reset",
+    "Independent ChAT/PLA visibility, positive/negative PLA subsets and opacity",
+    "Flat overlay, exploded stack, individual checkboxes, all layers and one-at-a-time stepping",
+    "Candidate geometry mode omits missing candidates and disallows unreviewed biological comparisons",
+    "Reviewed alignment remains empty until scientist review passes"
   ],
   "figure_exports": {
     "png": 52,
     "svg": 52,
     "png_export_dpi": 300
   },
-  "protocol": "protocols/v1.0.0_d54f16e13e13.json",
+  "protocol": "protocols/v1.1.0_ce55edf001fa.json",
   "protocol_code_hashes_match": true,
-  "limits": "Object reconstructions, not original microscopy. 3D signal height, not anatomical depth. Registered group maps remain gated on scientist landmark/orientation/support/scale review."
+  "limits": "Detection reconstructions, not microscope pixels. Measurement surfaces use signal height; exploded stacks use ordinal animal order, not anatomical depth. Candidate-centered mode supports geometry QC only. Anatomical comparisons remain gated on scientist review."
 }

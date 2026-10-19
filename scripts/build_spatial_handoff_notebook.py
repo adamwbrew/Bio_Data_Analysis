@@ -10,15 +10,15 @@ def code(s):cells.append(nbf.v4.new_code_cell(dedent(s).strip(),metadata={'scrol
 
 md('''
 # PLA–ChAT spatial analysis · from raw HALO detections to scientific review
-**Raw-data handoff edition · protocol 1.0.0 · research checked 18 October 2026**
+**Raw-data handoff edition · protocol 1.1.0 · research checked 18 October 2026**
 
 This notebook reconstructs all **12 ChAT-panel sections** from the expanded dataset, using the new handoff to identify **six animals and their Running/Home-cage conditions**. It keeps **TDP43–HK1** and **TDP43–PFKP** separate. Every core result appears here: overlays, heat maps, interactive 3D views, quality review, animal-level findings and next experiments.
 
 **What these images represent:** colored maps are computed from detected-object bounding-box midpoints. They are not recovered microscope photographs. The CSVs have no tissue-depth coordinate; the 3D views show **signal height over a 2D section**, with a slider to change animals. They do not reconstruct a brain volume or assume serial-section order.
 
-**Start here:** [experiment and inputs](#experiment) → [native overlays](#native) → [registration review](#registration) → [heat maps and zoom](#maps) → [interactive 3D](#three-d) → [animal-level findings](#findings) → [scientist action list](#actions).
+**Start here:** [interactive control center](#explore) → [experiment and inputs](#experiment) → [native overlays](#native) → [registration review](#registration) → [heat maps and zoom](#maps) → [interactive 3D](#three-d) → [animal-level findings](#findings) → [scientist action list](#actions).
 
-The earlier [scientific notebook](PLA_ChAT_scientific_analysis.ipynb) and [original exploratory notebook](PLA_ChAT_visual_analysis.ipynb) remain unchanged. This edition adds the handoff's animal assignments and spatial-QC requirements.
+The [main scientific notebook](PLA_ChAT_scientific_analysis.ipynb) now puts the interactive control center first, followed by the main findings. This longer notebook retains the full audit, static figure collection and research methods. The [original exploratory notebook](PLA_ChAT_visual_analysis.ipynb) remains available for the historical box/outline analysis.
 
 ### Run and explore
 1. Open in JupyterLab or VS Code, select this repository's `.venv` Python kernel, then **Run All**. Install `requirements.txt` into the selected kernel if necessary. A fresh clone also needs the 13 raw CSVs in `entire Chat dataset/`; raw files and the handoff PDF are supplied separately.
@@ -42,9 +42,10 @@ import matplotlib.pyplot as plt
 import plotly.io as pio
 from IPython.display import display, Markdown, HTML
 # Reload in dependency order so a second Run All uses edited local functions.
-for name in ['bio_visuals.data', 'bio_visuals.entire_dataset', 'bio_visuals.handoff', 'bio_visuals.handoff_plots']:
+for name in ['bio_visuals.data', 'bio_visuals.entire_dataset', 'bio_visuals.handoff', 'bio_visuals.handoff_plots', 'bio_visuals.explorer']:
     importlib.reload(importlib.import_module(name))
 from bio_visuals import entire_dataset as raw, handoff as h, handoff_plots as hp
+from bio_visuals.explorer import explorer_html
 hp.style()
 pd.set_option('display.max_columns', 18)
 pd.set_option('display.max_rows', 30)
@@ -156,6 +157,20 @@ if not REVIEW_PATH.exists():
 status = h.review_status(reviews)
 print('All four grid resolutions conserve every primary object count.')
 ''')
+md('''
+<a id="explore"></a>
+## Interactive control center · start with the data
+
+**Three tabs, one set of measurements:**
+- **3D measurements:** rotate and zoom; choose PLA/ChAT count, ChAT-positive fraction, mean PLA size, large-PLA fraction or actual overlap area. Filter by PLA arm, running group and animal. Change the bin size and minimum PLA denominator.
+- **Channel overlay:** independently switch PLA and ChAT on/off, change opacity, and select ChAT-positive or ChAT-negative PLA. This view retains the fine 100-unit reconstruction.
+- **Overlapping layers:** use the flat overlay or exploded 3D stack; show all sections, toggle individual layers, or step through them one at a time. The stack's vertical axis is **display order**, not anatomical depth.
+
+Native coordinates show all available sections. Candidate-centered mode translates only the available geometric proposals and is restricted to **geometry QC**, because orientation, scale and anatomy have not been reviewed. Missing proposals are named, not invented. Reviewed mode becomes available section by section only after all review requirements pass. The two PLA arms never share a layer stack.
+
+These controls are embedded in the notebook and work without a live kernel after rendering. **GitHub disables notebook JavaScript:** open the downloaded notebook in JupyterLab or VS Code, trust the reviewed file and Run All. Static companions below support readers using GitHub.
+''')
+code("display(HTML(explorer_html(fine, geometry, surfaces, metrics, metadata, reviews)))")
 md('''
 <a id="native"></a>
 ## 3 · See the tissue: native reconstructed overlays

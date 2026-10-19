@@ -20,7 +20,7 @@ from matplotlib.path import Path as MplPath
 
 from .entire_dataset import run_summary, _sha256
 
-VERSION = '1.0.0'
+VERSION = '1.1.0'
 GROUPS = {'22F': 'Running', '21M': 'Running', '22M': 'Running',
           '21F': 'Home cage', '23M': 'Home cage', '24M': 'Home cage'}
 ANIMAL_ORDER = ['21F', '23M', '24M', '22F', '21M', '22M']
@@ -39,6 +39,12 @@ PARAMETERS = dict(protocol_version=VERSION, reconstruction_bin=100., geometry_bi
                   display_exception='Native descriptive maps and whole-section summaries may be inspected before registration QC. No anatomical condition maps are inferred.',
                   min_animals_per_group_bin=3,
                   exclusions='4978 superseded by 5403; Initial Data copies not concatenated; no primary object filtering')
+PARAMETERS.update(interactive_views='3D measurements, 100-unit channel overlay, flat layer overlay and ordinal exploded stack',
+                  layer_order='21F,23M,24M,22F,21M,22M; display order, not anatomical section order',
+                  candidate_layer_scope='Geometry only; unreviewed centroid translation, no flips',
+                  explorer_bins=[250,500,1000], explorer_default_bin=500,
+                  explorer_threshold='Display control 1–50 PLA per metric bin, default 10; no raw rows removed',
+                  changelog='1.1.0: notebook-embedded measurement and layer controls; main scientific notebook now opens with spatial exploration. No new anatomical approvals or biological analysis rules.')
 
 
 def section_metadata(manifest):
@@ -402,7 +408,7 @@ def write_protocol(root,out,manifest,reviews,parameters=None):
     """Content-addressed snapshots: reruns never overwrite a previous protocol."""
     root=Path(root);out=Path(out);p=dict(parameters or PARAMETERS)
     versions={name:importlib.metadata.version(name) for name in ('numpy','pandas','scipy','matplotlib','plotly','nbformat','nbclient')}
-    codepaths=['bio_visuals/handoff.py','bio_visuals/handoff_plots.py','bio_visuals/entire_dataset.py','bio_visuals/data.py','scripts/build_spatial_handoff_notebook.py']
+    codepaths=['bio_visuals/handoff.py','bio_visuals/handoff_plots.py','bio_visuals/explorer.py','bio_visuals/explorer.html','bio_visuals/entire_dataset.py','bio_visuals/data.py','scripts/build_spatial_handoff_notebook.py','scripts/build_scientific_notebook.py']
     code={name:_sha256(root/name) for name in codepaths}
     handoff=root/'HALO_spatial_analysis_raw_data_handoff.pdf'
     document=dict(parameters=p,section_reviews=reviews,

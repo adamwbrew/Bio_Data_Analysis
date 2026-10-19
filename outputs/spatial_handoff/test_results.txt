@@ -14,6 +14,11 @@ test_native_grids_conserve_counts_mask_low_support_and_preserve_zero_fraction (t
 test_only_explicit_replacement_is_selected_and_excluded_export_is_audited (test_entire_dataset.CompleteDatasetTests) ... ok
 test_summary_and_native_layout_show_exports_without_invented_registration (test_entire_dataset.CompleteDatasetTests) ... ok
 test_unreviewed_duplicate_and_missing_replacement_fail (test_entire_dataset.CompleteDatasetTests) ... ok
+test_display_order_restarts_per_arm_and_missing_candidates_stay_missing (test_explorer.ExplorerTests) ... ok
+test_payload_preserves_native_coordinates_counts_and_area (test_explorer.ExplorerTests) ... ok
+test_payload_rejects_missing_or_negative_measurements (test_explorer.ExplorerTests) ... ok
+test_reviewed_transform_requires_all_flags_and_second_flip_review (test_explorer.ExplorerTests) ... ok
+test_unapproved_reviews_cannot_supply_reviewed_transforms (test_explorer.ExplorerTests) ... ok
 test_condition_summary_rejects_repeated_animal (test_handoff.SpatialHandoffTests) ... ok
 test_equal_animal_mean_and_missing_coverage (test_handoff.SpatialHandoffTests) ... ok
 test_notebook_python_compiles (test_handoff.SpatialHandoffTests) ... ok
@@ -26,6 +31,7 @@ test_surface_selection_preserves_each_sections_xy_ratio (test_handoff.SpatialHan
 test_translation_and_flips_preserve_distances_and_center (test_handoff.SpatialHandoffTests) ... ok
 test_all_notebook_cells_have_valid_python (test_notebook_setup.NotebookSetupTests) ... ok
 test_setup_recovers_stale_imports_and_rebinds_functions (test_notebook_setup.NotebookSetupTests) ... ok
+test_spatial_main_setup_refreshes_explorer_and_handoff (test_notebook_setup.NotebookSetupTests) ... ok
 test_aligned_grid_differences_conserve_counts_in_both_runs (test_roi_comparison.ROIComparisonTests) ... ok
 test_loader_selects_known_roi_modes_without_requiring_unselected_files (test_roi_comparison.ROIComparisonTests) ... ok
 test_main_views_reject_pooled_repeat_runs (test_roi_comparison.ROIComparisonTests) ... ok
@@ -33,6 +39,6 @@ test_paired_metrics_keep_runs_separate_and_report_percentage_points (test_roi_co
 test_signatures_ignore_ids_and_count_duplicates_without_many_to_many_join (test_roi_comparison.ROIComparisonTests) ... ok
 
 ----------------------------------------------------------------------
-Ran 33 tests in 7.142s
+Ran 39 tests in 6.948s
 
 OK

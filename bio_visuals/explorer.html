@@ -1,0 +1,159 @@
+<div id="__ROOT_ID__" class="halo-explorer">
+<style>
+#__ROOT_ID__{font:14px/1.45 system-ui,sans-serif;color:#173447;background:#f5f8fb;border:1px solid #ccd9e2;border-radius:16px;overflow:hidden;max-width:1400px;margin:12px 0}
+#__ROOT_ID__ *{box-sizing:border-box} #__ROOT_ID__ .hero{padding:24px 26px;background:#143344;color:white}
+#__ROOT_ID__ h2{font-size:27px;color:inherit;margin:3px 0 7px} #__ROOT_ID__ .eyebrow{color:#75d6cf;font-size:12px;font-weight:750;letter-spacing:1.8px}
+#__ROOT_ID__ .hero p{margin:0;color:#d3e4ed} #__ROOT_ID__ .bar{display:flex;gap:15px;flex-wrap:wrap;padding:16px 24px;background:white;border-bottom:1px solid #dce6eb}
+#__ROOT_ID__ label{display:flex;flex-direction:column;gap:5px;font-weight:650;font-size:12px;color:#385566}
+#__ROOT_ID__ select,#__ROOT_ID__ button{font:inherit;border:1px solid #b9ccd8;border-radius:7px;padding:8px 10px;background:white;color:#173447;cursor:pointer}
+#__ROOT_ID__ select{min-width:145px;font-size:14px} #__ROOT_ID__ button:disabled{opacity:.4;cursor:default}
+#__ROOT_ID__ .tabs{display:flex;gap:8px;padding:17px 24px 0} #__ROOT_ID__ .tabs button{font-weight:700;padding:11px 16px}
+#__ROOT_ID__ button.active{background:#087e8b;color:white;border-color:#087e8b}
+#__ROOT_ID__ .controls{padding:15px 24px;display:flex;gap:15px;align-items:end;flex-wrap:wrap}
+#__ROOT_ID__ .controls input[type=range]{width:140px;accent-color:#087e8b} #__ROOT_ID__ .check{flex-direction:row;align-items:center;font-size:13px}
+#__ROOT_ID__ .notice{margin:0 24px 10px;padding:11px 14px;border-radius:7px;background:#e4f2f2;color:#185a61}
+#__ROOT_ID__ .warning{background:#fff0d9;color:#774f13} #__ROOT_ID__ .details{padding:0 24px 15px;font-size:13px}
+#__ROOT_ID__ .plot{height:650px;margin:0 12px;background:white;border-radius:10px}
+#__ROOT_ID__ .layer-list{display:flex;gap:9px;flex-wrap:wrap;padding:0 24px 14px} #__ROOT_ID__ .chip{border:1px solid #c7d6df;border-radius:7px;padding:7px 9px;background:white;display:flex;flex-direction:row;gap:7px;align-items:center;cursor:pointer}
+#__ROOT_ID__ .chip input{accent-color:var(--color)} #__ROOT_ID__ .dot{height:9px;width:9px;border-radius:50%;background:var(--color)}
+#__ROOT_ID__ .step{display:flex;align-items:center;gap:10px} #__ROOT_ID__ .step input{width:210px}
+#__ROOT_ID__ .footer{padding:16px 24px;color:#567181;font-size:12px} #__ROOT_ID__ [hidden]{display:none!important}
+#__ROOT_ID__ .stat{font-weight:700} #__ROOT_ID__ .tooltip{font-weight:400;font-size:12px;color:#617a87}
+@media(max-width:750px){#__ROOT_ID__ .bar,#__ROOT_ID__ .controls{padding:12px}#__ROOT_ID__ .plot{height:550px}#__ROOT_ID__ .hero{padding:18px}#__ROOT_ID__ h2{font-size:22px}}
+</style>
+<div class="hero"><div class="eyebrow">HALO · SPATIAL EXPLORER</div><h2>Inspect a section. Compare the layers.</h2><p>Measured PLA and ChAT detections · 12 sections · 6 animals · two separate PLA arms</p></div>
+<div class="bar">
+ <label>PLA arm<select data-role="arm"><option>TDP43–HK1</option><option>TDP43–PFKP</option></select></label>
+ <label>Animal group<select data-role="group"><option value="all">All animals</option><option>Home cage</option><option>Running</option></select></label>
+ <label data-role="animal-label">Section<select data-role="animal"></select></label>
+ <label>Spatial bin<select data-role="bin"><option value="250">250 export units</option><option value="500" selected>500 export units</option><option value="1000">1,000 export units</option></select></label>
+ <label>Minimum PLA per metric bin<input data-role="minimum" type="range" min="1" max="50" value="10"><span data-role="minimum-value">10 objects</span></label>
+</div>
+<div class="tabs" role="tablist" aria-label="Spatial view">
+ <button data-view="surface" role="tab" aria-selected="true" class="active">1 · 3D measurements</button>
+ <button data-view="channels" role="tab" aria-selected="false">2 · Channel overlay</button>
+ <button data-view="layers" role="tab" aria-selected="false">3 · Overlapping layers</button>
+</div>
+<div class="controls" data-role="metric-controls">
+ <label>Measurement<select data-role="metric"><option value="n_pla">PLA object count</option><option value="n_chat">ChAT object count</option><option value="fraction">ChAT-positive PLA (%)</option><option value="mean_area">Mean PLA area (µm²)</option><option value="large_fraction">Large PLA ≥1 µm² (%)</option><option value="overlap_area">Actual PLA overlap area (µm²)</option></select></label>
+ <label data-role="height-label">Height scale<select data-role="height"><option value="log">log(1 + value)</option><option value="linear">Linear</option></select></label>
+ <button data-role="oblique">Oblique view</button><button data-role="top">Look down</button><button data-role="reset">Reset view</button>
+</div>
+<div class="controls" data-role="channel-controls" hidden>
+ <label class="check"><input type="checkbox" data-role="chat" checked>ChAT background</label>
+ <label class="check"><input type="checkbox" data-role="pla" checked>PLA layer</label>
+ <label>PLA subset<select data-role="pla-subset"><option value="all">All PLA objects</option><option value="positive">ChAT-positive PLA only</option><option value="negative">ChAT-negative PLA only</option></select></label>
+ <label>PLA opacity<input data-role="channel-opacity" type="range" min="5" max="100" value="80"><span data-role="channel-opacity-value">80%</span></label>
+ <button data-role="channel-reset">Reset zoom</button>
+</div>
+<div class="controls" data-role="layer-controls" hidden>
+ <label>Layer view<select data-role="layer-view"><option value="stack">Exploded 3D stack</option><option value="overlay">Flat overlay</option></select></label>
+ <label>Coordinate frame<select data-role="frame"><option value="native">Native coordinates · all sections</option><option value="candidate">Candidate-centered · unreviewed QC</option><option value="reviewed">Reviewed alignment only</option></select></label>
+ <label>Layer content<select data-role="layer-metric"><option value="n_all">All detections · animal colors</option><option value="support">Observed-bin silhouettes</option><option value="n_pla">PLA object count</option><option value="n_chat">ChAT object count</option><option value="fraction">ChAT-positive PLA (%)</option><option value="mean_area">Mean PLA area (µm²)</option><option value="large_fraction">Large PLA ≥1 µm² (%)</option></select></label>
+ <label>Layer opacity<input data-role="layer-opacity" type="range" min="5" max="100" value="55"><span data-role="layer-opacity-value">55%</span></label>
+ <label data-role="separation-label">Visual separation<input data-role="separation" type="range" min="10" max="150" value="80"></label>
+</div>
+<div class="controls" data-role="step-controls" hidden>
+ <button data-role="all-layers" class="active">Show all layers</button><button data-role="one-layer">One at a time</button>
+ <div class="step"><button data-role="previous" aria-label="Previous layer">← Previous</button><input data-role="step" aria-label="Layer position" type="range" min="0" max="5" value="0"><button data-role="next" aria-label="Next layer">Next →</button><span data-role="step-label"></span></div>
+</div>
+<div class="layer-list" data-role="layer-list" hidden></div>
+<div class="notice warning" data-role="loading">Interactive controls load in a trusted JupyterLab or VS Code notebook. GitHub's preview displays static results only. If this message remains, open the notebook locally, trust the reviewed file and Run All.</div>
+<div class="notice" data-role="notice" hidden></div>
+<div class="details" data-role="details"></div>
+<div class="plot" data-role="plot"></div>
+<div class="footer">Drag to rotate in 3D; wheel/pinch to zoom. In 2D, drag to zoom and double-click to reset. Blank bins are unobserved or below the displayed denominator threshold. All arrays are computed from the raw detections; no smoothing or image generation. Download the current view with the camera icon.</div>
+</div>
+<script>__PLOTLY__</script>
+<script>
+(function(){
+'use strict';
+const root=document.getElementById('__ROOT_ID__'), DATA=__DATA__;
+const q=r=>root.querySelector('[data-role="'+r+'"]'), value=r=>q(r).value;
+const state={view:'surface',one:false,selected:new Set(),step:0,camera:null,revision:0};
+const METRICS={n_all:['All detections / bin','Viridis'],n_pla:['PLA objects / bin','Magma'],n_chat:['ChAT objects / bin','Cividis'],fraction:['ChAT-positive PLA (%)','Viridis'],mean_area:['Mean PLA area (µm²)','Viridis'],large_fraction:['PLA ≥1 µm² (%)','Cividis'],overlap_area:['Actual overlap area (µm² / bin)','Magma'],support:['Observed geometry','Viridis']};
+const config={scrollZoom:true,responsive:true,displaylogo:false,toImageButtonOptions:{format:'png',scale:3,filename:'HALO_spatial_view'}};
+function rows(){return DATA.sections.filter(s=>s.arm===value('arm')&&(value('group')==='all'||s.group===value('group')));}
+function grid(s){return s.grids[value('bin')];}
+function selectedSection(){return rows().find(s=>s.animal===value('animal'))||rows()[0];}
+function refreshAnimals(){const prior=value('animal');q('animal').replaceChildren();rows().forEach(s=>q('animal').add(new Option(s.animal+' · '+s.group,s.animal)));if(rows().some(s=>s.animal===prior))q('animal').value=prior;}
+function transforms(s){const frame=value('frame');if(frame==='native')return {center:[0,0],flip:'none'};if(frame==='candidate')return s.candidate_center?{center:s.candidate_center,flip:'none'}:null;return s.ready?{center:s.reviewed_center,flip:s.reviewed_flip}:null;}
+function eligible(){return rows().filter(s=>transforms(s));}
+function coords(s,g){const t=transforms(s);const sx=['horizontal','both'].includes(t.flip)?-1:1,sy=['vertical','both'].includes(t.flip)?-1:1;return {x:g.x.map(x=>(x-t.center[0])*sx),y:g.y.map(y=>(y-t.center[1])*sy)};}
+function matrix(g,key){const floor=+value('minimum');return g.n_pla.map((r,iy)=>r.map((n,ix)=>{
+ if(!g.n_all[iy][ix])return null;
+ if(key==='support')return 1;
+ if(['fraction','mean_area','large_fraction'].includes(key)&&n<floor)return null;
+ if(key==='fraction')return 100*g.n_positive[iy][ix]/n;
+ if(key==='mean_area')return g.pla_area[iy][ix]/n;
+ if(key==='large_fraction')return 100*g.n_large[iy][ix]/n;
+ return g[key][iy][ix];
+}));}
+function maximum(key){if(key.includes('fraction'))return 100;if(key==='support')return 1;let max=0;for(const s of DATA.sections.filter(s=>s.arm===value('arm')))for(const row of matrix(grid(s),key))for(const x of row)if(x!==null)max=Math.max(max,x);return max||1;}
+function count(a){let n=0;for(const r of a)for(const x of r)n+=x;return n;}
+function custom(g){return g.n_pla.map((r,iy)=>r.map((n,ix)=>[n,g.n_chat[iy][ix],g.n_positive[iy][ix]]));}
+function nativeHover(s){return 'x=%{x:,.0f}<br>y=%{y:,.0f}<br>PLA=%{customdata[0]:,.0f}<br>ChAT=%{customdata[1]:,.0f}<br>ChAT-positive PLA=%{customdata[2]:,.0f}<extra>'+s.animal+' · '+s.group+'</extra>';}
+function common(){return {template:'plotly_white',paper_bgcolor:'white',plot_bgcolor:'white',font:{family:'Arial',color:'#173447'},margin:{t:55,r:100,b:55,l:70},uirevision:state.view+value('arm')+value('group')+state.revision,title:{text:'',font:{size:18},x:.04},showlegend:false};}
+function scene(xr,yr,zratio,ztitle){return {xaxis:{title:{text:'x · export units'},range:xr},yaxis:{title:{text:'y · export units'},range:[yr[1],yr[0]]},zaxis:{title:{text:ztitle}},aspectmode:'manual',aspectratio:{x:1,y:(yr[1]-yr[0])/(xr[1]-xr[0]),z:zratio},camera:state.camera||{eye:{x:1.05,y:1.15,z:.95}},dragmode:'orbit'};}
+function extent(sections){const xs=[],ys=[];for(const s of sections){const g=grid(s),c=coords(s,g);xs.push(Math.min(...c.x)-g.width/2,Math.max(...c.x)+g.width/2);ys.push(Math.min(...c.y)-g.width/2,Math.max(...c.y)+g.width/2);}return [[Math.min(...xs),Math.max(...xs)],[Math.min(...ys),Math.max(...ys)]];}
+function sectionDetail(s,g){return '<span class="stat">'+s.animal+' · '+s.group+' · job '+s.job+'</span> &nbsp; '+count(g.n_pla).toLocaleString()+' PLA · '+count(g.n_chat).toLocaleString()+' ChAT · '+g.width+' × '+g.width+'-unit bins. <span class="tooltip">Counts are per full bin, not per measured tissue area.</span>';}
+function surface(){const s=selectedSection(),g=grid(s),key=value('metric'),m=matrix(g,key),log=value('height')==='log',max=maximum(key),height=v=>v===null?null:(log?Math.log1p(v):v);
+ const layout=common(),xr=[g.x[0]-g.width/2,g.x.at(-1)+g.width/2],yr=[g.y[0]-g.width/2,g.y.at(-1)+g.width/2];
+ layout.title.text=s.animal+' · '+s.arm+' | '+METRICS[key][0];layout.scene=scene(xr,yr,.58,(log?'Value · log height':'Value · linear height'));layout.scene.zaxis.range=[0,height(max)];
+ if(log){const ticks=[0,1,5,20,100,500,2500,10000].filter(x=>x<=max);layout.scene.zaxis.tickvals=ticks.map(Math.log1p);layout.scene.zaxis.ticktext=ticks.map(String);}
+ const colorLog=['n_pla','n_chat'].includes(key), colorValue=v=>v===null?null:(colorLog?Math.log1p(v):v);
+ const trace={type:'surface',x:g.x,y:g.y,z:m.map(r=>r.map(height)),surfacecolor:m.map(r=>r.map(colorValue)),customdata:custom(g),text:m.map(r=>r.map(v=>v===null?'not shown':v.toLocaleString(undefined,{maximumFractionDigits:2}))),cmin:0,cmax:colorValue(max),colorscale:DATA.colorscales[METRICS[key][1]],colorbar:{title:{text:METRICS[key][0],side:'right'},thickness:16,len:.8},connectgaps:false,lighting:{ambient:.8,diffuse:.6,specular:.15},hovertemplate:nativeHover(s).replace('<extra>','<br>Selected value=%{text}<extra>')};
+ if(colorLog){const ticks=[0,5,20,100,500,2500,10000].filter(n=>n<=max);trace.colorbar.tickvals=ticks.map(Math.log1p);trace.colorbar.ticktext=ticks.map(String);trace.colorbar.title.text+=' · log color';}
+ q('notice').textContent='Height represents the selected measurement, not tissue depth. Color limits are fixed across all six animals within this PLA arm and bin size. The minimum-PLA control applies to fractions and mean size; counts and area sums retain observed bins.';q('notice').className='notice';q('details').innerHTML=sectionDetail(s,g)+'<br><span class="stat">Shown: '+m.flat().filter(v=>v!==null).length+' / '+g.n_all.flat().filter(v=>v>0).length+' observed bins.</span>';
+ return {traces:[trace],layout};}
+function channels(){const s=selectedSection(),g=s.fine,traces=[],negative=value('pla-subset')==='negative',positive=value('pla-subset')==='positive';
+ let pc=g.n_pla.map((r,iy)=>r.map((n,ix)=>positive?g.n_positive[iy][ix]:negative?n-g.n_positive[iy][ix]:n));
+ let maxp=1,maxc=1;for(const t of DATA.sections.filter(s=>s.arm===value('arm'))){for(let i=0;i<t.fine.n_pla.length;i++)for(let j=0;j<t.fine.n_pla[i].length;j++){maxp=Math.max(maxp,positive?t.fine.n_positive[i][j]:negative?t.fine.n_pla[i][j]-t.fine.n_positive[i][j]:t.fine.n_pla[i][j]);maxc=Math.max(maxc,t.fine.n_chat[i][j]);}}
+ const toLog=m=>m.map(r=>r.map(n=>n>0?Math.log1p(n):null));
+ if(q('chat').checked)traces.push({type:'heatmap',x:g.x,y:g.y,z:toLog(g.n_chat),zmin:0,zmax:Math.log1p(maxc),colorscale:[[0,'#e5ebef'],[1,'#304858']],showscale:false,name:'ChAT',customdata:custom(g),hovertemplate:nativeHover(s),hoverongaps:false,zsmooth:false});
+ if(q('pla').checked)traces.push({type:'heatmap',x:g.x,y:g.y,z:toLog(pc),zmin:0,zmax:Math.log1p(maxp),colorscale:DATA.colorscales.Magma,opacity:+value('channel-opacity')/100,showscale:true,colorbar:{title:{text:'PLA count · log color',side:'right'},tickvals:[1,2,5,10,20,50].filter(n=>n<=maxp).map(Math.log1p),ticktext:[1,2,5,10,20,50].filter(n=>n<=maxp).map(String),thickness:16,len:.8},customdata:custom(g),hovertemplate:nativeHover(s),hoverongaps:false,zsmooth:false});
+ const layout=common();layout.title.text=s.animal+' · '+s.arm+' | '+(positive?'ChAT-positive PLA':negative?'ChAT-negative PLA':'All PLA')+' over ChAT';layout.xaxis={title:{text:'x · export units'},range:[g.x[0]-50,g.x.at(-1)+50]};layout.yaxis={title:{text:'y · export units'},range:[g.y.at(-1)+50,g.y[0]-50],scaleanchor:'x',scaleratio:1};
+ q('notice').className='notice';q('notice').textContent='100-unit reconstruction from object midpoints. Switch channels or PLA subsets to see what contributes to the overlay. Blended color does not define colocalization; the exported ChAT flag does. The spatial-bin and minimum-PLA controls apply to metric maps, not this fixed-resolution channel view.';q('details').innerHTML=sectionDetail(s,g);return {traces,layout};}
+function refreshLayers(reset=false){const es=eligible();if(reset)state.selected=new Set(es.map(s=>s.job));state.step=Math.min(state.step,Math.max(0,es.length-1));q('step').max=Math.max(0,es.length-1);q('step').value=state.step;
+ q('layer-list').replaceChildren();for(const s of rows()){const can=es.includes(s),label=document.createElement('label');label.className='chip';label.style.setProperty('--color',s.color);const input=document.createElement('input');input.type='checkbox';input.checked=can&&(state.one?s===es[state.step]:state.selected.has(s.job));input.disabled=!can||state.one;input.setAttribute('aria-label','Layer '+s.animal);input.onchange=()=>{input.checked?state.selected.add(s.job):state.selected.delete(s.job);render();};const dot=document.createElement('span');dot.className='dot';label.append(input,dot,document.createTextNode(s.animal+(can?'':' · unavailable')));q('layer-list').append(label);}
+ q('previous').disabled=!es.length||state.step===0;q('next').disabled=!es.length||state.step===es.length-1;q('step').disabled=!es.length;q('step-label').textContent=es.length?(state.one?'Layer ':'Step to isolate: ')+(state.step+1)+' / '+es.length+' · '+es[state.step].animal:'No eligible layers';q('all-layers').classList.toggle('active',!state.one);q('one-layer').classList.toggle('active',state.one);}
+function layers(){const es=eligible(),active=state.one?es.slice(state.step,state.step+1):es.filter(s=>state.selected.has(s.job));const frame=value('frame'),key=value('layer-metric'),stack=value('layer-view')==='stack',max=maximum(key),log=['n_all','n_pla','n_chat'].includes(key),scale=v=>v===null?null:(log?Math.log1p(v):v),opacity=+value('layer-opacity')/100,traces=[];
+ const omitted=rows().filter(s=>!es.includes(s)).map(s=>s.animal);let review='';if(frame==='candidate')review='UNREVIEWED GEOMETRY PREVIEW: candidate-centroid translation only; no orientation correction. ';if(frame==='reviewed')review='Only sections passing every documented registration review are eligible. ';
+ q('notice').className='notice warning';q('notice').textContent=review+'Layer order is Home cage → Running in documented animal order. These are different animals, not serial slices: vertical spacing is for display only. '+(frame==='native'?'Native image coordinate origins are retained; apparent displacement is not anatomical. ':'')+(omitted.length?'Unavailable in this frame: '+omitted.join(', ')+'.':'');
+ // Until registration is reviewed, candidate transforms expose geometry only.
+ if(frame==='candidate'&&!['support','n_all'].includes(key))throw new Error('Candidate-centered views are restricted to geometry; choose native coordinates for marker maps.');
+ const geometryColor=key==='support'||key==='n_all';
+ function animalScale(hex){const c=[1,3,5].map(i=>parseInt(hex.slice(i,i+2),16));return [[0,'rgba('+c.join(',')+',0.02)'],[1,hex]];}
+ let scaleShown=false;
+ for(const s of active){const g=grid(s),xy=coords(s,g),m=matrix(g,key),color=key==='support'?[[0,s.color],[1,s.color]]:key==='n_all'?animalScale(s.color):DATA.colorscales[METRICS[key][1]],zcolor=m.map(r=>r.map(scale));const cb={title:{text:METRICS[key][0]+(log?' · log color':''),side:'right'},thickness:15,len:.75};if(log){const ts=[0,5,20,100,500,2500].filter(n=>n<=max);cb.tickvals=ts.map(Math.log1p);cb.ticktext=ts.map(String);}
+ const base={name:s.animal+' · '+s.group,opacity,customdata:custom(g),text:m.map(r=>r.map(v=>v===null?'not shown':v.toLocaleString(undefined,{maximumFractionDigits:2}))),hovertemplate:nativeHover(s).replace('<extra>','<br>Selected value=%{text}<extra>'),colorscale:color,showscale:!geometryColor&&!scaleShown,colorbar:cb};scaleShown=!geometryColor;
+ if(stack)traces.push({...base,type:'surface',x:xy.x,y:xy.y,z:m.map(r=>r.map(v=>v===null?null:s.order)),surfacecolor:zcolor,cmin:0,cmax:scale(max),connectgaps:false,lighting:{ambient:1,diffuse:0,specular:0}});
+ else traces.push({...base,type:'heatmap',x:xy.x,y:xy.y,z:zcolor,zmin:0,zmax:scale(max),hoverongaps:false,zsmooth:false});
+ if(stack)traces.push({type:'scatter3d',x:[Math.min(...xy.x)],y:[Math.min(...xy.y)],z:[s.order],mode:'text',text:[s.animal+' · '+s.group],textfont:{color:s.color,size:12},hoverinfo:'skip',showlegend:false});
+ }
+ const layout=common();layout.title.text=(stack?'Exploded comparison stack':'Overlapping sections')+' · '+value('arm')+' · '+active.length+' layers';
+ if(es.length){const [xr,yr]=extent(es);if(stack){layout.scene=scene(xr,yr,+value('separation')/100,'Display layer · not tissue depth');layout.scene.zaxis.range=[-.3,5.3];layout.scene.zaxis.tickvals=es.map(s=>s.order);layout.scene.zaxis.ticktext=es.map(s=>s.animal);}
+ else{layout.xaxis={title:{text:(frame==='native'?'Native x':'Centered x')+' · export units'},range:xr};layout.yaxis={title:{text:(frame==='native'?'Native y':'Centered y')+' · export units'},range:[yr[1],yr[0]],scaleanchor:'x',scaleratio:1};}}
+ if(!active.length)layout.annotations=[{xref:'paper',yref:'paper',x:.5,y:.5,showarrow:false,text:es.length?'No layers selected. Use Show all layers or the section checkboxes.':'No reviewed sections are available.<br>Choose Native coordinates or Candidate-centered geometry.',font:{size:17,color:'#597381'}}];
+ q('details').innerHTML='<span class="stat">Visible: '+(active.map(s=>s.animal).join(' · ')||'none')+'</span> &nbsp; '+(geometryColor?(key==='support'?'Colors identify animals. Filled bins show observed objects, not a traced tissue mask.':'Colors identify animals; shade represents log(1 + all-object count). These are detection reconstructions, not microscope pixels. Shared count scale within the arm.'):'Each layer retains its own values; layers are never pooled. Color limits are shared within the PLA arm. Flat blending is for inspection, not a numerical group estimate.');
+ return {traces,layout};}
+let sequence=Promise.resolve();
+function render(){q('notice').hidden=false;q('minimum-value').textContent=value('minimum')+' objects';q('channel-opacity-value').textContent=value('channel-opacity')+'%';q('layer-opacity-value').textContent=value('layer-opacity')+'%';q('animal-label').hidden=state.view==='layers';q('metric-controls').hidden=state.view!=='surface';q('channel-controls').hidden=state.view!=='channels';q('layer-controls').hidden=state.view!=='layers';q('step-controls').hidden=state.view!=='layers';q('layer-list').hidden=state.view!=='layers';q('separation-label').hidden=value('layer-view')!=='stack';
+ q('bin').disabled=state.view==='channels';const currentMetric=state.view==='layers'?value('layer-metric'):value('metric');q('minimum').disabled=state.view==='channels'||!['fraction','mean_area','large_fraction'].includes(currentMetric);
+ root.querySelectorAll('[data-view]').forEach(b=>{b.classList.toggle('active',b.dataset.view===state.view);b.setAttribute('aria-selected',b.dataset.view===state.view?'true':'false');});
+ try{const result=state.view==='surface'?surface():state.view==='channels'?channels():layers();sequence=sequence.then(()=>Plotly.react(q('plot'),result.traces,result.layout,config)).catch(error=>{q('notice').className='notice warning';q('notice').textContent='Viewer error: '+error.message;});}catch(error){q('notice').className='notice warning';q('notice').textContent=error.message;}}
+function resetCamera(){state.camera=null;state.revision++;}
+root.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>{state.view=b.dataset.view;resetCamera();refreshLayers();render();});
+for(const role of ['arm','group'])q(role).onchange=()=>{refreshAnimals();state.step=0;refreshLayers(true);resetCamera();render();};
+for(const role of ['animal','bin','minimum','metric','height','pla-subset','channel-opacity','layer-opacity','separation','layer-metric','chat','pla'])q(role).onchange=()=>{render();};
+q('frame').onchange=()=>{const candidate=value('frame')==='candidate';for(const option of q('layer-metric').options)option.disabled=candidate&&!['support','n_all'].includes(option.value);if(candidate&&!['support','n_all'].includes(value('layer-metric')))q('layer-metric').value='n_all';state.step=0;refreshLayers(true);resetCamera();render();};
+q('metric').onchange=()=>{q('height').value=['fraction','large_fraction','mean_area'].includes(value('metric'))?'linear':'log';render();};
+q('layer-view').onchange=()=>{resetCamera();render();};
+q('all-layers').onclick=()=>{state.one=false;refreshLayers(true);render();};q('one-layer').onclick=()=>{state.one=true;refreshLayers();render();};
+function step(n){state.one=true;state.step=Math.max(0,Math.min(n,eligible().length-1));refreshLayers();render();}
+q('step').oninput=()=>step(+value('step'));q('previous').onclick=()=>step(state.step-1);q('next').onclick=()=>step(state.step+1);
+for(const r of ['reset','channel-reset'])q(r).onclick=()=>{resetCamera();render();};
+q('top').onclick=()=>{state.camera={eye:{x:0,y:0,z:2.5},up:{x:0,y:1,z:0}};state.revision++;render();};q('oblique').onclick=()=>{resetCamera();render();};
+refreshAnimals();refreshLayers(true);q('loading').hidden=true;render();
+})();
+</script>
