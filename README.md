@@ -1,28 +1,58 @@
-# PLA–ChAT scientific analysis and spatial explorer
+# PLA–ChAT results and interactive app
 
-Explore HALO fluorescence measurements from **six animals, two PLA arms and twelve tissue sections**. The repository includes executed Jupyter notebooks, a portable interactive Plotly app, high-resolution figures and reproducible analysis code. The current dataset contains **3,010,776 detections: 310,024 PLA and 2,700,752 ChAT**. Three animals are Running and three are Home cage; the HK1 and PFKP arms use different physical sections from each animal.
+Explore how PLA association with ChAT differs between **Running and Home-cage mice**, using measurements from six animals and twelve tissue sections.
 
-## Start here
+**Start with the [illustrated results guide](docs/results_guide.md) to read the findings on GitHub, or [download the app and results](https://github.com/adamwbrew/Bio_Data_Analysis/archive/refs/heads/main.zip) to rotate, zoom and filter the data.** Neither requires running a notebook or obtaining the raw data.
 
-| What you want to do | Open this |
+## Open the interactive app
+
+1. **[Download the app and results ZIP](https://github.com/adamwbrew/Bio_Data_Analysis/archive/refs/heads/main.zip).** Unzip `Bio_Data_Analysis-main.zip` on your computer.
+2. Open the unzipped folder, then follow **`outputs` → `spatial_handoff` → `app` → `index.html`**. Right-click `index.html` → **Open With** → Chrome, Edge, Firefox or Safari. Open it in a browser, rather than a text editor.
+3. Use the navigation across the top to choose a view:
+
+| App section | What you can do |
 |---|---|
-| Explore the saved results without Python or raw data | Download the repository, unzip it, then open **`outputs/spatial_handoff/app/index.html`** in a web browser. [Download latest review ZIP](https://github.com/adamwbrew/Bio_Data_Analysis/archive/refs/heads/codex/standalone-plotly-app.zip) · [App file](outputs/spatial_handoff/app/index.html) |
-| Read the scientific findings, methods and next actions | [Main scientific notebook](PLA_ChAT_scientific_analysis.ipynb) |
-| Inspect every section, input check and method detail | [Full spatial handoff notebook](PLA_ChAT_spatial_handoff_analysis.ipynb) |
-| Recompute with the source data or troubleshoot setup | [Viewing and rerunning guide](docs/quickstart.md) |
+| **Running comparison** | Overlay animal values and group averages; switch subtraction direction; check normalization and size sensitivity. |
+| **Machine learning** | Explore size-and-shape groups, compare animals, inspect spatial maps and download source-image review coordinates. |
+| **Explore sections** | Rotate and zoom 3D measurement views, toggle PLA/ChAT channels, and overlay all animal layers or step through them individually. |
+| **Figure library** | Filter figures by scientific question, open them at full resolution, and save 300-DPI PNGs. |
 
-**Publication status:** the current app and ML updates are on the review branch in [PR #7](https://github.com/adamwbrew/Bio_Data_Analysis/pull/7). Use the review ZIP above while that pull request is open; `main` will contain these updates after merge.
+The downloaded app works **offline, without Python, Jupyter, a server or installation**. Allow a moment for the plots to initialize. It is a saved snapshot: filters explore the published results; they do not rerun the analysis.
 
-**GitHub shows HTML source and disables notebook JavaScript.** Download the app to use its controls. It contains the plotting library, saved measurements and figures, and works offline. To use the notebook's `localhost` links, double-click [Launch_Spatial_Explorer.command](Launch_Spatial_Explorer.command) on Mac, or run `python scripts/serve_spatial_app.py`. Then open **[the local app](http://127.0.0.1:8050/)**. Serving the saved app needs only Python's standard library; installing analysis packages and obtaining raw CSVs are necessary only for recomputation.
+**Only want the app file?** Right-click [this HTML file link](https://github.com/adamwbrew/Bio_Data_Analysis/raw/refs/heads/main/outputs/spatial_handoff/app/index.html) and choose **Save Link As…**. Keep the filename `index.html` (about 26 MB), then open it in your browser. A normal click may display source code because GitHub does not host the HTML as an app. The single file includes everything needed to explore the saved results.
 
-## A useful path through the app
+**Already downloaded the repository?** Open `outputs/spatial_handoff/app/index.html` inside it. The Mac launcher and optional local-server instructions are in the [viewing guide](docs/quickstart.md#optional-use-the-notebooks-localhost-app-links). A `127.0.0.1:8050` link only works after starting that server on your own computer.
 
-1. **Running comparison:** start with animal dots and group averages. Choose either subtraction direction, then inspect individual-animal sensitivity, size standardization and the normalization audit.
-2. **Machine learning:** explore learned PLA size-and-shape groups, their native-coordinate maps, animal-level comparisons and source-linked microscopy review targets. Check the stability and exclusions before interpreting a pattern.
-3. **Spatial explorer:** rotate and zoom the 3D measurement surface; overlay channels; view animal layers together or one at a time. Compare native coordinates with proposed feature alignment and inspect the marked cavity anchors.
-4. **Scientific figures:** open or save full-resolution 300-DPI PNGs. The notebook also exports SVGs and the underlying tables.
+## Read the results directly on GitHub
 
-The app is a **saved result snapshot**. Filters change the view; they do not refit models or ingest new files. A completed notebook **Run All** refreshes the app and its generation time. The local server binds only to `127.0.0.1` and serves the app rather than the repository.
+**[Open the illustrated results guide →](docs/results_guide.md)** It explains the main findings with embedded figures, links to supporting checks, and concrete next steps for the scientist. No notebook viewer or download is needed.
+
+For a specific question, open one of these images:
+
+| Question | View the figure |
+|---|---|
+| How do Running and Home-cage averages differ? | [Animal values, means and subtraction](outputs/spatial_handoff/figures/13_condition_averages_difference.png) |
+| Are the results normalized? | [Normalization and both subtraction directions](outputs/spatial_handoff/figures/17_normalization_both_directions.png) |
+| What did the machine learning find? | [PLA size-and-shape patterns](outputs/spatial_handoff/figures/21_morphology_patterns.png) |
+| How are the tissue layers aligned? | [Before/after alignment proposals](outputs/spatial_handoff/figures/19_feature_alignment_before_after.png) |
+| Where should the scientist investigate next? | [Source-image layout check](outputs/spatial_handoff/figures/16_condition_image_layout.png) · [Review priorities](docs/results_guide.md#what-to-check-next) |
+
+[Browse all high-resolution figures](outputs/spatial_handoff/figures/) · [Detailed viewing and troubleshooting instructions](docs/quickstart.md)
+
+## Download a notebook for the complete analysis
+
+**`PLA_ChAT_spatial_handoff_analysis.ipynb` is too large for GitHub's notebook preview.** This is a viewing limitation; its executed results are saved. The main notebook may also fail to preview because of its embedded figures and interactive data. Use the app or illustrated guide above for easy access.
+
+| Notebook | Purpose | Download |
+|---|---|---|
+| `PLA_ChAT_scientific_analysis.ipynb` | Main report: findings, methods, figures, interactive controls and next actions. About **40 MB**. | [Download main notebook](https://github.com/adamwbrew/Bio_Data_Analysis/raw/refs/heads/main/PLA_ChAT_scientific_analysis.ipynb?download=1) |
+| `PLA_ChAT_spatial_handoff_analysis.ipynb` | Full audit: every section, input checks, additional figures and detailed methods. About **76 MB**. | [Download full audit notebook](https://github.com/adamwbrew/Bio_Data_Analysis/raw/refs/heads/main/PLA_ChAT_spatial_handoff_analysis.ipynb?download=1) |
+
+Open a downloaded notebook in **VS Code with the Jupyter extension** or **JupyterLab** to read its saved outputs. **You do not need Run All or the raw CSVs just to read the results.** Use the browser app if embedded interactive controls do not render. For the complete folder with linked figures and code, [download the repository ZIP](https://github.com/adamwbrew/Bio_Data_Analysis/archive/refs/heads/main.zip) and unzip it first.
+
+If a notebook download link displays JSON text, right-click the link → **Save Link As…** and preserve its `.ipynb` filename, or use the ZIP instead.
+
+To analyze the source data again, follow the separate [recomputation instructions](docs/quickstart.md#optional-recompute-from-the-source-measurements). Current results are published on `main`.
 
 ## Findings to review with the scientist
 
@@ -63,4 +93,4 @@ The scientist's local `HALO_spatial_analysis_raw_data_handoff.pdf` supplies the 
 | [outputs/spatial_handoff/protocols/](outputs/spatial_handoff/protocols/) | Content-addressed input/code hashes and analysis parameters |
 | [bio_visuals/](bio_visuals/) · [tests/](tests/) | Analysis, visualizations and verification code |
 
-The [main notebook](PLA_ChAT_scientific_analysis.ipynb) contains all core results. The [full audit notebook](PLA_ChAT_spatial_handoff_analysis.ipynb) adds the complete static atlas and research methods. The [original visual notebook](PLA_ChAT_visual_analysis.ipynb), [original data dictionary and experiment diagram](docs/original_data_reference.md), and [tissue-outline review](docs/tissue_outline_review.md) preserve the earlier box/outline work. Statements about missing animal assignments in that historical material describe the evidence available before the handoff.
+The downloadable notebooks above preserve the complete analysis. Use the [illustrated results guide](docs/results_guide.md) for a GitHub-readable overview. The [original visual notebook](PLA_ChAT_visual_analysis.ipynb), [original data dictionary and experiment diagram](docs/original_data_reference.md), and [tissue-outline review](docs/tissue_outline_review.md) preserve the earlier box/outline work. Statements about missing animal assignments in that historical material describe the evidence available before the handoff.
