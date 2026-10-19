@@ -4,7 +4,7 @@
   "notebooks": [
     {
       "notebook": "PLA_ChAT_scientific_analysis.ipynb",
-      "notebook_sha256": "523bc29513176502dd500c43837e948a8d4dbfc2ea92f57e4af6e8ddfdbd8433",
+      "notebook_sha256": "526100eace16843c1313c6da3b000dd232bccc4916155f71495133e683c6c694",
       "code_cells": 27,
       "embedded_pngs": 17,
       "code_cells_with_saved_execution": 27,
@@ -16,7 +16,7 @@
     },
     {
       "notebook": "PLA_ChAT_spatial_handoff_analysis.ipynb",
-      "notebook_sha256": "af320fadd9c1ee4e8673dd310bb7e56cddff412a139402b96d9661cf7b5237d2",
+      "notebook_sha256": "8fc6b9eb643b561c09603f95739a6b2a94a7aba9737c09aa3631bcc95c3abcc0",
       "code_cells": 44,
       "embedded_pngs": 31,
       "code_cells_with_saved_execution": 44,
@@ -88,13 +88,13 @@
     ]
   },
   "protocol": "protocols/v1.4.1_1061c0df7f19.json",
-  "protocol_code_hashes_match": true,
+  "protocol_code_hashes_match": false,
   "anatomical_approval_records_unchanged": true,
   "limits": "ML groups are exploratory measurement partitions; 49,618 diameter-invalid PLA are excluded only from morphology. Area-only sensitivity retains them. Refit agreement is stability, not prediction accuracy. n=3 animals per condition per arm. PLA-count and size normalization do not correct tissue area, ChAT availability or confounding. Cavity traces and adjacent-structure cues are computational visual proposals from detections; source microscopy, scale, homology and support remain unapproved. Group anatomical subtraction remains gated.",
   "standalone_app": {
     "path": "outputs/spatial_handoff/app/index.html",
-    "sha256": "01c7b95fd309ae3119989c86e7744f320257e31bf393ab8b639581a1e4aa9973",
-    "bytes": 26218322,
+    "sha256": "cf2ff4aae7091ec377daf0ba8655575c14fb2296abc538e73bbefe31bf727c99",
+    "bytes": 26242726,
     "sections": 12,
     "object_totals": {
       "n_all": 3010776,
@@ -105,5 +105,147 @@
     "comparison_tabs": 5,
     "remote_assets": 0,
     "bind": "127.0.0.1:8050"
+  },
+  "protocol_code_differences": [
+    "bio_visuals/explorer.html",
+    "bio_visuals/standalone_app.py",
+    "bio_visuals/condition_comparison.html",
+    "bio_visuals/morphology_explorer.html"
+  ],
+  "presentation_refresh": {
+    "verified_utc": "2026-10-19T21:21:55.556180+00:00",
+    "scope": "Spatial explorer presentation only: explain inactive minimum-PLA control, live threshold input, supported-bin counts and coalesced redraws. App and both saved notebook HTML outputs refreshed from identical measured payloads; no scientific calculations rerun.",
+    "protocol_note": "The immutable protocol documents the prior full analysis execution. Only the explorer HTML template differs; analytical code, inputs and review records are unchanged.",
+    "template_sha256": "e8fa6283730aa11f330014df865d5068f0792c4c771a8503f48c838ad5afd183",
+    "artifacts": [
+      {
+        "file": "outputs/spatial_handoff/app/index.html",
+        "unchanged_payload_sha256": "70fc90ff2218c2fc16f555b95609b3ea520cb4d5fed26a12a5e883e88278c79e"
+      },
+      {
+        "file": "PLA_ChAT_scientific_analysis.ipynb",
+        "unchanged_payload_sha256": "70fc90ff2218c2fc16f555b95609b3ea520cb4d5fed26a12a5e883e88278c79e",
+        "code_cells": 27,
+        "embedded_pngs": 17
+      },
+      {
+        "file": "PLA_ChAT_spatial_handoff_analysis.ipynb",
+        "unchanged_payload_sha256": "70fc90ff2218c2fc16f555b95609b3ea520cb4d5fed26a12a5e883e88278c79e",
+        "code_cells": 44,
+        "embedded_pngs": 31
+      }
+    ],
+    "targeted_tests_passed": 16,
+    "test_suites": [
+      "test_explorer.py",
+      "test_explorer_controls.py (actual JavaScript behavior)",
+      "test_standalone_app.py",
+      "test_notebook_outputs.py"
+    ],
+    "browser_checks": [
+      "Default count view explains disabled threshold; selecting fraction activates it.",
+      "HK1 21F at 500 units: 678 shown bins at minimum10; 155 at minimum50.",
+      "All six HK1 layers at 500 units: 6370 / 6659 shown at minimum1; 3774 at minimum10; 969 at minimum50.",
+      "No browser console errors; all three saved explorer payload hashes are identical and unchanged."
+    ]
+  },
+  "camera_controls_refresh": {
+    "verified_utc": "2026-10-19T21:32:10.318068+00:00",
+    "scope": "Presentation only: shared 3D camera toolbar with six axis-side presets, oblique/reset, 30-degree turns and 15-degree tilts. Manual-camera updates preserved. Axis presets use orthographic projection and respect reversed image y orientation. Raw coordinates, transforms and measurements unchanged.",
+    "template_sha256": "9679bab1a38ff5c6ee9a667c8926df0e0bb9420c6c4e0189697128bfa90aeb5a",
+    "artifacts": [
+      {
+        "file": "outputs/spatial_handoff/app/index.html",
+        "unchanged_payload_sha256": "70fc90ff2218c2fc16f555b95609b3ea520cb4d5fed26a12a5e883e88278c79e"
+      },
+      {
+        "file": "PLA_ChAT_scientific_analysis.ipynb",
+        "unchanged_payload_sha256": "70fc90ff2218c2fc16f555b95609b3ea520cb4d5fed26a12a5e883e88278c79e",
+        "code_cells": 27,
+        "embedded_pngs": 17
+      },
+      {
+        "file": "PLA_ChAT_spatial_handoff_analysis.ipynb",
+        "unchanged_payload_sha256": "70fc90ff2218c2fc16f555b95609b3ea520cb4d5fed26a12a5e883e88278c79e",
+        "code_cells": 44,
+        "embedded_pngs": 31
+      }
+    ],
+    "execution_note": "Refreshed only saved explorer HTML in the app and both executed notebooks using unchanged measured payloads. No scientific recomputation; original execution provenance remains intact.",
+    "targeted_tests_passed": 6,
+    "test_suites": [
+      "test_explorer.py",
+      "test_explorer_controls.py (actual inline JavaScript including camera and threshold behavior)"
+    ],
+    "browser_checks": [
+      "Top preset, tilt and turn verified in 3D measurements.",
+      "X/Y side presets, oblique, manual drag followed by button turn, and reset verified in exploded layer stack.",
+      "No browser console errors."
+    ]
+  },
+  "documentation_refresh": {
+    "verified_utc": "2026-10-19T21:53:26.217457+00:00",
+    "scope": "Plain-language app reading path, glossary, question-led panel guidance, denominator explanations, dynamically selected results wording and concrete scientist follow-up actions. Scientific values, transforms, model fits and registration gate unchanged.",
+    "source_sha256": {
+      "bio_visuals/condition_comparison.html": "cacd3b70e528f9e15aed25163872cf1bbe54b1c07d6e053f3ff429f39619b149",
+      "bio_visuals/explorer.html": "778dcb409f9526d3bf9ad9ff3591783616de1f9204b30e4f4bb28a2efe36e21b",
+      "bio_visuals/morphology_explorer.html": "2ec4c321795418925c1a99c9fb46c0ce563640b824d47c1f455330f67350c8e6",
+      "bio_visuals/standalone_app.py": "31f78bc429c0e52bea5a35bf5b5f9e6b82263d658509a50a180acd9c82e04b48"
+    },
+    "artifacts": [
+      {
+        "artifact": "app",
+        "view": "halo-explorer",
+        "unchanged_payload_sha256": "70fc90ff2218c2fc16f555b95609b3ea520cb4d5fed26a12a5e883e88278c79e"
+      },
+      {
+        "artifact": "app",
+        "view": "condition-comparison",
+        "unchanged_payload_sha256": "83aca2a0ff2e949609cd89422050cc7742672a13050fc9770afb28cd4fe85746"
+      },
+      {
+        "artifact": "app",
+        "view": "halo-morphology",
+        "unchanged_payload_sha256": "40ee94ed01edf8a3fef9c922e2fda7e8f499395d04d02bb2e7749d748bce3992"
+      },
+      {
+        "artifact": "PLA_ChAT_scientific_analysis.ipynb",
+        "view": "condition-comparison",
+        "unchanged_payload_sha256": "83aca2a0ff2e949609cd89422050cc7742672a13050fc9770afb28cd4fe85746"
+      },
+      {
+        "artifact": "PLA_ChAT_scientific_analysis.ipynb",
+        "view": "halo-morphology",
+        "unchanged_payload_sha256": "40ee94ed01edf8a3fef9c922e2fda7e8f499395d04d02bb2e7749d748bce3992"
+      },
+      {
+        "artifact": "PLA_ChAT_scientific_analysis.ipynb",
+        "view": "halo-explorer",
+        "unchanged_payload_sha256": "70fc90ff2218c2fc16f555b95609b3ea520cb4d5fed26a12a5e883e88278c79e"
+      },
+      {
+        "artifact": "PLA_ChAT_spatial_handoff_analysis.ipynb",
+        "view": "condition-comparison",
+        "unchanged_payload_sha256": "83aca2a0ff2e949609cd89422050cc7742672a13050fc9770afb28cd4fe85746"
+      },
+      {
+        "artifact": "PLA_ChAT_spatial_handoff_analysis.ipynb",
+        "view": "halo-morphology",
+        "unchanged_payload_sha256": "40ee94ed01edf8a3fef9c922e2fda7e8f499395d04d02bb2e7749d748bce3992"
+      },
+      {
+        "artifact": "PLA_ChAT_spatial_handoff_analysis.ipynb",
+        "view": "halo-explorer",
+        "unchanged_payload_sha256": "70fc90ff2218c2fc16f555b95609b3ea520cb4d5fed26a12a5e883e88278c79e"
+      }
+    ],
+    "execution_note": "Repackaged existing measured payloads with current HTML templates and app shell; saved notebook HTML outputs updated and PNG/execution validation passed. No raw-data analysis rerun.",
+    "targeted_python_tests_passed": 38,
+    "checks": [
+      "22 condition/normalization scientific tests, 6 explorer/control tests, 4 morphology-view tests and 6 app packaging/server tests passed.",
+      "Actual-payload JavaScript narrative harness checks both arms, both subtraction directions, all five tabs and count/area units.",
+      "Browser: PFKP reversed difference remains -22.58 pp in cards and shareable report; normalization guidance identifies denominator and unresolved corrections.",
+      "Measured JSON is identical before/after in all three app panels and both notebooks; original scientific figure PNGs preserved."
+    ]
   }
 }
