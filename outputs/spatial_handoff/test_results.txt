@@ -37,8 +37,14 @@ test_loader_selects_known_roi_modes_without_requiring_unselected_files (test_roi
 test_main_views_reject_pooled_repeat_runs (test_roi_comparison.ROIComparisonTests) ... ok
 test_paired_metrics_keep_runs_separate_and_report_percentage_points (test_roi_comparison.ROIComparisonTests) ... ok
 test_signatures_ignore_ids_and_count_duplicates_without_many_to_many_join (test_roi_comparison.ROIComparisonTests) ... ok
+test_gallery_metadata_is_html_escaped (test_standalone_app.StandaloneAppTests) ... ok
+test_launcher_checks_snapshot_identity_and_validates_port (test_standalone_app.StandaloneAppTests) ... ok
+test_missing_gallery_is_explicit_and_empty_explorer_is_rejected (test_standalone_app.StandaloneAppTests) ... ok
+test_missing_snapshot_and_port_collision_are_detected (test_standalone_app.StandaloneAppTests) ... ok
+test_portable_page_embeds_original_pixels_and_trusted_explorer (test_standalone_app.StandaloneAppTests) ... ok
+test_server_exposes_only_document_and_health_and_reloads_snapshot (test_standalone_app.StandaloneAppTests) ... ok
 
 ----------------------------------------------------------------------
-Ran 39 tests in 6.948s
+Ran 45 tests in 8.272s
 
 OK

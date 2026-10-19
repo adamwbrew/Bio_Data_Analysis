@@ -9,7 +9,7 @@ import uuid
 
 import numpy as np
 
-from .handoff import ANIMAL_ORDER, ARMS, polygon_centroid, review_status
+from .handoff import ANIMAL_ORDER, ARMS, VERSION, polygon_centroid, review_status
 from .handoff_plots import ANIMAL_COLORS
 
 
@@ -58,7 +58,7 @@ def explorer_payload(fine, geometry, surfaces, metrics, metadata, reviews):
                 colorscales={name:get_colorscale(name) for name in ('Magma','Viridis','Cividis')},
                 order_meaning='Home cage then Running; display order only, not serial-section order',
                 units='HALO export units; physical calibration unverified',
-                version='1.1.0')
+                version=VERSION)
 
 
 def explorer_html(fine, geometry, surfaces, metrics, metadata, reviews):

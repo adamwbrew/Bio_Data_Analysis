@@ -10,7 +10,12 @@ def code(s):cells.append(nbf.v4.new_code_cell(dedent(s).strip(),metadata={'scrol
 
 md('''
 # PLA–ChAT spatial analysis · from raw HALO detections to scientific review
-**Raw-data handoff edition · protocol 1.1.0 · research checked 18 October 2026**
+**Raw-data handoff edition · protocol 1.1.1 · research checked 18 October 2026**
+
+### Open the Plotly app
+**[Open the spatial app in your browser](http://127.0.0.1:8050/)** for the 3D, channel and layer controls plus the main scientific figures. First double-click `Launch_Spatial_Explorer.command` in this repository on your Mac, or run `python scripts/serve_spatial_app.py` in a terminal. Leave the terminal open while using the link. The app works from the saved results without running this notebook or installing extra packages.
+
+You can also open the [portable app file](outputs/spatial_handoff/app/index.html) directly in a browser. In VS Code, open that file with your browser rather than the text editor. This is a saved snapshot; **Run All** refreshes it after the analysis completes. All core results remain in the notebook below.
 
 This notebook reconstructs all **12 ChAT-panel sections** from the expanded dataset, using the new handoff to identify **six animals and their Running/Home-cage conditions**. It keeps **TDP43–HK1** and **TDP43–PFKP** separate. Every core result appears here: overlays, heat maps, interactive 3D views, quality review, animal-level findings and next experiments.
 
@@ -42,10 +47,11 @@ import matplotlib.pyplot as plt
 import plotly.io as pio
 from IPython.display import display, Markdown, HTML
 # Reload in dependency order so a second Run All uses edited local functions.
-for name in ['bio_visuals.data', 'bio_visuals.entire_dataset', 'bio_visuals.handoff', 'bio_visuals.handoff_plots', 'bio_visuals.explorer']:
+for name in ['bio_visuals.data', 'bio_visuals.entire_dataset', 'bio_visuals.handoff', 'bio_visuals.handoff_plots', 'bio_visuals.explorer', 'bio_visuals.standalone_app']:
     importlib.reload(importlib.import_module(name))
 from bio_visuals import entire_dataset as raw, handoff as h, handoff_plots as hp
 from bio_visuals.explorer import explorer_html
+from bio_visuals.standalone_app import write_standalone_app
 hp.style()
 pd.set_option('display.max_columns', 18)
 pd.set_option('display.max_rows', 30)
@@ -160,6 +166,8 @@ print('All four grid resolutions conserve every primary object count.')
 md('''
 <a id="explore"></a>
 ## Interactive control center · start with the data
+
+**Prefer a full browser window? [Open the Plotly app](http://127.0.0.1:8050/)** after starting `Launch_Spatial_Explorer.command` (Mac) or `python scripts/serve_spatial_app.py`. The [portable app](outputs/spatial_handoff/app/index.html) contains the same controls and saved data, with no notebook renderer required.
 
 **Three tabs, one set of measurements:**
 - **3D measurements:** rotate and zoom; choose PLA/ChAT count, ChAT-positive fraction, mean PLA size, large-PLA fraction or actual overlap area. Filter by PLA arm, running group and animal. Change the bin size and minimum PLA denominator.
@@ -403,6 +411,13 @@ All core results are embedded in this notebook. Supplementary outputs live in `o
 `EXPORT_OBJECT_TABLES = True` additionally writes a large per-section object table with the native box coordinates, source file, object ID, animal/arm and coordinate-transformation fields. Aligned fields remain NA until the section passes review. The compact default preserves object provenance through the original CSV + manifest and recomputes from raw data on every Run All.
 
 **Methods not claimed as completed:** true microscopy-image overlay, anatomical volume reconstruction, calibrated tissue-area density, validated ventricular registration, spatial enrichment, cross-marker PCA and confirmed causal running effects. The supplied data do not establish those results. The notebook supplies the native views, review tools, animal-level analyses and exact inputs needed to progress toward them.
+''')
+code('''
+app_path = write_standalone_app(explorer_html(fine, geometry, surfaces, metrics, metadata, reviews), ROOT)
+display(Markdown(f'**Plotly app refreshed.** [Open the running app](http://127.0.0.1:8050/) · '
+                 f'[Portable browser copy]({app_path.relative_to(ROOT).as_posix()}). '
+                 'Start `Launch_Spatial_Explorer.command` or `python scripts/serve_spatial_app.py` for the local link. '
+                 'The app contains this run’s saved measurements and scientific figures.'))
 ''')
 code('''
 if EXPORT_OBJECT_TABLES:

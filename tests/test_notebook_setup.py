@@ -73,7 +73,7 @@ for _ in range(2):
     h.VERSION = 'stale'
     explorer.explorer_html = lambda *a, **k: 'stale'
     shell.run_cell(setup).raise_error()
-    assert h.VERSION == '1.1.0'
+    assert h.VERSION == '1.1.1'
     assert shell.user_ns['explorer_html'] is explorer.explorer_html
     assert explorer.explorer_html.__name__ == 'explorer_html'
 '''

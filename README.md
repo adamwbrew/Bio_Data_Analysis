@@ -2,7 +2,17 @@
 
 This repository contains object measurements exported from **HALO fluorescence image analysis**. The primary expanded dataset contains **12 completed region/assay analyses and 3,010,776 objects**: **310,024 PLA** and **2,700,752 ChAT** detections. The files reference three source images and six animals, each represented by separate Hk1–TDP43 and Pfkp–TDP43 physical sections. The new local handoff identifies Running animals **22F, 21M, 22M** and Home-cage animals **21F, 23M, 24M**. Anatomical correspondence still needs review.
 
-## Latest: spatial handoff notebook
+## Open the Plotly app
+
+**[Open the local spatial app](http://127.0.0.1:8050/)** after starting it:
+
+- **Mac:** double-click `Launch_Spatial_Explorer.command` in this repository.
+- **Any platform:** run `python scripts/serve_spatial_app.py` from the repository. The browser opens automatically; leave the terminal running, and press Ctrl+C to stop it. Use `--port 8051` if another app occupies the default port.
+- **No server:** open [outputs/spatial_handoff/app/index.html](outputs/spatial_handoff/app/index.html) directly in a browser. This portable file includes Plotly, the data and the summary figures, so it also works offline. GitHub displays HTML source; download the file to use it.
+
+The app offers the same 3D rotation/zoom, channel controls, flat and exploded layer views, animal/group filters and layer stepping as the notebook. It also includes the animal comparison, size sensitivity and nearest-ChAT figures. It runs from saved results without raw CSVs, a live notebook kernel or extra Python dependencies. Each notebook links to it near the top and refreshes the saved app at the end of **Run All**. The app labels its generation time; filters change the view, while new data or review decisions require a notebook rerun. Your files stay on your computer; the launcher binds only to `127.0.0.1`.
+
+## Scientific notebooks
 
 Open **[PLA_ChAT_scientific_analysis.ipynb](PLA_ChAT_scientific_analysis.ipynb)** for the main interactive analysis. Its first result is a control center with three tabs: **3D measurements**, **Channel overlay**, and **Overlapping layers**. Choose PLA arm, running group, animal, measurement, bin size and support threshold; rotate/zoom; toggle channels or individual layers; adjust opacity; view all layers or step through them one at a time. Layers can be flat overlays or an exploded 3D comparison stack. The stack order is a display convention across animals, not anatomical depth. Candidate-centered mode is restricted to unreviewed geometry QC; reviewed mode requires documented approvals.
 
@@ -22,13 +32,13 @@ Outputs are under `outputs/spatial_handoff/`: 300-DPI PNGs and SVGs, compressed 
 
 ## Run the visual analysis
 
-Open [PLA_ChAT_scientific_analysis.ipynb](PLA_ChAT_scientific_analysis.ipynb) in Jupyter or VS Code for the current end-to-end workflow: measurement audit, box-versus-outline comparison, denominator-aware summaries, spatial reconstructions, quality checks, literature framing, actionable findings, and next-step guidance. The earlier [PLA_ChAT_visual_analysis.ipynb](PLA_ChAT_visual_analysis.ipynb) remains available as the original exploratory notebook. Select the project's `.venv` Python kernel and choose **Run All** to recompute the scientific notebook; install the packages in [requirements.txt](requirements.txt) in your selected kernel's environment if needed (`python -m pip install -r requirements.txt`).
+Open [PLA_ChAT_scientific_analysis.ipynb](PLA_ChAT_scientific_analysis.ipynb) in Jupyter or VS Code for the current workflow: spatial exploration, animal-level summaries, size and proximity checks, alignment review and actionable findings. Use the linked Plotly app if your notebook viewer does not render the custom controls. Select the project's `.venv` Python kernel and choose **Run All** to recompute; install [requirements.txt](requirements.txt) in that environment if needed (`python -m pip install -r requirements.txt`).
 
-The scientific notebook audits all thirteen expanded exports, analyzes twelve primary exports, and retains the original box/outline comparison from `Initial Data/`. It includes paired PLA-type summaries, explicit averaging denominators, maps of every section, distribution and sensitivity figures, and coordinates for image review. The interactive explorer varies the selected section and map resolution. The earlier visual notebook uses `Initial Data/` and keeps its `ROI_MODE` selector.
+The scientific notebook verifies all thirteen expanded exports and analyzes twelve primary sections. The full spatial handoff notebook contains the detailed audit and every section's static atlas. The earlier [visual notebook](PLA_ChAT_visual_analysis.ipynb) retains the original `Initial Data/` workflow and `ROI_MODE` selector; the former box/outline scientific edition is preserved in Git history.
 
-The scientific notebook uses 50-coordinate-unit bins for detailed count reconstructions; supported fraction maps use 1,000-unit bins with at least 10 raw PLA objects. These are editable display choices. Both types of image use bounding-box midpoints, not recovered microscopy pixels.
+The current explorer uses 100-coordinate-unit bins for detailed channel reconstructions and selectable 250/500/1,000-unit bins for measurement and layer views. Fraction and mean-size views require at least 10 PLA objects per bin by default; the display threshold is adjustable. These maps use bounding-box midpoints, not recovered microscopy pixels.
 
-The scientific notebook writes its figures, supporting tables, Excel workbook, and provenance under `outputs/scientific_notebook/`. Saved PNG figures use a 300 DPI export setting; PDFs retain vector text and linework. The earlier analysis artifacts remain under `outputs/outline/`, `outputs/roi_comparison/`, and the original root `outputs/` files. The notebook also exports lossless fine-grid arrays. For running-group summaries, complete [metadata/complete_sample_metadata.tsv](metadata/complete_sample_metadata.tsv); the notebook validates those assignments and averages sections within animals before summarizing groups. Whole-section summaries can precede registration, while anatomical spatial comparisons require validated correspondence. The full cited alignment strategy is in the notebook.
+Current figures, compressed tables, lossless grid arrays, portable app and provenance are written under `outputs/spatial_handoff/`. PNGs use 300 DPI and SVGs retain vector text and linework. The earlier artifacts remain under `outputs/scientific_notebook/`, `outputs/outline/` and `outputs/roi_comparison/`. Current running-group assignments come from the scientist's handoff. Whole-section summaries can precede registration; anatomical spatial comparisons require validated correspondence.
 
 ## Original box and tissue-outline comparison
 

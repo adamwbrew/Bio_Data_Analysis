@@ -26,7 +26,14 @@ def reuse(prefix):
 
 md('''
 # PLA–ChAT · explore the sections and test the findings
-**Main scientific notebook · interactive edition · 19 October 2026 · protocol 1.1.0**
+**Main scientific notebook · interactive edition · 19 October 2026 · protocol 1.1.1**
+
+### Open the Plotly app
+**[Open the spatial app in your browser](http://127.0.0.1:8050/)** for a full-window view of the 3D surfaces, channel overlays, overlapping layers and scientific comparison figures.
+
+**First launch:** double-click `Launch_Spatial_Explorer.command` in this repository on your Mac, or run `python scripts/serve_spatial_app.py` in a terminal. The browser opens automatically; leave the terminal open while using the link. No notebook renderer or additional Python packages are needed to explore the saved results.
+
+**Without a server:** open the [portable app file](outputs/spatial_handoff/app/index.html) in a web browser. In VS Code, use your browser rather than opening the HTML as source text. The app is a saved snapshot; **Run All** refreshes it after the analysis finishes. The complete analysis and core results remain in this notebook.
 
 The new analysis is here. Start with the **interactive spatial explorer**: move the 3D view, inspect the two channels, and overlay or separate the animal layers. This notebook then connects what you see to the animal-level findings and the next scientific decisions. The longer [spatial handoff notebook](PLA_ChAT_spatial_handoff_analysis.ipynb) holds the complete input audit, all section figures and detailed research methods.
 
@@ -132,6 +139,7 @@ Run `python scripts/execute_spatial_handoff_notebook.py PLA_ChAT_scientific_anal
 The [full handoff notebook](PLA_ChAT_spatial_handoff_analysis.ipynb) supplies the detailed audit and figure atlas. The [original exploratory notebook](PLA_ChAT_visual_analysis.ipynb) retains the historical workflow. The earlier version of this scientific notebook is preserved in [Git history](https://github.com/adamwbrew/Bio_Data_Analysis/blob/b1e5a841446b938788ac373f40d39a14ca2df6d8/PLA_ChAT_scientific_analysis.ipynb).
 ''')
 code("protocol_path = h.write_protocol(ROOT, OUT, manifest, reviews, PARAMETERS)\nprint('Protocol:', protocol_path.relative_to(ROOT))\nprint('Exploration is embedded above; current anatomical review approvals:', int(h.review_status(reviews).ready.sum()))")
+reuse('app_path = write_standalone_app')
 notebook = nbf.v4.new_notebook(cells=cells, metadata=copy.deepcopy(audit['nb'].metadata))
 nbf.write(notebook, ROOT / 'PLA_ChAT_scientific_analysis.ipynb')
 print(f'Built main scientific notebook: {len(cells)} cells')

@@ -11,5 +11,6 @@ __pycache__/
 outputs/.cache/
 *.html
 !bio_visuals/explorer.html
+!outputs/spatial_handoff/app/index.html
 # Local handoff supplied separately by the scientist.
 /HALO_spatial_analysis_raw_data_handoff.pdf
