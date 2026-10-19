@@ -2,10 +2,11 @@
 numpy>=1.20,<3
 pandas>=1.3,<3
 scipy>=1.7,<2
-matplotlib>=3.4,<4
+matplotlib>=3.6,<4
 jupyterlab>=3.2,<5
 ipywidgets>=7.6,<9
 nbformat>=5.7,<6
 nbclient>=0.5,<1
 nbconvert>=7,<8
 openpyxl>=3.0,<4
+plotly>=5.24,<7

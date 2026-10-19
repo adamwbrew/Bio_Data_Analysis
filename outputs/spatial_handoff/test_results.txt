@@ -1,0 +1,38 @@
+test_area_sensitivity_is_inclusive_and_preserves_raw_data (test_analysis.AnalysisInvariantTests) ... ok
+test_ecdf_accumulates_ties_and_reaches_one_hundred (test_analysis.AnalysisInvariantTests) ... ok
+test_overview_uses_pla_object_type_in_all_three_measures (test_analysis.AnalysisInvariantTests) ... ok
+test_qc_retains_zero_geometry_and_detects_deliberate_inconsistency (test_analysis.AnalysisInvariantTests) ... ok
+test_spatial_bins_conserve_objects_and_use_raw_local_support (test_analysis.AnalysisInvariantTests) ... ok
+test_spatial_invalid_parameters_fail_clearly (test_analysis.AnalysisInvariantTests) ... ok
+test_spatial_smoothing_uses_ratio_of_weighted_counts_without_changing_raw_counts (test_analysis.AnalysisInvariantTests) ... ok
+test_summary_keeps_object_types_and_denominators_distinct (test_analysis.AnalysisInvariantTests) ... ok
+test_bad_flags_ids_and_later_metadata_are_rejected (test_entire_dataset.CompleteDatasetTests) ... ok
+test_duplicate_multiset_matching_respects_multiplicity (test_entire_dataset.CompleteDatasetTests) ... ok
+test_equal_export_mean_is_distinct_from_detection_weighting (test_entire_dataset.CompleteDatasetTests) ... ok
+test_group_means_require_metadata_and_weight_animals_equally (test_entire_dataset.CompleteDatasetTests) ... ok
+test_native_grids_conserve_counts_mask_low_support_and_preserve_zero_fraction (test_entire_dataset.CompleteDatasetTests) ... ok
+test_only_explicit_replacement_is_selected_and_excluded_export_is_audited (test_entire_dataset.CompleteDatasetTests) ... ok
+test_summary_and_native_layout_show_exports_without_invented_registration (test_entire_dataset.CompleteDatasetTests) ... ok
+test_unreviewed_duplicate_and_missing_replacement_fail (test_entire_dataset.CompleteDatasetTests) ... ok
+test_condition_summary_rejects_repeated_animal (test_handoff.SpatialHandoffTests) ... ok
+test_equal_animal_mean_and_missing_coverage (test_handoff.SpatialHandoffTests) ... ok
+test_notebook_python_compiles (test_handoff.SpatialHandoffTests) ... ok
+test_polygon_centroid_is_area_weighted_not_vertex_mean (test_handoff.SpatialHandoffTests) ... ok
+test_positive_object_area_is_not_actual_overlap_area (test_handoff.SpatialHandoffTests) ... ok
+test_raw_grid_keeps_zeros_distinct_from_unmeasured (test_handoff.SpatialHandoffTests) ... ok
+test_review_gate_prevents_accidental_group_maps (test_handoff.SpatialHandoffTests) ... ok
+test_reviewed_maps_never_pool_the_two_arms (test_handoff.SpatialHandoffTests) ... ok
+test_surface_selection_preserves_each_sections_xy_ratio (test_handoff.SpatialHandoffTests) ... ok
+test_translation_and_flips_preserve_distances_and_center (test_handoff.SpatialHandoffTests) ... ok
+test_all_notebook_cells_have_valid_python (test_notebook_setup.NotebookSetupTests) ... ok
+test_setup_recovers_stale_imports_and_rebinds_functions (test_notebook_setup.NotebookSetupTests) ... ok
+test_aligned_grid_differences_conserve_counts_in_both_runs (test_roi_comparison.ROIComparisonTests) ... ok
+test_loader_selects_known_roi_modes_without_requiring_unselected_files (test_roi_comparison.ROIComparisonTests) ... ok
+test_main_views_reject_pooled_repeat_runs (test_roi_comparison.ROIComparisonTests) ... ok
+test_paired_metrics_keep_runs_separate_and_report_percentage_points (test_roi_comparison.ROIComparisonTests) ... ok
+test_signatures_ignore_ids_and_count_duplicates_without_many_to_many_join (test_roi_comparison.ROIComparisonTests) ... ok
+
+----------------------------------------------------------------------
+Ran 33 tests in 7.142s
+
+OK
