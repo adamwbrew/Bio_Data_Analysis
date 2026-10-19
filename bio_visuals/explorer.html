@@ -19,6 +19,15 @@
 #__ROOT_ID__ .step{display:flex;align-items:center;gap:10px} #__ROOT_ID__ .step input{width:210px}
 #__ROOT_ID__ .footer{padding:16px 24px;color:#567181;font-size:12px} #__ROOT_ID__ [hidden]{display:none!important}
 #__ROOT_ID__ .stat{font-weight:700} #__ROOT_ID__ .tooltip{font-weight:400;font-size:12px;color:#617a87}
+#__ROOT_ID__ .minimum-control{max-width:280px} #__ROOT_ID__ .minimum-control input{accent-color:#087e8b;cursor:pointer}
+#__ROOT_ID__ .minimum-control input:disabled{cursor:not-allowed;opacity:.45} #__ROOT_ID__ .minimum-help{margin:5px 0 0;font-size:12px;color:#506b79;font-weight:400}
+#__ROOT_ID__ .minimum-status{margin:0 24px 12px;padding:9px 12px;background:#e4f2f2;border-radius:7px;font-size:13px}
+#__ROOT_ID__ .camera-controls{margin:0 24px 12px;padding:12px 14px;border:1px solid #ccd9e2;border-radius:9px;background:white}
+#__ROOT_ID__ .camera-actions{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:8px 0}
+#__ROOT_ID__ .camera-actions strong{font-size:12px;min-width:68px} #__ROOT_ID__ .camera-actions button{font-size:12px;padding:7px 10px}
+#__ROOT_ID__ .camera-status{font-size:12px;color:#506b79;margin:6px 0 0}
+#__ROOT_ID__ .view-guide{margin:14px 24px 0;padding:12px 14px;background:white;border:1px solid #d5e2e8;border-radius:8px}
+#__ROOT_ID__ .view-guide p{margin:5px 0;font-size:13px;color:#486777} #__ROOT_ID__ .view-guide summary{font-size:13px;color:#087e8b;cursor:pointer;margin-top:6px}
 @media(max-width:750px){#__ROOT_ID__ .bar,#__ROOT_ID__ .controls{padding:12px}#__ROOT_ID__ .plot{height:550px}#__ROOT_ID__ .hero{padding:18px}#__ROOT_ID__ h2{font-size:22px}}
 </style>
 <div class="hero"><div class="eyebrow">HALO · SPATIAL EXPLORER</div><h2>Inspect a section. Compare the layers.</h2><p>Measured PLA and ChAT detections · 12 sections · 6 animals · two separate PLA arms</p></div>
@@ -27,17 +36,17 @@
  <label>Animal group<select data-role="group"><option value="all">All animals</option><option>Home cage</option><option>Running</option></select></label>
  <label data-role="animal-label">Section<select data-role="animal"></select></label>
  <label>Spatial bin<select data-role="bin"><option value="250">250 export units</option><option value="500" selected>500 export units</option><option value="1000">1,000 export units</option></select></label>
- <label>Minimum PLA per metric bin<input data-role="minimum" type="range" min="1" max="50" value="10"><span data-role="minimum-value">10 objects</span></label>
+ <div class="minimum-control"><label>Minimum PLA per metric bin<input data-role="minimum" aria-label="Minimum PLA per metric bin" aria-describedby="__ROOT_ID__-minimum-help" type="range" min="1" max="50" value="10"><span data-role="minimum-value">10 objects</span></label><p id="__ROOT_ID__-minimum-help" data-role="minimum-help" class="minimum-help"></p></div>
 </div>
 <div class="tabs" role="tablist" aria-label="Spatial view">
  <button data-view="surface" role="tab" aria-selected="true" class="active">1 · 3D measurements</button>
  <button data-view="channels" role="tab" aria-selected="false">2 · Channel overlay</button>
  <button data-view="layers" role="tab" aria-selected="false">3 · Overlapping layers</button>
 </div>
+<div class="view-guide"><strong data-role="view-question"></strong><p data-role="view-summary"></p><details><summary>How to read this view and choose the next check</summary><p data-role="view-reading"></p></details></div>
 <div class="controls" data-role="metric-controls">
  <label>Measurement<select data-role="metric"><option value="n_pla">PLA object count</option><option value="n_chat">ChAT object count</option><option value="fraction">ChAT-positive PLA (%)</option><option value="mean_area">Mean PLA area (µm²)</option><option value="large_fraction">Large PLA ≥1 µm² (%)</option><option value="overlap_area">Actual PLA overlap area (µm²)</option></select></label>
  <label data-role="height-label">Height scale<select data-role="height"><option value="log">log(1 + value)</option><option value="linear">Linear</option></select></label>
- <button data-role="oblique">Oblique view</button><button data-role="top">Look down</button><button data-role="reset">Reset view</button>
 </div>
 <div class="controls" data-role="channel-controls" hidden>
  <label class="check"><input type="checkbox" data-role="chat" checked>ChAT background</label>
@@ -61,6 +70,22 @@
 <div class="notice warning" data-role="loading">Interactive controls load in a trusted JupyterLab or VS Code notebook. GitHub's preview displays static results only. If this message remains, open the notebook locally, trust the reviewed file and Run All.</div>
 <div class="notice" data-role="notice" hidden></div>
 <div class="details" data-role="details"></div>
+<div class="minimum-status" data-role="minimum-status" role="status" aria-live="polite" hidden></div>
+<div class="camera-controls" data-role="camera-controls" role="group" aria-label="3D camera controls">
+ <strong>3D viewpoint</strong>
+ <div class="camera-actions" role="group" aria-label="Fixed 3D viewpoints"><strong>Fixed views</strong>
+  <button data-role="camera-oblique" aria-pressed="true">Oblique</button>
+  <button data-role="camera-top" aria-pressed="false">Top (+Z)</button><button data-role="camera-bottom" aria-pressed="false">Bottom (−Z)</button>
+  <button data-role="camera-x-positive" aria-pressed="false">+X side</button><button data-role="camera-x-negative" aria-pressed="false">−X side</button>
+  <button data-role="camera-y-positive" aria-pressed="false">+Y side</button><button data-role="camera-y-negative" aria-pressed="false">−Y side</button>
+ </div>
+ <div class="camera-actions" role="group" aria-label="Rotate 3D view"><strong>Rotate</strong>
+  <button data-role="rotate-left" aria-label="Rotate left 30 degrees">↶ Left 30°</button><button data-role="rotate-right" aria-label="Rotate right 30 degrees">Right 30° ↷</button>
+  <button data-role="tilt-up" aria-label="Tilt up 15 degrees">↑ Tilt up 15°</button><button data-role="tilt-down" aria-label="Tilt down 15 degrees">↓ Tilt down 15°</button>
+  <button data-role="camera-reset">Reset 3D view</button>
+ </div>
+ <p class="camera-status" data-role="camera-status" role="status" aria-live="polite"></p>
+</div>
 <div class="plot" data-role="plot"></div>
 <div class="footer">Drag to rotate in 3D; wheel/pinch to zoom. In 2D, drag to zoom and double-click to reset. Blank bins are unobserved or below the displayed denominator threshold. All arrays are computed from the raw detections; no smoothing or image generation. Download the current view with the camera icon.</div>
 </div>
@@ -70,7 +95,49 @@
 'use strict';
 const root=document.getElementById('__ROOT_ID__'), DATA=__DATA__;
 const q=r=>root.querySelector('[data-role="'+r+'"]'), value=r=>q(r).value;
-const state={view:'surface',one:false,selected:new Set(),step:0,camera:null,revision:0,layerOpened:false};
+const state={view:'surface',one:false,selected:new Set(),step:0,camera:null,cameraPreset:'oblique',revision:0,layerOpened:false};
+const CAMERA_PRESETS={
+ oblique:{label:'Oblique',eye:{x:1.05,y:1.15,z:.95},up:{x:0,y:0,z:1}},
+ top:{label:'Top (+Z) · XY plane',eye:{x:0,y:0,z:2.5},up:{x:0,y:1,z:0}},
+ bottom:{label:'Bottom (−Z) · XY plane',eye:{x:0,y:0,z:-2.5},up:{x:0,y:1,z:0}},
+ 'x-positive':{label:'+X side · YZ plane',eye:{x:2.5,y:0,z:0},up:{x:0,y:0,z:1}},
+ 'x-negative':{label:'−X side · YZ plane',eye:{x:-2.5,y:0,z:0},up:{x:0,y:0,z:1}},
+ // The displayed y range is reversed to preserve image-coordinate orientation.
+ 'y-positive':{label:'+Y side · XZ plane',eye:{x:0,y:-2.5,z:0},up:{x:0,y:0,z:1}},
+ 'y-negative':{label:'−Y side · XZ plane',eye:{x:0,y:2.5,z:0},up:{x:0,y:0,z:1}}
+};
+function presetCamera(name){const p=CAMERA_PRESETS[name];return {eye:{...p.eye},up:{...p.up},center:{x:0,y:0,z:0},projection:{type:name==='oblique'?'perspective':'orthographic'}};}
+function is3D(){return state.view==='surface'||(state.view==='layers'&&value('layer-view')==='stack');}
+function updateViewGuide(){const guides={
+ surface:['Where is the selected measurement high within this section?',
+ 'The surface summarizes detected objects in square bins. Position is x/y; height and color show the selected measurement. A taller peak does not mean thicker tissue.',
+ 'Choose the Measurement first. Count maps show how many detections fall in each full bin, not density per measured tissue area. ChAT-positive PLA (%) divides positive PLA by all PLA in that bin; mean area and large-object percentage also use PLA counts. The minimum-PLA slider hides sparsely supported estimates. Compare animals within the same arm and bin size using the shared color scale; select Top (+Z) for the map view. A peak is a location to inspect in the source image, not proof of biological enrichment.'],
+ channels:['Do PLA and ChAT detections occupy the same parts of this section?',
+ 'Gray shows ChAT counts; color shows PLA counts. These are reconstructed detection maps, not the original fluorescence image.',
+ 'Toggle ChAT and PLA independently, then compare all PLA with the ChAT-positive and ChAT-negative subsets. The overlay always uses 100-unit bins. Color intensity uses a log scale to make both sparse and dense regions visible; blended color alone does not measure association. HALO’s exported ChAT flag defines positivity. Use an interesting region to request the corresponding original channels and review detection settings.'],
+ layers:['Do the section shapes line up, and where does coverage differ?',
+ 'Each layer is a different animal’s section within the selected PLA arm. The stack separates layers for inspection; it is not a series of physical brain slices.',
+ 'Start with All detections and Feature-aligned to inspect the proposed cavity-based alignment. Compare Native coordinates to see the original placement. Use One at a time or the animal checkboxes to avoid layers hiding each other. Then choose a measurement; each layer keeps its own values and denominator. A flat overlay blends colors but does not average or subtract animals. Review landmarks, flips and missing tissue before interpreting a shared location anatomically. Camera buttons change the viewpoint only.']};
+ const guide=guides[state.view];q('view-question').textContent=guide[0];q('view-summary').textContent=guide[1];q('view-reading').textContent=guide[2];}
+function updateCameraControls(){q('camera-controls').hidden=!is3D();for(const name of Object.keys(CAMERA_PRESETS)){const active=state.cameraPreset===name;q('camera-'+name).classList.toggle('active',active);q('camera-'+name).setAttribute('aria-pressed',String(active));}
+ q('camera-status').textContent='View: '+(state.cameraPreset?CAMERA_PRESETS[state.cameraPreset].label:'Custom rotation / zoom')+'. Axis views use parallel projection. Buttons move the camera only; coordinates and alignment stay unchanged.';}
+function setCamera(camera,preset=null){state.camera=camera;state.cameraPreset=preset;state.revision++;render();}
+function rotateCamera(turn,tilt){
+ const c=state.camera||presetCamera('oblique'),v={x:c.eye.x-c.center.x,y:c.eye.y-c.center.y,z:c.eye.z-c.center.z},r=Math.hypot(v.x,v.y,v.z);
+ if(!r)return;
+ let eye,up;const a=turn*Math.PI/180;
+ if(turn){const rot=p=>({x:p.x*Math.cos(a)-p.y*Math.sin(a),y:p.x*Math.sin(a)+p.y*Math.cos(a),z:p.z});eye=rot(v);up=rot(c.up);}
+ else{const rho=Math.hypot(v.x,v.y),sign=v.z>=0?1:-1,az=rho>1e-9?Math.atan2(v.y,v.x):Math.atan2(-sign*c.up.y,-sign*c.up.x),el=Math.max(-Math.PI/2,Math.min(Math.PI/2,Math.atan2(v.z,rho)+tilt*Math.PI/180));
+ eye={x:r*Math.cos(el)*Math.cos(az),y:r*Math.cos(el)*Math.sin(az),z:r*Math.sin(el)};up={x:-Math.sin(el)*Math.cos(az),y:-Math.sin(el)*Math.sin(az),z:Math.cos(el)};}
+ setCamera({...c,eye:{x:eye.x+c.center.x,y:eye.y+c.center.y,z:eye.z+c.center.z},up});
+}
+let cameraEventsBound=false;
+function bindCameraEvents(){const plot=q('plot');if(cameraEventsBound||typeof plot.on!=='function')return;cameraEventsBound=true;
+ plot.on('plotly_relayout',event=>{if(!is3D())return;const previous=state.camera||presetCamera('oblique'),camera=JSON.parse(JSON.stringify(previous)),full=event['scene.camera'];let changed=false;
+ for(const part of ['eye','center','up']){const source=full&&full[part]||event['scene.camera.'+part]||{};for(const axis of ['x','y','z']){const v=event['scene.camera.'+part+'.'+axis]??source[axis];if(Number.isFinite(v)){camera[part][axis]=v;changed=true;}}}
+ const projection=event['scene.camera.projection.type']||(full&&full.projection&&full.projection.type)||(event['scene.camera.projection']||{}).type;if(['perspective','orthographic'].includes(projection)){camera.projection.type=projection;changed=true;}
+ if(changed&&JSON.stringify(camera)!==JSON.stringify(previous)){const axisWasHidden=state.cameraPreset&&state.cameraPreset!=='oblique';state.camera=camera;state.cameraPreset=null;if(axisWasHidden)render();else updateCameraControls();}
+ });}
 const METRICS={n_all:['All detections / bin','Viridis'],n_pla:['PLA objects / bin','Magma'],n_chat:['ChAT objects / bin','Cividis'],fraction:['ChAT-positive PLA (%)','Viridis'],mean_area:['Mean PLA area (µm²)','Viridis'],large_fraction:['PLA ≥1 µm² (%)','Cividis'],overlap_area:['Actual overlap area (µm² / bin)','Magma'],support:['Observed geometry','Viridis']};
 const config={scrollZoom:true,responsive:true,displaylogo:false,toImageButtonOptions:{format:'png',scale:3,filename:'HALO_spatial_view'}};
 function rows(){return DATA.sections.filter(s=>s.arm===value('arm')&&(value('group')==='all'||s.group===value('group')));}
@@ -89,12 +156,26 @@ function matrix(g,key){const floor=+value('minimum');return g.n_pla.map((r,iy)=>
  if(key==='large_fraction')return 100*g.n_large[iy][ix]/n;
  return g[key][iy][ix];
 }));}
+function updateMinimumControl(){
+ const key=state.view==='layers'?value('layer-metric'):value('metric');
+ const active=state.view!=='channels'&&['fraction','mean_area','large_fraction'].includes(key);
+ q('minimum').disabled=!active;q('minimum-value').textContent=value('minimum')+(+value('minimum')===1?' object':' objects')+(active?'':' · inactive for this view');
+ q('minimum-help').textContent=active?'Hide bins with fewer PLA objects than this minimum. Drag to update the view; raw data stays unchanged.':state.view==='channels'?'Inactive: this channel overlay shows counts in fixed 100-unit bins. Select a percentage or mean area in 3D measurements to use this filter.':'Inactive for counts and silhouettes. In '+(state.view==='layers'?'Layer content':'Measurement')+', choose ChAT-positive PLA (%), Mean PLA area, or Large PLA (%).';
+ q('minimum-status').hidden=!active;
+}
+function showMinimumSupport(sections){
+ if(q('minimum').disabled)return;
+ let observed=0,shown=0;const floor=+value('minimum');
+ for(const s of sections){const g=grid(s);g.n_all.forEach((r,iy)=>r.forEach((n,ix)=>{if(n>0){observed++;if(g.n_pla[iy][ix]>=floor)shown++;}}));}
+ q('minimum-status').textContent=sections.length?'Showing '+shown.toLocaleString()+' / '+observed.toLocaleString()+' observed bins with ≥'+floor+' PLA '+(floor===1?'object':'objects')+'; '+(observed-shown).toLocaleString()+' below the minimum are hidden.'+(state.view==='layers'?' Bins are counted separately for each visible layer.':''):'No visible sections to filter.';
+}
 function maximum(key){if(key.includes('fraction'))return 100;if(key==='support')return 1;let max=0;for(const s of DATA.sections.filter(s=>s.arm===value('arm')))for(const row of matrix(grid(s),key))for(const x of row)if(x!==null)max=Math.max(max,x);return max||1;}
 function count(a){let n=0;for(const r of a)for(const x of r)n+=x;return n;}
 function custom(g){return g.n_pla.map((r,iy)=>r.map((n,ix)=>[n,g.n_chat[iy][ix],g.n_positive[iy][ix]]));}
 function nativeHover(s){return 'x=%{x:,.0f}<br>y=%{y:,.0f}<br>PLA=%{customdata[0]:,.0f}<br>ChAT=%{customdata[1]:,.0f}<br>ChAT-positive PLA=%{customdata[2]:,.0f}<extra>'+s.animal+' · '+s.group+'</extra>';}
 function common(){return {template:'plotly_white',paper_bgcolor:'white',plot_bgcolor:'white',font:{family:'Arial',color:'#173447'},margin:{t:55,r:100,b:55,l:70},uirevision:state.view+value('arm')+value('group')+state.revision,title:{text:'',font:{size:18},x:.04},showlegend:false};}
-function scene(xr,yr,zratio,ztitle){return {xaxis:{title:{text:'x · export units'},range:xr},yaxis:{title:{text:'y · export units'},range:[yr[1],yr[0]]},zaxis:{title:{text:ztitle}},aspectmode:'manual',aspectratio:{x:1,y:(yr[1]-yr[0])/(xr[1]-xr[0]),z:zratio},camera:state.camera||{eye:{x:1.05,y:1.15,z:.95}},dragmode:'orbit'};}
+function scene(xr,yr,zratio,ztitle){const p=state.cameraPreset||'',edgeOn=['top','bottom'].includes(p)?'z':p.startsWith('x-')?'x':p.startsWith('y-')?'y':null;
+ return {xaxis:{title:{text:'x · export units'},range:xr,visible:edgeOn!=='x'},yaxis:{title:{text:'y · export units'},range:[yr[1],yr[0]],visible:edgeOn!=='y'},zaxis:{title:{text:ztitle},visible:edgeOn!=='z'},aspectmode:'manual',aspectratio:{x:1,y:(yr[1]-yr[0])/(xr[1]-xr[0]),z:zratio},camera:state.camera||presetCamera('oblique'),dragmode:'orbit'};}
 function extent(sections){const xs=[],ys=[];for(const s of sections){const g=grid(s),c=coords(s,g);xs.push(Math.min(...c.x)-g.width/2,Math.max(...c.x)+g.width/2);ys.push(Math.min(...c.y)-g.width/2,Math.max(...c.y)+g.width/2);}return [[Math.min(...xs),Math.max(...xs)],[Math.min(...ys),Math.max(...ys)]];}
 function sectionDetail(s,g){return '<span class="stat">'+s.animal+' · '+s.group+' · job '+s.job+'</span> &nbsp; '+count(g.n_pla).toLocaleString()+' PLA · '+count(g.n_chat).toLocaleString()+' ChAT · '+g.width+' × '+g.width+'-unit bins. <span class="tooltip">Counts are per full bin, not per measured tissue area.</span>';}
 function surface(){const s=selectedSection(),g=grid(s),key=value('metric'),m=matrix(g,key),log=value('height')==='log',max=maximum(key),height=v=>v===null?null:(log?Math.log1p(v):v);
@@ -105,7 +186,7 @@ function surface(){const s=selectedSection(),g=grid(s),key=value('metric'),m=mat
  const trace={type:'surface',x:g.x,y:g.y,z:m.map(r=>r.map(height)),surfacecolor:m.map(r=>r.map(colorValue)),customdata:custom(g),text:m.map(r=>r.map(v=>v===null?'not shown':v.toLocaleString(undefined,{maximumFractionDigits:2}))),cmin:0,cmax:colorValue(max),colorscale:DATA.colorscales[METRICS[key][1]],colorbar:{title:{text:METRICS[key][0],side:'right'},thickness:16,len:.8},connectgaps:false,lighting:{ambient:.8,diffuse:.6,specular:.15},hovertemplate:nativeHover(s).replace('<extra>','<br>Selected value=%{text}<extra>')};
  if(colorLog){const ticks=[0,5,20,100,500,2500,10000].filter(n=>n<=max);trace.colorbar.tickvals=ticks.map(Math.log1p);trace.colorbar.ticktext=ticks.map(String);trace.colorbar.title.text+=' · log color';}
  q('notice').textContent='Height represents the selected measurement, not tissue depth. Color limits are fixed across all six animals within this PLA arm and bin size. The minimum-PLA control applies to fractions and mean size; counts and area sums retain observed bins.';q('notice').className='notice';q('details').innerHTML=sectionDetail(s,g)+'<br><span class="stat">Shown: '+m.flat().filter(v=>v!==null).length+' / '+g.n_all.flat().filter(v=>v>0).length+' observed bins.</span>';
- return {traces:[trace],layout};}
+ showMinimumSupport([s]);return {traces:[trace],layout};}
 function channels(){const s=selectedSection(),g=s.fine,traces=[],negative=value('pla-subset')==='negative',positive=value('pla-subset')==='positive';
  let pc=g.n_pla.map((r,iy)=>r.map((n,ix)=>positive?g.n_positive[iy][ix]:negative?n-g.n_positive[iy][ix]:n));
  let maxp=1,maxc=1;for(const t of DATA.sections.filter(s=>s.arm===value('arm'))){for(let i=0;i<t.fine.n_pla.length;i++)for(let j=0;j<t.fine.n_pla[i].length;j++){maxp=Math.max(maxp,positive?t.fine.n_positive[i][j]:negative?t.fine.n_pla[i][j]-t.fine.n_positive[i][j]:t.fine.n_pla[i][j]);maxc=Math.max(maxc,t.fine.n_chat[i][j]);}}
@@ -144,24 +225,30 @@ function layers(){const es=eligible(),active=state.one?es.slice(state.step,state
  else{layout.xaxis={title:{text:(frame==='native'?'Native x':'Centered x')+' · export units'},range:xr};layout.yaxis={title:{text:(frame==='native'?'Native y':'Centered y')+' · export units'},range:[yr[1],yr[0]],scaleanchor:'x',scaleratio:1};}}
  if(!active.length)layout.annotations=[{xref:'paper',yref:'paper',x:.5,y:.5,showarrow:false,text:es.length?'No layers selected. Use Show all layers or the section checkboxes.':'No sections are available in this frame.<br>Choose Feature-aligned proposals or Native coordinates.',font:{size:17,color:'#597381'}}];
  q('details').innerHTML='<span class="stat">Visible: '+(active.map(s=>s.animal).join(' · ')||'none')+'</span> &nbsp; '+(geometryColor?(key==='support'?'Colors identify animals. Filled bins show observed objects, not a traced tissue mask.':'Colors identify animals; shade represents log(1 + all-object count). These are detection reconstructions, not microscope pixels. Shared count scale within the arm.'):'Each layer retains its own values; layers are never pooled. Color limits are shared within the PLA arm. Flat blending is for inspection, not a numerical group estimate.');
- return {traces,layout};}
-let sequence=Promise.resolve();
-function render(){q('notice').hidden=false;q('minimum-value').textContent=value('minimum')+' objects';q('channel-opacity-value').textContent=value('channel-opacity')+'%';q('layer-opacity-value').textContent=value('layer-opacity')+'%';q('animal-label').hidden=state.view==='layers';q('metric-controls').hidden=state.view!=='surface';q('channel-controls').hidden=state.view!=='channels';q('layer-controls').hidden=state.view!=='layers';q('step-controls').hidden=state.view!=='layers';q('layer-list').hidden=state.view!=='layers';q('separation-label').hidden=value('layer-view')!=='stack';
- q('bin').disabled=state.view==='channels';const currentMetric=state.view==='layers'?value('layer-metric'):value('metric');q('minimum').disabled=state.view==='channels'||!['fraction','mean_area','large_fraction'].includes(currentMetric);
+ showMinimumSupport(active);return {traces,layout};}
+let sequence=Promise.resolve(),plotRequest=0;
+function render(){q('notice').hidden=false;updateMinimumControl();q('channel-opacity-value').textContent=value('channel-opacity')+'%';q('layer-opacity-value').textContent=value('layer-opacity')+'%';q('animal-label').hidden=state.view==='layers';q('metric-controls').hidden=state.view!=='surface';q('channel-controls').hidden=state.view!=='channels';q('layer-controls').hidden=state.view!=='layers';q('step-controls').hidden=state.view!=='layers';q('layer-list').hidden=state.view!=='layers';q('separation-label').hidden=value('layer-view')!=='stack';
+ q('bin').disabled=state.view==='channels';updateCameraControls();updateViewGuide();
  root.querySelectorAll('[data-view]').forEach(b=>{b.classList.toggle('active',b.dataset.view===state.view);b.setAttribute('aria-selected',b.dataset.view===state.view?'true':'false');});
- try{const result=state.view==='surface'?surface():state.view==='channels'?channels():layers();sequence=sequence.then(()=>Plotly.react(q('plot'),result.traces,result.layout,config)).catch(error=>{q('notice').className='notice warning';q('notice').textContent='Viewer error: '+error.message;});}catch(error){q('notice').className='notice warning';q('notice').textContent=error.message;}}
-function resetCamera(){state.camera=null;state.revision++;}
+ try{const result=state.view==='surface'?surface():state.view==='channels'?channels():layers(),request=++plotRequest;sequence=sequence.then(()=>{if(request===plotRequest)return Promise.resolve(Plotly.react(q('plot'),result.traces,result.layout,config)).then(bindCameraEvents);}).catch(error=>{q('notice').className='notice warning';q('notice').textContent='Viewer error: '+error.message;});}catch(error){q('notice').className='notice warning';q('notice').textContent=error.message;}}
+function resetCamera(){state.camera=null;state.cameraPreset='oblique';state.revision++;}
 root.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>{state.view=b.dataset.view;if(state.view==='layers'&&!state.layerOpened){q('bin').value='250';state.layerOpened=true;}resetCamera();refreshLayers();render();});
 for(const role of ['arm','group'])q(role).onchange=()=>{refreshAnimals();state.step=0;refreshLayers(true);resetCamera();render();};
-for(const role of ['animal','bin','minimum','metric','height','pla-subset','channel-opacity','layer-opacity','separation','layer-metric','anchors','chat','pla'])q(role).onchange=()=>{render();};
+for(const role of ['animal','bin','metric','height','pla-subset','channel-opacity','layer-opacity','separation','layer-metric','anchors','chat','pla'])q(role).onchange=()=>{render();};
+// Keep the value responsive while coalescing expensive multi-layer redraws.
+let minimumTimer=null;
+q('minimum').oninput=()=>{updateMinimumControl();if(minimumTimer===null)minimumTimer=setTimeout(()=>{minimumTimer=null;render();},100);};
+q('minimum').onchange=()=>{clearTimeout(minimumTimer);minimumTimer=null;render();};
 q('frame').onchange=()=>{const candidate=value('frame')==='candidate';for(const option of q('layer-metric').options)option.disabled=candidate&&!['support','n_all'].includes(option.value);if(candidate&&!['support','n_all'].includes(value('layer-metric')))q('layer-metric').value='n_all';state.step=0;refreshLayers(true);resetCamera();render();};
 q('metric').onchange=()=>{q('height').value=['fraction','large_fraction','mean_area'].includes(value('metric'))?'linear':'log';render();};
 q('layer-view').onchange=()=>{resetCamera();render();};
 q('all-layers').onclick=()=>{state.one=false;refreshLayers(true);render();};q('one-layer').onclick=()=>{state.one=true;refreshLayers();render();};
 function step(n){state.one=true;state.step=Math.max(0,Math.min(n,eligible().length-1));refreshLayers();render();}
 q('step').oninput=()=>step(+value('step'));q('previous').onclick=()=>step(state.step-1);q('next').onclick=()=>step(state.step+1);
-for(const r of ['reset','channel-reset'])q(r).onclick=()=>{resetCamera();render();};
-q('top').onclick=()=>{state.camera={eye:{x:0,y:0,z:2.5},up:{x:0,y:1,z:0}};state.revision++;render();};q('oblique').onclick=()=>{resetCamera();render();};
+for(const r of ['camera-reset','channel-reset'])q(r).onclick=()=>{resetCamera();render();};
+for(const name of Object.keys(CAMERA_PRESETS))q('camera-'+name).onclick=()=>setCamera(presetCamera(name),name);
+q('rotate-left').onclick=()=>rotateCamera(30,0);q('rotate-right').onclick=()=>rotateCamera(-30,0);
+q('tilt-up').onclick=()=>rotateCamera(0,15);q('tilt-down').onclick=()=>rotateCamera(0,-15);
 if(!DATA.sections.some(s=>s.proposed))q('frame').value='native';refreshAnimals();refreshLayers(true);q('loading').hidden=true;render();
 })();
 </script>
