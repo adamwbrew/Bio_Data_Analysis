@@ -61,7 +61,7 @@ def explorer_payload(fine, geometry, surfaces, metrics, metadata, reviews):
                 version=VERSION)
 
 
-def explorer_html(fine, geometry, surfaces, metrics, metadata, reviews):
+def explorer_html(fine, geometry, surfaces, metrics, metadata, reviews, include_plotly=True):
     """Return an offline HTML output embedded in a trusted Jupyter notebook.
 
     No server, CDN, widget extension, or live kernel is needed after rendering.
@@ -73,4 +73,4 @@ def explorer_html(fine, geometry, surfaces, metrics, metadata, reviews):
     data = data.replace('<', '\\u003c')
     template = Path(__file__).with_name('explorer.html').read_text()
     return template.replace('__ROOT_ID__', 'halo-' + uuid.uuid4().hex).replace('__DATA__', data).replace(
-        '__PLOTLY__', get_plotlyjs())
+        '__PLOTLY__', get_plotlyjs() if include_plotly else '')

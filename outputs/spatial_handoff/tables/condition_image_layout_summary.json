@@ -1,0 +1,25 @@
+{
+  "section_count": 12,
+  "source_image_count": 3,
+  "coordinate_units": "HALO export units; calibration unverified",
+  "extent_definition": "Envelope of exported object bounding boxes; not a tissue ROI or anatomical registration",
+  "complete_condition_x_separation": true,
+  "condition_x_order": "Running lower-X; Home cage higher-X",
+  "group_x_ranges": {
+    "Home cage": {
+      "x_min": 23680.0,
+      "x_max": 44643.0
+    },
+    "Running": {
+      "x_min": 0.0,
+      "x_max": 22152.0
+    }
+  },
+  "within_image_comparisons": 6,
+  "finite_within_image_contrasts": 6,
+  "positive_within_image_contrasts": 6,
+  "negative_within_image_contrasts": 0,
+  "all_within_image_contrasts_positive": true,
+  "interpretation": "Condition follows the same left/right exported layout in every source-image/arm panel. This flags a technical-review priority; it does not establish an imaging artifact.",
+  "action": "Review source-image/composite provenance, illumination and background correction, HALO threshold uniformity, and equivalent blinded fields from both sides. Shared image IDs do not establish matched experimental pairs or remove layout confounding."
+}

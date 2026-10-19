@@ -10,7 +10,7 @@ def code(s):cells.append(nbf.v4.new_code_cell(dedent(s).strip(),metadata={'scrol
 
 md('''
 # PLA–ChAT spatial analysis · from raw HALO detections to scientific review
-**Raw-data handoff edition · protocol 1.1.1 · research checked 18 October 2026**
+**Raw-data handoff edition · protocol 1.2.0 · research checked 19 October 2026**
 
 ### Open the Plotly app
 **[Open the spatial app in your browser](http://127.0.0.1:8050/)** for the 3D, channel and layer controls plus the main scientific figures. First double-click `Launch_Spatial_Explorer.command` in this repository on your Mac, or run `python scripts/serve_spatial_app.py` in a terminal. Leave the terminal open while using the link. The app works from the saved results without running this notebook or installing extra packages.
@@ -21,7 +21,7 @@ This notebook reconstructs all **12 ChAT-panel sections** from the expanded data
 
 **What these images represent:** colored maps are computed from detected-object bounding-box midpoints. They are not recovered microscope photographs. The CSVs have no tissue-depth coordinate; the 3D views show **signal height over a 2D section**, with a slider to change animals. They do not reconstruct a brain volume or assume serial-section order.
 
-**Start here:** [interactive control center](#explore) → [experiment and inputs](#experiment) → [native overlays](#native) → [registration review](#registration) → [heat maps and zoom](#maps) → [interactive 3D](#three-d) → [animal-level findings](#findings) → [scientist action list](#actions).
+**Start here:** [non-running minus Running](#comparison) → [interactive control center](#explore) → [experiment and inputs](#experiment) → [native overlays](#native) → [registration review](#registration) → [heat maps and zoom](#maps) → [interactive 3D](#three-d) → [animal-level findings](#findings) → [scientist action list](#actions).
 
 The [main scientific notebook](PLA_ChAT_scientific_analysis.ipynb) now puts the interactive control center first, followed by the main findings. This longer notebook retains the full audit, static figure collection and research methods. The [original exploratory notebook](PLA_ChAT_visual_analysis.ipynb) remains available for the historical box/outline analysis.
 
@@ -47,10 +47,11 @@ import matplotlib.pyplot as plt
 import plotly.io as pio
 from IPython.display import display, Markdown, HTML
 # Reload in dependency order so a second Run All uses edited local functions.
-for name in ['bio_visuals.data', 'bio_visuals.entire_dataset', 'bio_visuals.handoff', 'bio_visuals.handoff_plots', 'bio_visuals.explorer', 'bio_visuals.standalone_app']:
+for name in ['bio_visuals.data', 'bio_visuals.entire_dataset', 'bio_visuals.handoff', 'bio_visuals.handoff_plots', 'bio_visuals.explorer', 'bio_visuals.condition_comparison', 'bio_visuals.condition_views', 'bio_visuals.condition_layout', 'bio_visuals.standalone_app']:
     importlib.reload(importlib.import_module(name))
 from bio_visuals import entire_dataset as raw, handoff as h, handoff_plots as hp
 from bio_visuals.explorer import explorer_html
+from bio_visuals import condition_comparison as cc, condition_views as cv, condition_layout as cl
 from bio_visuals.standalone_app import write_standalone_app
 hp.style()
 pd.set_option('display.max_columns', 18)
@@ -163,6 +164,80 @@ if not REVIEW_PATH.exists():
 status = h.review_status(reviews)
 print('All four grid resolutions conserve every primary object count.')
 ''')
+md('''
+<a id="comparison"></a>
+## Running versus non-running · overlay the averages, then subtract
+
+The scientist asked whether overlaying Running and non-running measurements, and subtracting Running from non-running, reveals a useful pattern. **Home cage is the non-running group.** The first answer uses section-wide measurements, so it does not require claiming that unreviewed pixels are anatomically equivalent. The interactive panel overlays condition distributions and size curves; the spatial explorer below provides the actual section layers.
+
+**How the average is calculated:** count ChAT-positive PLA / all PLA separately for each animal, multiply by 100, then average the three animal percentages with equal weights. Calculate **Home cage mean − Running mean** within each PLA arm. Positive values mean more association in non-running animals. A difference of 22 percentage points is an absolute difference between percentages, not a 22% relative change. Millions of detected objects do not increase the six-animal sample size. [Lazic, 2010](https://pmc.ncbi.nlm.nih.gov/articles/PMC2817684/), [Ho et al., 2019](https://pubmed.ncbi.nlm.nih.gov/31217592/).
+
+**Use the controls:** switch PLA arms and measurements, overlay the individual-animal values, inspect all nine cross-animal differences, and compare size-specific curves. Black intervals delete one animal from **each** group in all nine combinations; they are sensitivity ranges, **not confidence intervals**. No animals are assumed to be matched pairs.
+''')
+code('''
+condition_results = cc.comparison_results(objects, metadata, min_per_stratum=10)
+for name, value in condition_results.items():
+    if isinstance(value, pd.DataFrame):
+        value.to_csv(TABLES / f'condition_{name}.csv.gz', index=False, compression='gzip')
+(TABLES / 'condition_definitions.json').write_text(json.dumps(condition_results['definitions'], indent=2, ensure_ascii=False) + '\\n')
+condition_primary = condition_results['contrasts'].query("metric == 'association_pct'")
+display(condition_primary[['pla_arm','home_mean','running_mean','home_minus_running','leave_pair_out_min','leave_pair_out_max']])
+for r in condition_primary.itertuples():
+    display(Markdown(f'**{r.pla_arm}:** non-running **{r.home_mean:.2f}%**, Running **{r.running_mean:.2f}%**; '
+                     f'non-running − Running = **{r.home_minus_running:+.2f} percentage points**. '
+                     f'All nine delete-one-per-group contrasts span **{r.leave_pair_out_min:+.2f} to {r.leave_pair_out_max:+.2f} points**.'))
+comparison_registration = cc.condition_registration(objects, reviews, PARAMETERS['metric_bin'], PARAMETERS['min_pla_per_bin'])
+comparison_fragment = cv.comparison_html(condition_results, registration=comparison_registration)
+display(HTML(comparison_fragment))
+''')
+code("show(cv.average_difference_figure(condition_results), '13_condition_averages_difference')")
+md('''
+### Check 1 · Is the contrast driven by a single mouse?
+
+The left heatmaps subtract each Running animal from each Home-cage animal. Their nine cells share animals; they are **not nine independent experiments**. The right heatmaps remove one animal per group and recompute the remaining two-versus-two mean difference. In this dataset, every cell is positive in both arms. This makes a single unusual animal an insufficient explanation for the observed direction, but does not remove a technical difference shared by a condition.
+
+The second metric in the average figure is **summed exported overlap area / summed PLA area, calculated within each animal**. It differs from the percentage of objects flagged positive and from the area of all positive objects. It is not tissue coverage; overlapping segmented objects may contribute repeated area. The association gap is also positive with this alternate geometric summary.
+''')
+code("show(cv.robustness_figure(condition_results), '14_condition_robustness')")
+md('''
+### Check 2 · Could the different PLA size mixture explain the averages?
+
+Larger objects have more geometric opportunity to overlap ChAT. We therefore compare the same five predefined area classes, then give every animal a **common reference size distribution**. Within each arm, reference weights are the equal-animal average of the six animals' size-class proportions. Only classes with at least 10 PLA and an observed fraction in **every** animal are eligible; missing support is never a zero.
+
+The plot separates **raw**, **restricted to supported sizes**, and **standardized to common size weights** estimates. Here all five classes meet support and all objects are retained, so raw and restricted coincide. Standardization changes the size mixture, not the original detections. Its delete-one-per-group sensitivity holds the full-cohort size weights and eligible classes fixed. It is an exploratory sensitivity analysis, not a causal adjustment or a substitute for reviewing detection settings, ChAT abundance and tissue support.
+''')
+code('''
+show(cv.size_standardization_figure(condition_results), '15_condition_size_standardization')
+for r in condition_results['standardization'].query("estimator == 'standardized'").itertuples():
+    display(Markdown(f'**{r.pla_arm}:** after common-size reweighting, non-running **{r.home_mean:.2f}%**, '
+                     f'Running **{r.running_mean:.2f}%**, difference **{r.home_minus_running:+.2f} percentage points**. '
+                     f'Minimum animal retention: **{r.min_retained_pct:.1f}%**.'))
+''')
+md('''
+**What this adds:** size composition alone does not erase the association gap; the standardized gap is slightly larger. The size-specific means show the same direction across all five categories. That narrows one explanation, while leaving ChAT detection opportunity, tissue composition, acquisition and segmentation as unresolved alternatives. Avoid selecting a size cutoff solely because it strengthens the difference. [Dunn et al., 2011](https://pmc.ncbi.nlm.nih.gov/articles/PMC3074624/).
+
+### Check 3 · Does source-image layout align with condition?
+
+We can check the exported geometry without seeing the source microscopy pixels. The next figure compares raw bounding-box extents and the association difference within each shared source-image reference. Source-image sharing does **not** establish experimental pairing or identical settings. This is a technical audit, not a paired treatment test. If the X offsets were applied only after detection to assemble an export, those offsets alone cannot change the association fractions. The scientist should establish whether the layout reflects acquisition/processing differences or simply post-analysis placement.
+''')
+code('''
+layout_sections, layout_image_contrasts, layout_summary = cl.layout_audit(objects, metadata)
+table(layout_sections, 'condition_image_layout_sections')
+table(layout_image_contrasts, 'condition_source_image_contrasts')
+(TABLES / 'condition_image_layout_summary.json').write_text(json.dumps(layout_summary, indent=2, ensure_ascii=False) + '\\n')
+show(cl.layout_figure(layout_sections), '16_condition_image_layout')
+display(Markdown('**Source-image review priority:** in the current exports, Running sections occupy the lower-X side and Home-cage sections the higher-X side across all three image references and both arms. This does **not** prove an artifact. Request the original channels and image/composite construction history, then compare illumination/background, ChAT segmentation and HALO thresholds across equivalent fields blinded to condition. The shared image references cannot separate a condition effect from a condition-aligned layout effect.'))
+''')
+md('''
+### What would an anatomical difference map require?
+
+Overlaying centered silhouettes is useful for geometry review, but subtracting their biological signal would assume that the locations correspond. **No section is currently approved for this anatomical comparison.** The review gate later in this notebook computes per-animal fractions, equal-animal Home/Running means, **Home − Running**, and both contributing-animal maps only after all 12 records pass. Each displayed group bin requires three supported animals; absent support stays blank. The separate spatial explorer can already show native measurements and provisional geometry layers.
+
+### How much evidence do six animals provide?
+
+The observed direction is consistent, but population uncertainty remains substantial. An optional exact enumeration places three of six animals in each group in all **20 possible allocations**; both primary contrasts have two-sided value **0.10**, the minimum attainable here. This calculation assumes exchangeable animal labels, which the handoff does not establish. It is saved as a **design-limit diagnostic**, not a confirmatory significance claim or evidence of no difference. No pixel or punctum is treated as an independent animal. [SciPy exact-permutation documentation](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.permutation_test.html).
+''')
+code("display(condition_results['exact_summary'])")
 md('''
 <a id="explore"></a>
 ## Interactive control center · start with the data
@@ -285,11 +360,11 @@ The left column asks what fraction of PLA is ChAT-positive. The middle column as
 ''')
 code('''
 show(hp.group_summary_figure(summary), '09_equal_animal_summary')
-contrasts = h.group_contrasts(summary)
+contrasts = condition_primary.copy()
 table(contrasts, 'equal_animal_association_contrasts')
 for r in contrasts.itertuples():
     display(Markdown(f'**{r.pla_arm}:** Home cage **{r.home_mean:.2f}%**, Running **{r.running_mean:.2f}%**; '
-                     f'Running − Home **{r.running_minus_home:.2f} percentage points**. '
+                     f'Home − Running **{r.home_minus_running:+.2f} percentage points**. '
                      f'Deleting one animal from each group in all nine combinations gives '
                      f'**{r.leave_pair_out_min:.2f} to {r.leave_pair_out_max:.2f} points**. '
                      'This is a sensitivity range, **not a confidence interval**.'))
@@ -350,7 +425,8 @@ md('''
 
 | Observation / current limit | Next action | What it resolves |
 |---|---|---|
-| Lower Running ChAT-positive PLA fractions in both arms; all six animals are shown | Check ChAT segmentation and detection settings blinded to condition; use negative/single-antibody PLA controls and consistent acquisition | Whether detection opportunity or assay specificity explains the pattern |
+| Raw and size-standardized gaps persist; every cross-animal and delete-one-per-group contrast is positive | Check ChAT segmentation and detection settings blinded to condition; use negative/single-antibody PLA controls and consistent acquisition | Whether detection opportunity or assay specificity explains the pattern |
+| Condition coincides with low/high X image layout in all source images | Obtain original channels and composite provenance; audit illumination, background and thresholds across equivalent fields | Whether condition-aligned imaging or processing contributes to the gap |
 | Larger PLA objects are more often ChAT-positive; extreme counts appear in localized windows | Review the coordinate queue plus ordinary fields in original channels; inspect merged objects and large-punctum boundaries | Whether size association reflects segmentation or compartment biology |
 | ChAT detections vary across animals and conditions | Obtain HALO tissue ROI polygons and calibration; measure independent ChAT abundance per supported tissue area | Whether an apparent association shift accompanies a change in sampled marker opportunity |
 | Nine enclosed-void proposals; three missing proposals; none approved | Manually trace full ventricular cavities, verify four-choice orientation, review expected cut edge and ambiguous cases with a second scientist | Whether an anatomical comparison is justified at all |
@@ -389,7 +465,7 @@ if status.ready.all():
         fig, axes = plt.subplots(1, 5, figsize=(20, 5), layout='constrained')
         descriptions = [('Home cage', result['Home cage']['mean'], 'viridis', 0, 100),
                         ('Running', result['Running']['mean'], 'viridis', 0, 100),
-                        ('Running − Home', result['difference'], 'RdBu_r', -100, 100),
+                        ('Home − Running', -result['difference'], 'BrBG', -100, 100),
                         ('Home contributors', result['Home cage']['n'], 'viridis', 0, 3),
                         ('Running contributors', result['Running']['n'], 'viridis', 0, 3)]
         for ax, (name, z, cmap, lo, hi) in zip(axes, descriptions):
@@ -413,7 +489,8 @@ All core results are embedded in this notebook. Supplementary outputs live in `o
 **Methods not claimed as completed:** true microscopy-image overlay, anatomical volume reconstruction, calibrated tissue-area density, validated ventricular registration, spatial enrichment, cross-marker PCA and confirmed causal running effects. The supplied data do not establish those results. The notebook supplies the native views, review tools, animal-level analyses and exact inputs needed to progress toward them.
 ''')
 code('''
-app_path = write_standalone_app(explorer_html(fine, geometry, surfaces, metrics, metadata, reviews), ROOT)
+app_path = write_standalone_app(explorer_html(fine, geometry, surfaces, metrics, metadata, reviews, include_plotly=False), ROOT,
+                                comparison_fragment=cv.comparison_html(condition_results, registration=cc.condition_registration(objects, reviews, PARAMETERS['metric_bin'], PARAMETERS['min_pla_per_bin'])))
 display(Markdown(f'**Plotly app refreshed.** [Open the running app](http://127.0.0.1:8050/) · '
                  f'[Portable browser copy]({app_path.relative_to(ROOT).as_posix()}). '
                  'Start `Launch_Spatial_Explorer.command` or `python scripts/serve_spatial_app.py` for the local link. '
@@ -431,13 +508,15 @@ print('Analysis complete. Save this notebook to retain the current outputs.')
 md('''
 ## Research and method decisions
 
-The focused literature review covered PLA interpretation, TDP-43/metabolic mechanisms, nested-data statistics, microscopy colocalization, spatial point patterns, bioimage reporting and perceptual color. Searches included recent HK1/PFKP work and foundational methods. It is a targeted methods review, not a systematic evidence review. Primary publications and official software documentation were consulted on **18 October 2026**.
+The focused literature review covered PLA interpretation, TDP-43/metabolic mechanisms, nested-data statistics, microscopy colocalization, spatial point patterns, bioimage reporting and perceptual color. Searches included recent HK1/PFKP work and foundational methods. It is a targeted methods review, not a systematic evidence review. Primary publications and official software documentation were consulted on **18–19 October 2026**.
 
 | Source | Decision implemented here |
 |---|---|
 | [Söderberg et al. (2006), *Direct observation of individual endogenous protein complexes in situ by proximity ligation*](https://www.nature.com/articles/nmeth947) | Explain PLA amplification/proximity; do not infer binding from these detections alone. |
 | [Barone et al. (2026), *TDP-43 impairs glycolysis by sequestering hexokinase 1 in amyotrophic lateral sclerosis*](https://pmc.ncbi.nlm.nih.gov/articles/PMC12992470/) | Frame arm-specific mechanistic follow-up; separate the present descriptive result from disease-model/functional evidence. |
 | [Manzo et al. (2019), *Glycolysis upregulation is neuroprotective as a compensatory mechanism in ALS*](https://elifesciences.org/articles/45114) | Treat metabolic function as a separate endpoint requiring direct measurement. |
+| [Ho et al. (2019), *Moving beyond P values: data analysis with estimation graphics*](https://pubmed.ncbi.nlm.nih.gov/31217592/) | Show animal observations and effect magnitudes; sensitivity ranges are not confidence intervals. |
+| [SciPy, permutation_test](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.permutation_test.html) | Enumerate all 20 three-versus-three allocations as a design diagnostic under an explicitly unverified exchangeability assumption. |
 | [Lazic (2010), *The problem of pseudoreplication in neuroscientific studies*](https://pmc.ncbi.nlm.nih.gov/articles/PMC2817684/) | Animal-level replication and equal weighting; no punctum-level treatment significance. |
 | [Dunn, Kamocka & McDonald (2011), *A practical guide to evaluating colocalization in biological microscopy*](https://pubmed.ncbi.nlm.nih.gov/21209361/) | Distinguish co-occurrence metrics, show independent marker abundance, avoid misleading blended colors and naive spatial randomization. |
 | [Shivanandan, Radenovic & Sbalzarini (2013), *MosaicIA*](https://pubmed.ncbi.nlm.nih.gov/24299066/) | Describe nearest-center distances with geometric context; reserve interaction/enrichment claims for a validated null. No MosaicIA model is fitted here. |

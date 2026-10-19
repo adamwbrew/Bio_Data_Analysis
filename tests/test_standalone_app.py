@@ -26,11 +26,14 @@ class StandaloneAppTests(unittest.TestCase):
         for name, _, _ in app.GALLERY:
             (figures / name).write_bytes(png)
         fragment = '<div id="test-explorer"></div><script>window.testExplorer=true;</script>'
-        path = app.write_standalone_app(fragment, self.root)
+        comparison = '<div id="condition-comparison">Home cage minus Running</div>'
+        path = app.write_standalone_app(fragment, self.root, comparison_fragment=comparison)
         html = path.read_text()
         self.assertEqual(path, self.root / "outputs/spatial_handoff/app/index.html")
         self.assertIn(fragment, html)
-        self.assertEqual(html.count("data:image/png;base64," + base64.b64encode(png).decode()), 3)
+        self.assertEqual(html.count("data:image/png;base64," + base64.b64encode(png).decode()), len(app.GALLERY))
+        self.assertIn(comparison, html)
+        self.assertLess(html.index(comparison), html.index(fragment))
         self.assertNotIn(str(self.root), html)
         self.assertNotIn('src="http', html)
         self.assertNotIn("__GALLERY__", html)
@@ -39,7 +42,7 @@ class StandaloneAppTests(unittest.TestCase):
 
     def test_missing_gallery_is_explicit_and_empty_explorer_is_rejected(self):
         path = app.write_standalone_app("<div>Ready</div>", self.root)
-        self.assertEqual(path.read_text().count("not in this snapshot yet"), 3)
+        self.assertEqual(path.read_text().count("not in this snapshot yet"), len(app.GALLERY))
         with self.assertRaises(ValueError):
             app.write_standalone_app("", self.root)
 

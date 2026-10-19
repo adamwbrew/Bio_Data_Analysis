@@ -6,6 +6,23 @@ test_spatial_bins_conserve_objects_and_use_raw_local_support (test_analysis.Anal
 test_spatial_invalid_parameters_fail_clearly (test_analysis.AnalysisInvariantTests) ... ok
 test_spatial_smoothing_uses_ratio_of_weighted_counts_without_changing_raw_counts (test_analysis.AnalysisInvariantTests) ... ok
 test_summary_keeps_object_types_and_denominators_distinct (test_analysis.AnalysisInvariantTests) ... ok
+test_actual_overlap_area_is_not_area_of_positive_objects (test_condition_comparison.ConditionComparisonTests) ... ok
+test_equal_animal_means_direction_and_arm_separation (test_condition_comparison.ConditionComparisonTests) ... ok
+test_exact_enumeration_only_primary_metric_and_minimum_two_sided_p (test_condition_comparison.ConditionComparisonTests) ... ok
+test_fixed_common_size_mix_distinguishes_composition_from_within_size_rates (test_condition_comparison.ConditionComparisonTests) ... ok
+test_missing_values_remain_unknown_and_strict_payload_serializes_null (test_condition_comparison.ConditionComparisonTests) ... ok
+test_nine_delete_pair_sensitivities_are_not_independent_pairs (test_condition_comparison.ConditionComparisonTests) ... ok
+test_registration_adapter_reverses_direction_and_preserves_unknown_bins (test_condition_comparison.ConditionComparisonTests) ... ok
+test_registration_gate_rejects_empty_partial_unready_and_duplicate_reviews (test_condition_comparison.ConditionComparisonTests) ... ok
+test_rejects_wrong_groups_repeated_animals_extra_jobs_and_invalid_flags (test_condition_comparison.ConditionComparisonTests) ... ok
+test_reviewed_registration_uses_equal_animals_and_observed_common_support (test_condition_comparison.ConditionComparisonTests) ... ok
+test_support_rule_requires_every_animal_and_restricted_retention_is_reported (test_condition_comparison.ConditionComparisonTests) ... ok
+test_conflicting_assignment_duplicates_and_unknown_jobs_rejected (test_condition_layout.ConditionLayoutTests) ... ok
+test_extents_use_original_boxes_and_contrasts_have_requested_sign (test_condition_layout.ConditionLayoutTests) ... ok
+test_figure_keeps_arms_separate_and_draws_both_condition_extents (test_condition_layout.ConditionLayoutTests) ... ok
+test_missing_association_stays_unknown_and_invalid_coordinates_rejected (test_condition_layout.ConditionLayoutTests) ... ok
+test_missing_condition_within_image_is_not_called_a_pair (test_condition_layout.ConditionLayoutTests) ... ok
+test_overlap_is_not_called_separation_and_opposite_effect_is_preserved (test_condition_layout.ConditionLayoutTests) ... ok
 test_bad_flags_ids_and_later_metadata_are_rejected (test_entire_dataset.CompleteDatasetTests) ... ok
 test_duplicate_multiset_matching_respects_multiplicity (test_entire_dataset.CompleteDatasetTests) ... ok
 test_equal_export_mean_is_distinct_from_detection_weighting (test_entire_dataset.CompleteDatasetTests) ... ok
@@ -45,6 +62,6 @@ test_portable_page_embeds_original_pixels_and_trusted_explorer (test_standalone_
 test_server_exposes_only_document_and_health_and_reloads_snapshot (test_standalone_app.StandaloneAppTests) ... ok
 
 ----------------------------------------------------------------------
-Ran 45 tests in 8.272s
+Ran 62 tests in 9.321s
 
 OK

@@ -66,6 +66,7 @@ import nbformat
 from IPython.terminal.interactiveshell import TerminalInteractiveShell
 import bio_visuals.handoff as h
 import bio_visuals.explorer as explorer
+expected_version = h.VERSION
 nb = nbformat.read('PLA_ChAT_scientific_analysis.ipynb', as_version=4)
 setup = next(c.source for c in nb.cells if c.cell_type == 'code')
 shell = TerminalInteractiveShell.instance()
@@ -73,7 +74,7 @@ for _ in range(2):
     h.VERSION = 'stale'
     explorer.explorer_html = lambda *a, **k: 'stale'
     shell.run_cell(setup).raise_error()
-    assert h.VERSION == '1.1.1'
+    assert h.VERSION == expected_version
     assert shell.user_ns['explorer_html'] is explorer.explorer_html
     assert explorer.explorer_html.__name__ == 'explorer_html'
 '''

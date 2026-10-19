@@ -1,70 +1,107 @@
 {
-  "verified_utc": "2026-10-19T18:29:47.339669+00:00",
-  "execution": "Both notebooks completed fresh-kernel Run All from raw CSVs and exported the standalone Plotly app.",
+  "verified_utc": "2026-10-19T19:26:11.694523+00:00",
+  "execution": "Both notebooks completed fresh-kernel Run All from raw CSVs, including condition comparisons and updated portable app.",
   "notebooks": [
     {
       "notebook": "PLA_ChAT_scientific_analysis.ipynb",
-      "notebook_sha256": "2703d4839952fd492023eaa1cf4fdbcee4b8b0008235db095a626e55135c980e",
-      "code_cells_with_saved_execution": 13,
-      "code_cells": 13,
+      "notebook_sha256": "7c7f917d6553ce6b719802622c7104a38a59985c9a4714dfbda5de30e36bfbfa",
+      "code_cells_with_saved_execution": 19,
+      "code_cells": 19,
       "error_outputs": 0,
       "stderr_outputs": 0,
       "embedded_explorers": 1,
+      "embedded_condition_comparisons": 1,
       "additional_plotly_outputs": 0
     },
     {
       "notebook": "PLA_ChAT_spatial_handoff_analysis.ipynb",
-      "notebook_sha256": "350cc97c3f9fa756fc5cb9507605a1348ba6640179d2413afa79d162d482175f",
-      "code_cells_with_saved_execution": 31,
-      "code_cells": 31,
+      "notebook_sha256": "3248c7daf7ab77aab2c6ada80e379730b782adab2e598f9fb4ae58ef1dafef4f",
+      "code_cells_with_saved_execution": 37,
+      "code_cells": 37,
       "error_outputs": 0,
       "stderr_outputs": 0,
       "embedded_explorers": 1,
+      "embedded_condition_comparisons": 1,
       "additional_plotly_outputs": 4
     }
   ],
-  "automated_tests_passed": 45,
+  "automated_tests_passed": 62,
   "test_log": "test_results.txt",
-  "javascript_syntax_check": "node --check passed",
+  "javascript_syntax_check": "node --check passed for condition comparison template",
   "browser_checks": [
-    "Trusted JupyterLab renders embedded controls from saved notebook output without a live kernel",
-    "Actual main scientific notebook opened in JupyterLab with project Python environment",
-    "Combined PLA arm, group, section, bin and minimum-denominator filters",
-    "21M HK1 at 1,000-unit bins and minimum 25 PLA: 218/296 observed bins retained, matching independent Python calculation",
-    "3D rotation, top-down view, wheel zoom and reset",
-    "Independent ChAT/PLA visibility, positive/negative PLA subsets and opacity",
-    "Flat overlay, exploded stack, individual checkboxes, all layers and one-at-a-time stepping",
-    "Candidate geometry mode omits missing candidates and disallows unreviewed biological comparisons",
-    "Reviewed alignment remains empty until scientist review passes"
+    "Saved main notebook opened and trusted in JupyterLab; condition arm and individual-animal tab controls render and update",
+    "App arm and metric selection; association percentages and count units checked",
+    "Individual-animal heatmaps and size-standardization curves render",
+    "Spatial subtraction shows 0/12 reviews with no invented anatomical map",
+    "Downloaded PFKP size-comparison CSV matches the saved analysis table numerically"
   ],
   "figure_exports": {
-    "png": 52,
-    "svg": 52,
-    "png_export_dpi": 300
+    "png": 56,
+    "svg": 56,
+    "png_export_dpi": 300,
+    "new_condition_figures": [
+      {
+        "file": "13_condition_averages_difference.png",
+        "pixels": [
+          5134,
+          2909
+        ],
+        "dpi": [
+          299.9994,
+          299.9994
+        ]
+      },
+      {
+        "file": "14_condition_robustness.png",
+        "pixels": [
+          3539,
+          3125
+        ],
+        "dpi": [
+          299.9994,
+          299.9994
+        ]
+      },
+      {
+        "file": "15_condition_size_standardization.png",
+        "pixels": [
+          4834,
+          3063
+        ],
+        "dpi": [
+          299.9994,
+          299.9994
+        ]
+      },
+      {
+        "file": "16_condition_image_layout.png",
+        "pixels": [
+          4029,
+          2768
+        ],
+        "dpi": [
+          299.9994,
+          299.9994
+        ]
+      }
+    ]
   },
-  "protocol": "protocols/v1.1.1_03a71a920dbe.json",
+  "protocol": "protocols/v1.2.0_091d0f1818b0.json",
   "protocol_code_hashes_match": true,
-  "limits": "Detection reconstructions, not microscope pixels. Measurement surfaces use signal height; exploded stacks use ordinal animal order, not anatomical depth. Candidate-centered mode supports geometry QC only. Anatomical comparisons remain gated on scientist review.",
+  "limits": "Equal-animal exploratory comparisons with n=3 per condition per arm. Size reweighting does not adjust all confounding. Source-image layout requires review. Anatomical subtraction is gated; 3D surfaces and ordinal layers are not a brain volume.",
   "standalone_app": {
     "path": "outputs/spatial_handoff/app/index.html",
-    "sha256": "b91067fee5b7ac13d4f83b4dbc9da8096116162bfd800f46e5aa70ae4444d10d",
-    "bytes": 11860295,
+    "sha256": "820e68f32cd595df6e66cc8c9b353d3571835b0e814824aabe3e464405a4a4cd",
+    "bytes": 14390651,
     "sections": 12,
     "object_totals": {
       "n_all": 3010776,
       "n_pla": 310024,
       "n_chat": 2700752
     },
-    "embedded_scientific_figures": 3,
+    "embedded_scientific_figures": 6,
     "remote_assets": 0,
-    "browser_checks": [
-      "Combined measurement, animal and group filters; top-down view",
-      "Candidate-centered layers, all layers and one-at-a-time stepping",
-      "Scientific-results navigation and 300 dpi image download",
-      "Downloaded animal summary exactly matches 4534 x 2816 source pixels",
-      "Mac launcher recognizes existing matching app server",
-      "Final snapshot: PFKP channel overlay and positive-PLA subset selection"
-    ],
+    "comparison_tabs": 4,
     "launcher": "Launch_Spatial_Explorer.command",
     "bind": "127.0.0.1:8050"
   }

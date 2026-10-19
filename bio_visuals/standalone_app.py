@@ -17,10 +17,18 @@ APP_ID = "pla-chat-spatial-explorer"
 HEALTH_PATH = "/__halo_health__"
 DEFAULT_PORT = 8050
 GALLERY = (
-    ("09_equal_animal_summary.png", "Animal-level comparisons",
-     "Each dot is one animal within one PLA arm; bars are equal-animal means. "
-     "There are three animals per condition. Detection counts are not neuron counts, "
-     "and these exploratory comparisons do not establish a causal running effect."),
+    ("13_condition_averages_difference.png", "Non-running minus Running: averages and subtraction",
+     "Each dot is one animal. Positive differences mean Home cage is higher. "
+     "Black intervals are delete-one-per-group sensitivity ranges, not confidence intervals."),
+    ("14_condition_robustness.png", "Does one animal explain the difference?",
+     "All nine cross-animal differences and all nine delete-one-per-group checks. "
+     "These cells share animals; they are not independent replicates or matched pairs."),
+    ("15_condition_size_standardization.png", "Does a different PLA size mixture explain the gap?",
+     "The same size distribution is applied to every animal within each arm. "
+     "This descriptive sensitivity check does not control all technical or biological differences."),
+    ("16_condition_image_layout.png", "A source-image check to do before interpreting a running effect",
+     "Condition and horizontal image layout coincide in these exports. Review the original "
+     "channels, acquisition/composite construction and HALO thresholds. This pattern does not prove an artifact."),
     ("10_size_and_filter_sensitivity.png", "Punctum size and filter sensitivity",
      "Compare individual animals and group means across fixed PLA size bins and "
      "minimum-area filters. This checks whether the descriptive comparison depends "
@@ -56,7 +64,7 @@ def _gallery(root):
     return "\n".join(cards)
 
 
-def write_standalone_app(explorer_fragment, root, destination=None):
+def write_standalone_app(explorer_fragment, root, destination=None, comparison_fragment=None):
     """Write a complete offline page and return its absolute ``Path``.
 
     ``explorer_fragment`` is the trusted HTML returned by ``explorer_html``. It is
@@ -71,7 +79,8 @@ def write_standalone_app(explorer_fragment, root, destination=None):
     destination.parent.mkdir(parents=True, exist_ok=True)
     generated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     page = _PAGE.replace("__GENERATED__", escape(generated)).replace(
-        "__GALLERY__", _gallery(root)).replace("__EXPLORER__", explorer_fragment)
+        "__GALLERY__", _gallery(root)).replace("__EXPLORER__", explorer_fragment).replace(
+        "__COMPARISON__", comparison_fragment or '<p>Run the scientific notebook to generate the condition comparison.</p>')
     # Replace atomically so a running local server never serves a partial rebuild.
     temporary = destination.with_suffix(".html.tmp")
     temporary.write_text(page, encoding="utf-8")
@@ -152,14 +161,19 @@ html{scroll-behavior:smooth}body{margin:0;background:#edf3f5;color:#173447;font:
 @media(max-width:650px){.app-shell{padding:20px 12px}.result-card{padding:14px}.app-heading{gap:16px}}
 </style></head><body><main class="app-shell">
 <header class="app-heading"><div><div class="app-eyebrow">SCIENTIFIC DATA · INTERACTIVE PLOTLY APP</div>
-<h1>PLA–ChAT Spatial Explorer</h1><p>Explore measured sections in 3D, compare detection channels and inspect overlapping layers. The scientific notebook remains the record of methods, findings and reproducibility.</p></div>
-<nav class="app-nav" aria-label="App navigation"><a href="#explore">Explore data</a><a href="#results">Scientific results</a><a href="#reading-guide">How to read the views</a></nav></header>
+<h1>PLA–ChAT Spatial Explorer</h1><p>Compare non-running and running animals, inspect the average difference, then explore the measured sections and overlapping layers. The notebook records the methods and reproducible results.</p></div>
+<nav class="app-nav" aria-label="App navigation"><a href="#comparison">Running comparison</a><a href="#explore">Explore sections</a><a href="#results">Figures &amp; next steps</a><a href="#reading-guide">Reading guide</a></nav></header>
 <details class="app-guide" id="reading-guide"><summary>Start here: three ways to inspect the data</summary><ol>
 <li><strong>3D measurements:</strong> select a section and measurement, drag to rotate and scroll to zoom. Height represents the selected measurement, not tissue depth.</li>
 <li><strong>Channel overlay:</strong> toggle ChAT and PLA detections, select positive or negative PLA and adjust opacity.</li>
 <li><strong>Overlapping layers:</strong> choose a flat overlay or separated stack, then show all layers or step through one at a time. Section checkboxes control which animals appear.</li></ol>
 <p><strong>Coordinate frames:</strong> native preserves exported positions. Candidate-centered is an unreviewed geometry check; reviewed alignment appears only after the required scientific review. Stack spacing and order are display choices, not measured physical depth.</p>
 <p>These views reconstruct detections, not original microscopy pixels. Keep the two PLA arms separate. Blank bins are unknown or below the selected support threshold; exported x/y units have not been physically calibrated.</p></details>
+<section id="comparison" aria-label="Running versus non-running comparison">__COMPARISON__</section>
+<section class="app-guide" style="margin-top:18px"><h2>What to investigate next</h2><p><strong>Completed checks:</strong> equal-animal averages, all nine delete-one-per-group contrasts and common-size-distribution standardization. A positive association gap remains in both PLA arms.</p><ol>
+<li><strong>Check image layout and detection first:</strong> Running sections occupy the lower-X side and Home-cage sections the higher-X side of the exports. Obtain original channels and composite/acquisition provenance; inspect illumination, background, ChAT segmentation and consistent thresholds using blinded, equivalent fields. If offsets were added only after detection, placement alone cannot change the association fractions.</li>
+<li><strong>Locate the difference anatomically:</strong> review the ventricular landmarks, orientation, coordinate scale and sampling support for all 12 sections. The notebook can then show Home mean, Running mean, their difference and contributing-animal counts. Unsupported bins remain blank.</li>
+<li><strong>Test a biological explanation:</strong> use negative PLA controls, matched section levels and additional animals. ChAT-positive PLA describes detected association; it does not establish binding, neuron loss, metabolic flux or a causal running effect.</li></ol><p>See the image-layout figure and native-coordinate review windows in the notebook for concrete source-image requests. Three animals per condition remain the biological sample size.</p></section>
 <section id="explore" aria-label="Interactive spatial controls">__EXPLORER__</section>
 <p class="app-note">This is a saved snapshot generated __GENERATED__. Filters work locally without a notebook kernel or internet connection. Changes to source data or review metadata do not recalculate automatically: run <strong>PLA_ChAT_scientific_analysis.ipynb</strong> to completion and refresh this page.</p>
 <section class="app-results" id="results"><h2>Scientific results at a glance</h2><p>Use these companion figures to connect the spatial exploration to animal-level comparisons and sensitivity checks. Figures retain their original 300 dpi PNG pixels.</p>__GALLERY__</section>

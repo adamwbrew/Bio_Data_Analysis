@@ -26,7 +26,7 @@ def reuse(prefix):
 
 md('''
 # PLA–ChAT · explore the sections and test the findings
-**Main scientific notebook · interactive edition · 19 October 2026 · protocol 1.1.1**
+**Main scientific notebook · interactive edition · 19 October 2026 · protocol 1.2.0**
 
 ### Open the Plotly app
 **[Open the spatial app in your browser](http://127.0.0.1:8050/)** for a full-window view of the 3D surfaces, channel overlays, overlapping layers and scientific comparison figures.
@@ -35,12 +35,12 @@ md('''
 
 **Without a server:** open the [portable app file](outputs/spatial_handoff/app/index.html) in a web browser. In VS Code, use your browser rather than opening the HTML as source text. The app is a saved snapshot; **Run All** refreshes it after the analysis finishes. The complete analysis and core results remain in this notebook.
 
-The new analysis is here. Start with the **interactive spatial explorer**: move the 3D view, inspect the two channels, and overlay or separate the animal layers. This notebook then connects what you see to the animal-level findings and the next scientific decisions. The longer [spatial handoff notebook](PLA_ChAT_spatial_handoff_analysis.ipynb) holds the complete input audit, all section figures and detailed research methods.
+Start with the **non-running versus Running comparison**: overlay animal values, subtract the group averages, and inspect size and individual-animal checks. Then use the spatial explorer to move the 3D view, inspect channels, and overlay or separate animal layers. This notebook then connects what you see to the animal-level findings and the next scientific decisions. The longer [spatial handoff notebook](PLA_ChAT_spatial_handoff_analysis.ipynb) holds the complete input audit, all section figures and detailed research methods.
 
 **Open this file in JupyterLab or VS Code**, select the project Python environment, and **Run All**. Review and trust the notebook to enable embedded JavaScript. GitHub shows the saved static figures but suppresses interactive controls. The explorer is saved **inside this notebook**, with its data and plotting library; it does not require a separate website or a live kernel after rendering.
 
 ### Go directly to a result
-[Interactive 3D / channels / layers](#explore) · [Animal-level comparison](#findings) · [Size sensitivity](#sizes) · [Layer alignment review](#registration) · [Image-review coordinates and decisions](#actions)
+[Non-running minus Running](#comparison) · [Interactive 3D / channels / layers](#explore) · [Size sensitivity](#sizes) · [Layer alignment review](#registration) · [Image-review coordinates and decisions](#actions)
 
 **What is reconstructed:** 12 physical sections from six animals, measured by HALO; 3,010,776 detected objects after excluding the interrupted duplicate. HK1–TDP43 and PFKP–TDP43 are different PLA arms and stay separate. Coordinates reconstruct detections, not microscope pixels. The 3D measurement view uses signal height; the exploded stack uses an ordinal layer axis. Neither is an anatomical volume.
 ''')
@@ -57,6 +57,10 @@ load = load.replace("table(repeat_audit, 'interrupted_repeat_audit')", "repeat_a
 load = load.replace("display(metadata[['job','animal_id','running_group','pla_arm','rows','image_label','marker_panel']])", '')
 code(load)
 reuse('fine = h.make_grids')
+# Reuse the complete comparison block from the audit to keep both notebooks identical.
+start = next(i for i,c in enumerate(source) if c.source.startswith('<a id="comparison">'))
+end = next(i for i,c in enumerate(source) if c.source.startswith('<a id="explore">'))
+cells.extend(copy.deepcopy(source[start:end]))
 reuse('<a id="explore"></a>')
 reuse('display(HTML(explorer_html')
 md('''
@@ -66,22 +70,8 @@ If the control center above shows a loading/instructions message, you are probab
 ''')
 code("show(hp.native_atlas(fine, metadata, 'TDP43–HK1'), '02_native_overlay_hk1')\nshow(hp.surface_preview(surfaces, metadata, 'TDP43–HK1'), '08_surface_companion_hk1')")
 md('''
-<a id="findings"></a>
-## 1 · What changes between animals?
-
-The relevant replicate is the **animal**, not each punctum. Each animal has one section in each PLA arm, so the plots below show three independent animal values per condition per arm. Horizontal bars weight each animal equally.
-
-**Current result:** the Running animals have a lower fraction of PLA detections flagged ChAT-positive in both arms: approximately **53.6% → 31.6% for HK1** and **73.2% → 50.6% for PFKP**. These are reductions of about **22 percentage points**, not a demonstrated reduction in protein binding, neuron count or glycolytic activity. ChAT detection opportunity and PLA size differ too; the following checks show why those alternatives matter.
-
-In the explorer, select **ChAT-positive PLA (%)**, switch between conditions, then compare **PLA object count** and **ChAT object count** at the same bin size. A high fraction supported by very few PLA is not the same evidence as a well-populated bin. Spatial location must not be compared anatomically before registration is reviewed.
-''')
-reuse("show(hp.group_summary_figure(summary)")
-md('''
-**Read the contrast table carefully:** `running_minus_home` is an equal-animal mean difference. The leave-pair-out range removes one animal from each group in every possible combination; it is a sensitivity check, **not a confidence interval**. With n=3 per group, the consistent direction is useful for deciding what to investigate, while effect magnitude and biological mechanism remain uncertain.
-''')
-md('''
 <a id="sizes"></a>
-## 2 · Is the difference tied to punctum size or marker availability?
+## Additional sensitivity · size filters and marker availability
 
 Larger PLA objects are more likely to be ChAT-positive. The left panels compare association within fixed size categories; the right panels show how the group summary changes when small PLA objects are removed. Thin lines retain individual animals. These are exploratory cutoffs shared across animals, not validated classes of aggregates.
 
@@ -96,7 +86,7 @@ The next curves ask how far each PLA midpoint is from the nearest ChAT midpoint.
 reuse('proximity_curves, proximity_summary =')
 md('''
 <a id="registration"></a>
-## 3 · What the overlapping layers can tell us now
+## What the overlapping layers can tell us now
 
 **Use the third explorer tab.** Start with native coordinates and all layers to inspect the original dimensions. Switch to **Candidate-centered** to superimpose the available void-centered silhouettes. Toggle layers or choose **One at a time** to see which section drives a shape mismatch. Move between the flat overlay and exploded stack to remove occlusion.
 
@@ -113,9 +103,10 @@ md('''
 Set `SHOW_REVIEW_EDITOR = True` in setup and rerun this cell when a scientist is ready to review the original images and native plots. Saving a reviewed section updates the JSON review file only on an explicit button click. Rerun the grid/review and explorer cells to incorporate saved decisions. Detailed candidate and orientation panels remain in the full audit notebook.
 ''')
 reuse('if SHOW_REVIEW_EDITOR:')
+reuse('reviews = h.load_reviews')
 md('''
 <a id="actions"></a>
-## 4 · Actionable image windows and next decisions
+## Actionable image windows and next decisions
 
 The table gives native-coordinate windows selected by two declared rules: **largest PLA count** and **highest supported ChAT-positive fraction** within each section. They are review targets, not independently tested hotspots. Use animal, PLA arm, job and source filename together to request the matching original microscopy crop.
 ''')
@@ -123,7 +114,8 @@ code("queue = h.spatial_review_queue(metrics, metadata)\ntable(queue.drop(column
 md('''
 | Decision | Evidence to inspect | Action that would change the interpretation |
 |---|---|---|
-| Is lower ChAT-positive PLA biological or detection-dependent? | Animal dots, channel toggles, counts and area/size sensitivity | Review matched fluorescence crops, negative controls and HALO thresholds; keep the two PLA arms separate. |
+| Is the positive non-running minus Running gap biological or detection-dependent? | Animal dots, all nine deletion checks, size-standardized comparison and independent ChAT counts | Review matched fluorescence crops, negative controls and HALO thresholds; keep the two PLA arms separate. |
+| Does image layout contribute to the condition difference? | Running and Home sections occupy different X sides in every source image | Review original channels, composite provenance, illumination/background and consistent segmentation thresholds in blinded equivalent fields. |
 | Do sections share an anatomical reference? | Flat and exploded geometry layers, candidate polygon QC and orientation panels | Validate ventricular traces and discrete flips; supply calibration and ROI masks before group spatial differences. |
 | Do large objects represent relevant structures or merged detections? | Mean size / large-PLA maps and review windows | Inspect segmentation against raw images; document any common size filter before recomputation. |
 | Does spatial proximity exceed geometric opportunity? | Nearest-ChAT curves and independent ChAT abundance | Add physical scale, valid tissue support and a pre-specified geometry-aware null model. |
