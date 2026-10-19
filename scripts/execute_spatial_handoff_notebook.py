@@ -5,7 +5,9 @@ import nbformat
 from nbclient import NotebookClient
 from jupyter_client import KernelManager
 ROOT=Path(__file__).resolve().parents[1]
-path=ROOT/'PLA_ChAT_spatial_handoff_analysis.ipynb'
+path=ROOT/(sys.argv[1] if len(sys.argv)>1 else 'PLA_ChAT_spatial_handoff_analysis.ipynb')
+if path.resolve().parent != ROOT or path.suffix != '.ipynb':
+    raise ValueError('Choose a notebook in the repository root')
 nb=nbformat.read(path,as_version=4)
 km=KernelManager(kernel_name='python3')
 km.kernel_spec.argv=[sys.executable,'-m','ipykernel_launcher','-f','{connection_file}']

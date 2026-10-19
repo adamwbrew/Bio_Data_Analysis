@@ -6,7 +6,7 @@
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-10-18T18:31:46.360152</dc:date>
+    <dc:date>2026-10-19T14:03:50.909847</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -40,7 +40,7 @@ Q 12.6144 89.380702 12.6144 93.758302
 L 12.6144 256.605022 
 Q 12.6144 260.982622 34.272 260.982622 
 z
-" clip-path="url(#p8ca2e76efd)" style="fill: #edf3f5; stroke: #cbd9df; stroke-linejoin: miter"/>
+" clip-path="url(#pd837a8652a)" style="fill: #edf3f5; stroke: #cbd9df; stroke-linejoin: miter"/>
    </g>
    <g id="patch_3">
     <path d="M 249.76512 260.982622 
@@ -53,7 +53,7 @@ Q 228.10752 89.380702 228.10752 93.758302
 L 228.10752 256.605022 
 Q 228.10752 260.982622 249.76512 260.982622 
 z
-" clip-path="url(#p8ca2e76efd)" style="fill: #edf3f5; stroke: #cbd9df; stroke-linejoin: miter"/>
+" clip-path="url(#pd837a8652a)" style="fill: #edf3f5; stroke: #cbd9df; stroke-linejoin: miter"/>
    </g>
    <g id="patch_4">
     <path d="M 465.25824 260.982622 
@@ -66,7 +66,7 @@ Q 443.60064 89.380702 443.60064 93.758302
 L 443.60064 256.605022 
 Q 443.60064 260.982622 465.25824 260.982622 
 z
-" clip-path="url(#p8ca2e76efd)" style="fill: #edf3f5; stroke: #cbd9df; stroke-linejoin: miter"/>
+" clip-path="url(#pd837a8652a)" style="fill: #edf3f5; stroke: #cbd9df; stroke-linejoin: miter"/>
    </g>
    <g id="patch_5">
     <path d="M 680.75136 260.982622 
@@ -79,7 +79,7 @@ Q 659.09376 89.380702 659.09376 93.758302
 L 659.09376 256.605022 
 Q 659.09376 260.982622 680.75136 260.982622 
 z
-" clip-path="url(#p8ca2e76efd)" style="fill: #fff0da; stroke: #cbd9df; stroke-linejoin: miter"/>
+" clip-path="url(#pd837a8652a)" style="fill: #fff0da; stroke: #cbd9df; stroke-linejoin: miter"/>
    </g>
    <g id="patch_6">
     <path d="M 896.24448 260.982622 
@@ -92,7 +92,7 @@ Q 874.58688 89.380702 874.58688 93.758302
 L 874.58688 256.605022 
 Q 874.58688 260.982622 896.24448 260.982622 
 z
-" clip-path="url(#p8ca2e76efd)" style="fill: #edf3f5; stroke: #cbd9df; stroke-linejoin: miter"/>
+" clip-path="url(#pd837a8652a)" style="fill: #edf3f5; stroke: #cbd9df; stroke-linejoin: miter"/>
    </g>
    <g id="text_1">
     <text style="fill: #173447; font: 700 11px 'DejaVu Sans'; text-anchor: start" x="29.94048" y="119.367262" transform="rotate(-0 29.94048 119.367262)">01  Experiment</text>
@@ -179,7 +179,7 @@ L 868.552508 178.276062
   </g>
  </g>
  <defs>
-  <clipPath id="p8ca2e76efd">
+  <clipPath id="pd837a8652a">
    <rect x="7.2" y="66.836062" width="1082.88" height="218.88"/>
   </clipPath>
  </defs>

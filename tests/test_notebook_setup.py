@@ -51,13 +51,35 @@ for _ in range(2):
     assert shell.user_ns['roi_summary_figure'] is comparison.roi_summary_figure
     del data.ROI_PAIRS
 '''
-        for notebook in ('PLA_ChAT_visual_analysis.ipynb', 'PLA_ChAT_scientific_analysis.ipynb'):
+        for notebook in ('PLA_ChAT_visual_analysis.ipynb',):
             with self.subTest(notebook=notebook):
                 result = subprocess.run(
                     [sys.executable, '-c', script, notebook], cwd=root, capture_output=True,
                     text=True, timeout=120,
                 )
                 self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_spatial_main_setup_refreshes_explorer_and_handoff(self):
+        root = Path(__file__).resolve().parents[1]
+        script = r'''
+import nbformat
+from IPython.terminal.interactiveshell import TerminalInteractiveShell
+import bio_visuals.handoff as h
+import bio_visuals.explorer as explorer
+nb = nbformat.read('PLA_ChAT_scientific_analysis.ipynb', as_version=4)
+setup = next(c.source for c in nb.cells if c.cell_type == 'code')
+shell = TerminalInteractiveShell.instance()
+for _ in range(2):
+    h.VERSION = 'stale'
+    explorer.explorer_html = lambda *a, **k: 'stale'
+    shell.run_cell(setup).raise_error()
+    assert h.VERSION == '1.1.0'
+    assert shell.user_ns['explorer_html'] is explorer.explorer_html
+    assert explorer.explorer_html.__name__ == 'explorer_html'
+'''
+        result = subprocess.run([sys.executable, '-c', script], cwd=root,
+                                capture_output=True, text=True, timeout=120)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
 
 if __name__ == '__main__':
