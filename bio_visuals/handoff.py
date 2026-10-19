@@ -20,7 +20,7 @@ from matplotlib.path import Path as MplPath
 
 from .entire_dataset import run_summary, _sha256
 
-VERSION = '1.2.0'
+VERSION = '1.3.0'
 GROUPS = {'22F': 'Running', '21M': 'Running', '22M': 'Running',
           '21F': 'Home cage', '23M': 'Home cage', '24M': 'Home cage'}
 ANIMAL_ORDER = ['21F', '23M', '24M', '22F', '21M', '22M']
@@ -34,20 +34,21 @@ PARAMETERS = dict(protocol_version=VERSION, reconstruction_bin=100., geometry_bi
                   edge_buffer_export_units=500., smoothing='none',
                   support='occupied all-object geometry bins only; provisional sampling support, not a tissue mask',
                   candidate_void='largest enclosed hole after 2 iterations of 3x3-cross binary closing on occupied 250-unit bins; >=6 bins',
-                  orientation='none for preview; all choices require review',
+                  orientation='Feature preview uses adjacent-structure above/below cue when visible, then trimmed boundary distance with fixed cavity anchor; independent anatomical approval required',
                   coordinate_units='HALO export units; physical scale unverified',
                   display_exception='Native descriptive maps and whole-section summaries may be inspected before registration QC. No anatomical condition maps are inferred.',
                   min_animals_per_group_bin=3,
+                  feature_alignment='Visual cavity polygons in metadata/handoff_landmark_proposals.json; fixed 21F reference per arm; visible adjacent-structure above/below cue; 80% trimmed symmetric boundary distance; all four flips; 250/500-unit geometry sensitivity; no approvals',
                   exclusions='4978 superseded by 5403; Initial Data copies not concatenated; no primary object filtering')
 PARAMETERS.update(interactive_views='3D measurements, 100-unit channel overlay, flat layer overlay and ordinal exploded stack',
                   layer_order='21F,23M,24M,22F,21M,22M; display order, not anatomical section order',
-                  candidate_layer_scope='Geometry only; unreviewed centroid translation, no flips',
+                  candidate_layer_scope='Legacy candidates: geometry only. New feature proposals: separate per-section measurement layers; no pooled anatomical inference',
                   explorer_bins=[250,500,1000], explorer_default_bin=500,
                   explorer_threshold='Display control 1–50 PLA per metric bin, default 10; no raw rows removed',
-                  condition_difference='Home cage minus Running; equal animal means per arm',
+                  condition_difference='Both directions; equal animal means per arm, reversed contrast and endpoints exactly negated',
                   size_standardization='Equal-animal reference size proportions; require 10 PLA and observed association in every animal per included stratum',
                   exact_enumeration='20 allocations of six animals; design diagnostic only, exchangeability unverified',
-                  changelog='1.2.0: condition averages and signed contrasts, all nine deletion checks, common-size standardization, image-layout audit and interactive comparison. Native data and anatomical approvals unchanged.')
+                  changelog='1.3.0: explicit normalization audit, both subtraction directions, within-animal arm comparisons, and inspectable cavity/shape alignment proposals for all 12 sections. Native measurements and anatomical approvals unchanged.')
 
 
 def section_metadata(manifest):
@@ -411,7 +412,7 @@ def write_protocol(root,out,manifest,reviews,parameters=None):
     """Content-addressed snapshots: reruns never overwrite a previous protocol."""
     root=Path(root);out=Path(out);p=dict(parameters or PARAMETERS)
     versions={name:importlib.metadata.version(name) for name in ('numpy','pandas','scipy','matplotlib','plotly','nbformat','nbclient')}
-    codepaths=['bio_visuals/handoff.py','bio_visuals/handoff_plots.py','bio_visuals/explorer.py','bio_visuals/explorer.html','bio_visuals/standalone_app.py','bio_visuals/condition_comparison.py','bio_visuals/condition_views.py','bio_visuals/condition_comparison.html','bio_visuals/condition_layout.py','bio_visuals/entire_dataset.py','bio_visuals/data.py','scripts/build_spatial_handoff_notebook.py','scripts/build_scientific_notebook.py','scripts/serve_spatial_app.py']
+    codepaths=['bio_visuals/handoff.py','bio_visuals/handoff_plots.py','bio_visuals/explorer.py','bio_visuals/explorer.html','bio_visuals/standalone_app.py','bio_visuals/condition_comparison.py','bio_visuals/condition_views.py','bio_visuals/condition_comparison.html','bio_visuals/condition_layout.py','bio_visuals/normalization.py','bio_visuals/feature_alignment.py','metadata/handoff_landmark_proposals.json','bio_visuals/entire_dataset.py','bio_visuals/data.py','scripts/build_spatial_handoff_notebook.py','scripts/build_scientific_notebook.py','scripts/serve_spatial_app.py']
     code={name:_sha256(root/name) for name in codepaths}
     handoff=root/'HALO_spatial_analysis_raw_data_handoff.pdf'
     document=dict(parameters=p,section_reviews=reviews,

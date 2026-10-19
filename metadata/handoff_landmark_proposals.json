@@ -1,0 +1,563 @@
+[
+  {
+    "job": "4998",
+    "animal_id": "21F",
+    "pla_arm": "TDP43–HK1",
+    "source_sha256": "3dc2fffe5a7369172f95578c11b5b8188e718922bcb687936ca02382463b1bd9",
+    "polygon_native": [
+      [
+        29200,
+        35400
+      ],
+      [
+        30800,
+        34500
+      ],
+      [
+        32900,
+        35900
+      ],
+      [
+        31200,
+        37100
+      ],
+      [
+        29900,
+        36800
+      ]
+    ],
+    "status": "Computational visual trace proposal; no anatomical approval",
+    "annotation_source": "100-unit all-object count reconstruction, inspected 2026-10-19; no source microscopy pixels available",
+    "annotator": "Codex",
+    "ambiguous_boundary": false,
+    "note": "Visible internal low-detection cavity; source-image confirmation still required.",
+    "orientation_cue_native": [
+      29800,
+      31700
+    ],
+    "orientation_cue_description": "Adjacent loop-like structure: use above/below cavity only; point is a visual orientation cue, not a segmented centroid or confirmed homologous landmark."
+  },
+  {
+    "job": "5006",
+    "animal_id": "21M",
+    "pla_arm": "TDP43–HK1",
+    "source_sha256": "b36743617af5013290dc326bde525772098c6b31b2a0ae5eab2092550c8943ea",
+    "polygon_native": [
+      [
+        3000,
+        33000
+      ],
+      [
+        4100,
+        32100
+      ],
+      [
+        5600,
+        32900
+      ],
+      [
+        6350,
+        34300
+      ],
+      [
+        4700,
+        35400
+      ],
+      [
+        3200,
+        34900
+      ]
+    ],
+    "status": "Computational visual trace proposal; no anatomical approval",
+    "annotation_source": "100-unit all-object count reconstruction, inspected 2026-10-19; no source microscopy pixels available",
+    "annotator": "Codex",
+    "ambiguous_boundary": false,
+    "note": "Visible internal low-detection cavity; source-image confirmation still required.",
+    "orientation_cue_native": [
+      4000,
+      29100
+    ],
+    "orientation_cue_description": "Adjacent loop-like structure: use above/below cavity only; point is a visual orientation cue, not a segmented centroid or confirmed homologous landmark."
+  },
+  {
+    "job": "4997",
+    "animal_id": "22F",
+    "pla_arm": "TDP43–HK1",
+    "source_sha256": "2eeb66efe0a7918ed3b89066d94723f6944e53fdc68a084ba8824af6d3b282ef",
+    "polygon_native": [
+      [
+        4700,
+        35900
+      ],
+      [
+        5900,
+        34500
+      ],
+      [
+        7100,
+        35100
+      ],
+      [
+        6900,
+        36300
+      ],
+      [
+        6200,
+        37100
+      ],
+      [
+        4700,
+        37100
+      ]
+    ],
+    "status": "Computational visual trace proposal; no anatomical approval",
+    "annotation_source": "100-unit all-object count reconstruction, inspected 2026-10-19; no source microscopy pixels available",
+    "annotator": "Codex",
+    "ambiguous_boundary": true,
+    "note": "Boundary partly joins sparse peripheral detections; proposal needs independent tracing.",
+    "orientation_cue_native": [
+      6000,
+      39700
+    ],
+    "orientation_cue_description": "Adjacent loop-like structure: use above/below cavity only; point is a visual orientation cue, not a segmented centroid or confirmed homologous landmark."
+  },
+  {
+    "job": "5001",
+    "animal_id": "22M",
+    "pla_arm": "TDP43–HK1",
+    "source_sha256": "2e4e329f0623bd2bb3407cf4a1cee8d28460d76308fe89d53386617e0e3d2226",
+    "polygon_native": [
+      [
+        6000,
+        33200
+      ],
+      [
+        6900,
+        32100
+      ],
+      [
+        8700,
+        32300
+      ],
+      [
+        8400,
+        33200
+      ],
+      [
+        8700,
+        33700
+      ],
+      [
+        8000,
+        34200
+      ],
+      [
+        6600,
+        33900
+      ]
+    ],
+    "status": "Computational visual trace proposal; no anatomical approval",
+    "annotation_source": "100-unit all-object count reconstruction, inspected 2026-10-19; no source microscopy pixels available",
+    "annotator": "Codex",
+    "ambiguous_boundary": false,
+    "note": "Visible internal low-detection cavity; source-image confirmation still required.",
+    "orientation_cue_native": [
+      7300,
+      37100
+    ],
+    "orientation_cue_description": "Adjacent loop-like structure: use above/below cavity only; point is a visual orientation cue, not a segmented centroid or confirmed homologous landmark."
+  },
+  {
+    "job": "5007",
+    "animal_id": "23M",
+    "pla_arm": "TDP43–HK1",
+    "source_sha256": "7c7a087618700ccb3ea05306b4bfa7e166f0b114bc9f53107742152033204397",
+    "polygon_native": [
+      [
+        27600,
+        34900
+      ],
+      [
+        29200,
+        33700
+      ],
+      [
+        30700,
+        34200
+      ],
+      [
+        32000,
+        35500
+      ],
+      [
+        31100,
+        36200
+      ],
+      [
+        29300,
+        36800
+      ],
+      [
+        27700,
+        36000
+      ]
+    ],
+    "status": "Computational visual trace proposal; no anatomical approval",
+    "annotation_source": "100-unit all-object count reconstruction, inspected 2026-10-19; no source microscopy pixels available",
+    "annotator": "Codex",
+    "ambiguous_boundary": true,
+    "note": "Boundary partly joins sparse peripheral detections; proposal needs independent tracing.",
+    "orientation_cue_native": [
+      29100,
+      31000
+    ],
+    "orientation_cue_description": "Adjacent loop-like structure: use above/below cavity only; point is a visual orientation cue, not a segmented centroid or confirmed homologous landmark."
+  },
+  {
+    "job": "5002",
+    "animal_id": "24M",
+    "pla_arm": "TDP43–HK1",
+    "source_sha256": "1ba6bbfc4ca4a37ac075783b31255795a0c2d6ebc708ca1a208077fc8fcb9371",
+    "polygon_native": [
+      [
+        30900,
+        32600
+      ],
+      [
+        31800,
+        32100
+      ],
+      [
+        32800,
+        32200
+      ],
+      [
+        34000,
+        33900
+      ],
+      [
+        32300,
+        34500
+      ],
+      [
+        31400,
+        33800
+      ]
+    ],
+    "status": "Computational visual trace proposal; no anatomical approval",
+    "annotation_source": "100-unit all-object count reconstruction, inspected 2026-10-19; no source microscopy pixels available",
+    "annotator": "Codex",
+    "ambiguous_boundary": false,
+    "note": "Visible internal low-detection cavity; source-image confirmation still required.",
+    "orientation_cue_native": [
+      31800,
+      29600
+    ],
+    "orientation_cue_description": "Adjacent loop-like structure: use above/below cavity only; point is a visual orientation cue, not a segmented centroid or confirmed homologous landmark."
+  },
+  {
+    "job": "5020",
+    "animal_id": "21F",
+    "pla_arm": "TDP43–PFKP",
+    "source_sha256": "aad88d53e52707b222e9386adf8e8b7d0dbfced87e37aa805e5f3cc16eca6c13",
+    "polygon_native": [
+      [
+        28300,
+        7000
+      ],
+      [
+        29000,
+        6200
+      ],
+      [
+        30100,
+        6700
+      ],
+      [
+        31500,
+        7350
+      ],
+      [
+        32100,
+        8200
+      ],
+      [
+        31700,
+        9500
+      ],
+      [
+        30900,
+        10300
+      ],
+      [
+        30100,
+        9200
+      ],
+      [
+        29800,
+        8400
+      ],
+      [
+        28400,
+        7900
+      ]
+    ],
+    "status": "Computational visual trace proposal; no anatomical approval",
+    "annotation_source": "100-unit all-object count reconstruction, inspected 2026-10-19; no source microscopy pixels available",
+    "annotator": "Codex",
+    "ambiguous_boundary": true,
+    "note": "Boundary partly joins sparse peripheral detections; proposal needs independent tracing.",
+    "orientation_cue_native": [
+      29250,
+      10700
+    ],
+    "orientation_cue_description": "Adjacent loop-like structure: use above/below cavity only; point is a visual orientation cue, not a segmented centroid or confirmed homologous landmark."
+  },
+  {
+    "job": "5003",
+    "animal_id": "21M",
+    "pla_arm": "TDP43–PFKP",
+    "source_sha256": "c3e33c682c1709daabfe5922b2dd707eef6cb783d8f34baa4779205656e34755",
+    "polygon_native": [
+      [
+        3800,
+        8400
+      ],
+      [
+        4400,
+        7700
+      ],
+      [
+        5900,
+        8000
+      ],
+      [
+        5800,
+        8800
+      ],
+      [
+        6300,
+        9100
+      ],
+      [
+        6100,
+        10400
+      ],
+      [
+        5300,
+        11300
+      ],
+      [
+        4400,
+        10800
+      ],
+      [
+        3700,
+        9800
+      ]
+    ],
+    "status": "Computational visual trace proposal; no anatomical approval",
+    "annotation_source": "100-unit all-object count reconstruction, inspected 2026-10-19; no source microscopy pixels available",
+    "annotator": "Codex",
+    "ambiguous_boundary": true,
+    "note": "Boundary partly joins sparse peripheral detections; proposal needs independent tracing.",
+    "orientation_cue_native": null,
+    "orientation_cue_description": "Adjacent structure not confidently identifiable in this reconstruction; use boundary-only proposal and flag for source-image review."
+  },
+  {
+    "job": "5403",
+    "animal_id": "22F",
+    "pla_arm": "TDP43–PFKP",
+    "source_sha256": "f56b395ae0825e5fdb05dafae7112be24277895cca467b7bda84480d702665e7",
+    "polygon_native": [
+      [
+        5000,
+        8100
+      ],
+      [
+        6100,
+        7400
+      ],
+      [
+        7000,
+        8000
+      ],
+      [
+        7600,
+        8800
+      ],
+      [
+        7200,
+        9600
+      ],
+      [
+        5700,
+        9900
+      ],
+      [
+        5100,
+        9300
+      ]
+    ],
+    "status": "Computational visual trace proposal; no anatomical approval",
+    "annotation_source": "100-unit all-object count reconstruction, inspected 2026-10-19; no source microscopy pixels available",
+    "annotator": "Codex",
+    "ambiguous_boundary": true,
+    "note": "Boundary partly joins sparse peripheral detections; proposal needs independent tracing.",
+    "orientation_cue_native": [
+      5600,
+      4900
+    ],
+    "orientation_cue_description": "Adjacent loop-like structure: use above/below cavity only; point is a visual orientation cue, not a segmented centroid or confirmed homologous landmark."
+  },
+  {
+    "job": "4999",
+    "animal_id": "22M",
+    "pla_arm": "TDP43–PFKP",
+    "source_sha256": "9f77bd5d8f148edd95e8035445d2c22d46218ed9e5bc6fc9872616627dd44cf2",
+    "polygon_native": [
+      [
+        6900,
+        3400
+      ],
+      [
+        7800,
+        2500
+      ],
+      [
+        8900,
+        2500
+      ],
+      [
+        9600,
+        3300
+      ],
+      [
+        10400,
+        3700
+      ],
+      [
+        9900,
+        4150
+      ],
+      [
+        8500,
+        4450
+      ],
+      [
+        7200,
+        4250
+      ]
+    ],
+    "status": "Computational visual trace proposal; no anatomical approval",
+    "annotation_source": "100-unit all-object count reconstruction, inspected 2026-10-19; no source microscopy pixels available",
+    "annotator": "Codex",
+    "ambiguous_boundary": false,
+    "note": "Visible internal low-detection cavity; source-image confirmation still required.",
+    "orientation_cue_native": [
+      7700,
+      1300
+    ],
+    "orientation_cue_description": "Adjacent loop-like structure: use above/below cavity only; point is a visual orientation cue, not a segmented centroid or confirmed homologous landmark."
+  },
+  {
+    "job": "5005",
+    "animal_id": "23M",
+    "pla_arm": "TDP43–PFKP",
+    "source_sha256": "391641f73ddc1f6fa64c6cca5f9e16058fcaa9589af7a4c0823b2b50c0f71b6e",
+    "polygon_native": [
+      [
+        28600,
+        7400
+      ],
+      [
+        29600,
+        6800
+      ],
+      [
+        31100,
+        6750
+      ],
+      [
+        31900,
+        7150
+      ],
+      [
+        30600,
+        8100
+      ],
+      [
+        29900,
+        9050
+      ],
+      [
+        28900,
+        9050
+      ],
+      [
+        28400,
+        8400
+      ]
+    ],
+    "status": "Computational visual trace proposal; no anatomical approval",
+    "annotation_source": "100-unit all-object count reconstruction, inspected 2026-10-19; no source microscopy pixels available",
+    "annotator": "Codex",
+    "ambiguous_boundary": false,
+    "note": "Visible internal low-detection cavity; source-image confirmation still required.",
+    "orientation_cue_native": [
+      29200,
+      11800
+    ],
+    "orientation_cue_description": "Adjacent loop-like structure: use above/below cavity only; point is a visual orientation cue, not a segmented centroid or confirmed homologous landmark."
+  },
+  {
+    "job": "5000",
+    "animal_id": "24M",
+    "pla_arm": "TDP43–PFKP",
+    "source_sha256": "4a05d72249ab4b9f5a55ae90173078664f39fc8287c24f19ee1a1c5af3f5e748",
+    "polygon_native": [
+      [
+        30700,
+        2700
+      ],
+      [
+        31700,
+        2150
+      ],
+      [
+        32500,
+        2500
+      ],
+      [
+        33000,
+        3350
+      ],
+      [
+        34000,
+        4200
+      ],
+      [
+        33000,
+        4600
+      ],
+      [
+        31700,
+        4400
+      ],
+      [
+        31000,
+        3650
+      ]
+    ],
+    "status": "Computational visual trace proposal; no anatomical approval",
+    "annotation_source": "100-unit all-object count reconstruction, inspected 2026-10-19; no source microscopy pixels available",
+    "annotator": "Codex",
+    "ambiguous_boundary": false,
+    "note": "Visible internal low-detection cavity; source-image confirmation still required.",
+    "orientation_cue_native": [
+      31300,
+      1200
+    ],
+    "orientation_cue_description": "Adjacent loop-like structure: use above/below cavity only; point is a visual orientation cue, not a segmented centroid or confirmed homologous landmark."
+  }
+]

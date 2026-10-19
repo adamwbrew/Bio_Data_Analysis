@@ -26,7 +26,7 @@ def reuse(prefix):
 
 md('''
 # PLA–ChAT · explore the sections and test the findings
-**Main scientific notebook · interactive edition · 19 October 2026 · protocol 1.2.0**
+**Main scientific notebook · interactive edition · 19 October 2026 · protocol 1.3.0**
 
 ### Open the Plotly app
 **[Open the spatial app in your browser](http://127.0.0.1:8050/)** for a full-window view of the 3D surfaces, channel overlays, overlapping layers and scientific comparison figures.
@@ -88,13 +88,11 @@ md('''
 <a id="registration"></a>
 ## What the overlapping layers can tell us now
 
-**Use the third explorer tab.** Start with native coordinates and all layers to inspect the original dimensions. Switch to **Candidate-centered** to superimpose the available void-centered silhouettes. Toggle layers or choose **One at a time** to see which section drives a shape mismatch. Move between the flat overlay and exploded stack to remove occlusion.
+**Use the third explorer tab → Feature-aligned.** All 12 sections now have cavity-anchor proposals with internal orientation cues and geometry-ranked discrete flips. Inspect flat overlays, the 3D comparison stack and one-layer controls; show cavity outlines to see the common anchor. The before/after figure and full trace atlas above make each transform inspectable. **Native image coordinates** preserves the original offsets; **Candidate-centered** retains the old 9/12 automatic proposals for comparison.
 
-The stack order is **21F → 23M → 24M → 22F → 21M → 22M**, chosen to put Home-cage animals before Running animals. It is a display order across different animals, not an anterior–posterior sequence. The vertical separation slider is visual spacing only. No serial-section depth is available.
+This is a visual comparison of different animals and physical sections. Display order is 21F → 23M → 24M → 22F → 21M → 22M, not a serial anatomical sequence. Vertical spacing is a display control. The proposed geometry uses no scaling, continuous rotation or warping; cropped tissue cannot move the cavity anchor.
 
-The handoff requires a reviewed ventricular trace, discrete orientation choice and translation, with no forced rescaling or nonlinear warping. **9/12 sections have automated cavity candidates; 0/12 are approved.** Missing candidates are 22M/HK1, 21M/PFKP and 24M/PFKP. Candidate-centered controls therefore show geometry only, explicitly name omissions, and do not produce biological group maps. Reviewed mode is initially empty by design; the review editor below records actual scientist decisions.
-
-Native per-section measurement maps remain available as a descriptive first pass. No smoothing, pooling or anatomical labeling is introduced by the explorer. Its minimum-PLA slider changes displayed support, not the stored raw object table or the fixed analysis summaries below.
+**0/12 sections are anatomically approved.** The separate proposal file records computational visual traces and flip scores without modifying investigator reviews. Review uncertain boundaries and low-margin flips in the original images before approving anatomical means or subtraction. Individual measurement layers can be inspected in the proposed frame, but are never pooled there.
 ''')
 code("display(h.review_status(reviews)[['animal_id','pla_arm','candidate_found','ready','needs_review']])")
 md('''

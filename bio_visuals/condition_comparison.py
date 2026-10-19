@@ -143,6 +143,8 @@ def comparison_results(objects, metadata, min_per_stratum=10):
         full_area = len(area) > 0 and np.isfinite(area).all()
         total_area = _complete_sum(area)
         animals.append(dict(**identity, association_pct=100 * _complete_mean(positive),
+                            n_positive=_complete_sum(positive), total_pla_area_um2=total_area,
+                            total_overlap_area_um2=_complete_sum(overlap),
                             pla_count=len(p), chat_count=int(frame.object_type.eq('ChAT').sum()),
                             mean_pla_area_um2=_complete_mean(area),
                             median_pla_area_um2=float(np.median(area)) if full_area else np.nan,
@@ -252,7 +254,7 @@ def comparison_results(objects, metadata, min_per_stratum=10):
                                         eligible_strata='; '.join(np.asarray(SIZE_LABELS)[eligible]),
                                         excluded_strata='; '.join(np.asarray(SIZE_LABELS)[~eligible]),
                                         min_retained_pct=float(data.retained_pct.min()), max_retained_pct=float(data.retained_pct.max())))
-    definitions = dict(direction='Home cage minus Running: positive means higher in non-running animals',
+    definitions = dict(direction='Both directions available: Home cage minus Running is the stored primary contrast; reversing negates the difference and reverses interval endpoints',
                        groups=[HOME, RUNNING], primary_metric=PRIMARY, metrics=METRICS, estimators=ESTIMATORS,
                        biological_unit='Animal; three animals per condition and PLA arm',
                        weighting='Every animal has equal weight; never pool object rows between animals',
@@ -265,12 +267,15 @@ def comparison_results(objects, metadata, min_per_stratum=10):
                        size_interpretation='Raw is primary. Restricted isolates changes from excluding unsupported sizes. Standardized uses one common size mixture; this sensitivity analysis does not establish why groups differ or adjust all confounding. Its leave-pair-out range holds the full-cohort eligibility and common weights fixed.',
                        spatial_status='No pixelwise or anatomical subtraction: landmarks, orientation, scale and tissue support require review.',
                        missing='Missing measurements stay missing; group means require all three animals. Unknown area is outside known size strata and reduces retained coverage.')
-    return dict(definitions=definitions, animal_metrics=animal_metrics, contrasts=pd.DataFrame(contrasts),
+    result = dict(definitions=definitions, animal_metrics=animal_metrics, contrasts=pd.DataFrame(contrasts),
                 cross_animal=pd.DataFrame(cross_animal), leave_pair_out=pd.DataFrame(leave_pair_out),
                 exact_allocations=pd.DataFrame(allocations), exact_summary=pd.DataFrame(exact_summary),
                 size_animals=size_animals, size_groups=pd.DataFrame(size_groups), size_contrasts=pd.DataFrame(size_contrasts),
                 standard_weights=pd.DataFrame(weights), standardization=pd.DataFrame(standardization),
                 standardized_animals=pd.DataFrame(standardized_animals))
+    from .normalization import audit
+    result.update(audit(result))
+    return result
 
 
 def comparison_payload(results):

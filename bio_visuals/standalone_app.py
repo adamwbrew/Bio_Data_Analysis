@@ -17,6 +17,16 @@ APP_ID = "pla-chat-spatial-explorer"
 HEALTH_PATH = "/__halo_health__"
 DEFAULT_PORT = 8050
 GALLERY = (
+    ("17_normalization_both_directions.png", "Normalization and both subtraction directions",
+     "Primary fractions divide by PLA count within each animal. Tissue area and ChAT availability remain uncorrected."),
+    ("18_within_animal_arm_comparison.png", "Is the condition gap different between PLA arms?",
+     "The same animals contribute different physical sections. Compare arm gaps without assuming spatial correspondence."),
+    ("19_feature_alignment_before_after.png", "Before and after cavity-and-shape alignment",
+     "Proposed alignment keeps the internal anchor fixed and ranks discrete flips. Cropped tissue remains missing; these are not anatomical approvals."),
+    ("20_proposed_cavity_traces_hk1.png", "HK1 arm: inspect each proposed cavity trace",
+     "Full-resolution all-object reconstructions with visible proposal polygons; uncertain edges require original-image review."),
+    ("20_proposed_cavity_traces_pfkp.png", "PFKP arm: inspect each proposed cavity trace",
+     "These annotations supply common cavity anchors for the preview, without claiming validated anatomical registration."),
     ("13_condition_averages_difference.png", "Non-running minus Running: averages and subtraction",
      "Each dot is one animal. Positive differences mean Home cage is higher. "
      "Black intervals are delete-one-per-group sensitivity ranges, not confidence intervals."),

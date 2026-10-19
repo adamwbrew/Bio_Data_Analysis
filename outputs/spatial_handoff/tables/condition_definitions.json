@@ -1,5 +1,5 @@
 {
-  "direction": "Home cage minus Running: positive means higher in non-running animals",
+  "direction": "Both directions available: Home cage minus Running is the stored primary contrast; reversing negates the difference and reverses interval endpoints",
   "groups": [
     "Home cage",
     "Running"

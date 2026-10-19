@@ -48,9 +48,9 @@
 </div>
 <div class="controls" data-role="layer-controls" hidden>
  <label>Layer view<select data-role="layer-view"><option value="stack">Exploded 3D stack</option><option value="overlay">Flat overlay</option></select></label>
- <label>Coordinate frame<select data-role="frame"><option value="native">Native coordinates · all sections</option><option value="candidate">Candidate-centered · unreviewed QC</option><option value="reviewed">Reviewed alignment only</option></select></label>
+ <label>Coordinate frame<select data-role="frame"><option value="proposed" selected>Feature-aligned · proposed, all sections</option><option value="native">Native image coordinates · before alignment</option><option value="candidate">Candidate-centered · unreviewed QC</option><option value="reviewed">Reviewed alignment only</option></select></label>
  <label>Layer content<select data-role="layer-metric"><option value="n_all">All detections · animal colors</option><option value="support">Observed-bin silhouettes</option><option value="n_pla">PLA object count</option><option value="n_chat">ChAT object count</option><option value="fraction">ChAT-positive PLA (%)</option><option value="mean_area">Mean PLA area (µm²)</option><option value="large_fraction">Large PLA ≥1 µm² (%)</option></select></label>
- <label>Layer opacity<input data-role="layer-opacity" type="range" min="5" max="100" value="55"><span data-role="layer-opacity-value">55%</span></label>
+ <label><input data-role="anchors" type="checkbox" checked>Show cavity anchors</label><label>Layer opacity<input data-role="layer-opacity" type="range" min="5" max="100" value="55"><span data-role="layer-opacity-value">55%</span></label>
  <label data-role="separation-label">Visual separation<input data-role="separation" type="range" min="10" max="150" value="80"></label>
 </div>
 <div class="controls" data-role="step-controls" hidden>
@@ -70,14 +70,14 @@
 'use strict';
 const root=document.getElementById('__ROOT_ID__'), DATA=__DATA__;
 const q=r=>root.querySelector('[data-role="'+r+'"]'), value=r=>q(r).value;
-const state={view:'surface',one:false,selected:new Set(),step:0,camera:null,revision:0};
+const state={view:'surface',one:false,selected:new Set(),step:0,camera:null,revision:0,layerOpened:false};
 const METRICS={n_all:['All detections / bin','Viridis'],n_pla:['PLA objects / bin','Magma'],n_chat:['ChAT objects / bin','Cividis'],fraction:['ChAT-positive PLA (%)','Viridis'],mean_area:['Mean PLA area (µm²)','Viridis'],large_fraction:['PLA ≥1 µm² (%)','Cividis'],overlap_area:['Actual overlap area (µm² / bin)','Magma'],support:['Observed geometry','Viridis']};
 const config={scrollZoom:true,responsive:true,displaylogo:false,toImageButtonOptions:{format:'png',scale:3,filename:'HALO_spatial_view'}};
 function rows(){return DATA.sections.filter(s=>s.arm===value('arm')&&(value('group')==='all'||s.group===value('group')));}
 function grid(s){return s.grids[value('bin')];}
 function selectedSection(){return rows().find(s=>s.animal===value('animal'))||rows()[0];}
 function refreshAnimals(){const prior=value('animal');q('animal').replaceChildren();rows().forEach(s=>q('animal').add(new Option(s.animal+' · '+s.group,s.animal)));if(rows().some(s=>s.animal===prior))q('animal').value=prior;}
-function transforms(s){const frame=value('frame');if(frame==='native')return {center:[0,0],flip:'none'};if(frame==='candidate')return s.candidate_center?{center:s.candidate_center,flip:'none'}:null;return s.ready?{center:s.reviewed_center,flip:s.reviewed_flip}:null;}
+function transforms(s){const frame=value('frame');if(frame==='proposed')return s.proposed?{center:s.proposed.center,flip:s.proposed.flip}:null;if(frame==='native')return {center:[0,0],flip:'none'};if(frame==='candidate')return s.candidate_center?{center:s.candidate_center,flip:'none'}:null;return s.ready?{center:s.reviewed_center,flip:s.reviewed_flip}:null;}
 function eligible(){return rows().filter(s=>transforms(s));}
 function coords(s,g){const t=transforms(s);const sx=['horizontal','both'].includes(t.flip)?-1:1,sy=['vertical','both'].includes(t.flip)?-1:1;return {x:g.x.map(x=>(x-t.center[0])*sx),y:g.y.map(y=>(y-t.center[1])*sy)};}
 function matrix(g,key){const floor=+value('minimum');return g.n_pla.map((r,iy)=>r.map((n,ix)=>{
@@ -118,8 +118,9 @@ function refreshLayers(reset=false){const es=eligible();if(reset)state.selected=
  q('layer-list').replaceChildren();for(const s of rows()){const can=es.includes(s),label=document.createElement('label');label.className='chip';label.style.setProperty('--color',s.color);const input=document.createElement('input');input.type='checkbox';input.checked=can&&(state.one?s===es[state.step]:state.selected.has(s.job));input.disabled=!can||state.one;input.setAttribute('aria-label','Layer '+s.animal);input.onchange=()=>{input.checked?state.selected.add(s.job):state.selected.delete(s.job);render();};const dot=document.createElement('span');dot.className='dot';label.append(input,dot,document.createTextNode(s.animal+(can?'':' · unavailable')));q('layer-list').append(label);}
  q('previous').disabled=!es.length||state.step===0;q('next').disabled=!es.length||state.step===es.length-1;q('step').disabled=!es.length;q('step-label').textContent=es.length?(state.one?'Layer ':'Step to isolate: ')+(state.step+1)+' / '+es.length+' · '+es[state.step].animal:'No eligible layers';q('all-layers').classList.toggle('active',!state.one);q('one-layer').classList.toggle('active',state.one);}
 function layers(){const es=eligible(),active=state.one?es.slice(state.step,state.step+1):es.filter(s=>state.selected.has(s.job));const frame=value('frame'),key=value('layer-metric'),stack=value('layer-view')==='stack',max=maximum(key),log=['n_all','n_pla','n_chat'].includes(key),scale=v=>v===null?null:(log?Math.log1p(v):v),opacity=+value('layer-opacity')/100,traces=[];
- const omitted=rows().filter(s=>!es.includes(s)).map(s=>s.animal);let review='';if(frame==='candidate')review='UNREVIEWED GEOMETRY PREVIEW: candidate-centroid translation only; no orientation correction. ';if(frame==='reviewed')review='Only sections passing every documented registration review are eligible. ';
+ const omitted=rows().filter(s=>!es.includes(s)).map(s=>s.animal);let review='';if(frame==='proposed')review='PROPOSED FEATURE ALIGNMENT: translated by traced cavity centroid; adjacent internal structure guides above/below orientation where visible; boundary agreement with 21F ranks remaining flips. These are unapproved per-section views, not anatomical group results. ';if(frame==='candidate')review='UNREVIEWED GEOMETRY PREVIEW: candidate-centroid translation only; no orientation correction. ';if(frame==='reviewed')review='Only sections passing every documented registration review are eligible. ';
  q('notice').className='notice warning';q('notice').textContent=review+'Layer order is Home cage → Running in documented animal order. These are different animals, not serial slices: vertical spacing is for display only. '+(frame==='native'?'Native image coordinate origins are retained; apparent displacement is not anatomical. ':'')+(omitted.length?'Unavailable in this frame: '+omitted.join(', ')+'.':'');
+ const uncertain=active.filter(s=>s.proposed&&(s.proposed.ambiguous_boundary||s.proposed.flip_ambiguous||s.proposed.flip_resolution_stable===false||s.proposed.cue_boundary_conflict||!s.proposed.orientation_cue_used));if(frame==='proposed'&&uncertain.length)q('notice').textContent+=' Uncertain boundary or flip: '+uncertain.map(s=>s.animal).join(', ')+'.';
  // Until registration is reviewed, candidate transforms expose geometry only.
  if(frame==='candidate'&&!['support','n_all'].includes(key))throw new Error('Candidate-centered views are restricted to geometry; choose native coordinates for marker maps.');
  const geometryColor=key==='support'||key==='n_all';
@@ -129,12 +130,19 @@ function layers(){const es=eligible(),active=state.one?es.slice(state.step,state
  const base={name:s.animal+' · '+s.group,opacity,customdata:custom(g),text:m.map(r=>r.map(v=>v===null?'not shown':v.toLocaleString(undefined,{maximumFractionDigits:2}))),hovertemplate:nativeHover(s).replace('<extra>','<br>Selected value=%{text}<extra>'),colorscale:color,showscale:!geometryColor&&!scaleShown,colorbar:cb};scaleShown=!geometryColor;
  if(stack)traces.push({...base,type:'surface',x:xy.x,y:xy.y,z:m.map(r=>r.map(v=>v===null?null:s.order)),surfacecolor:zcolor,cmin:0,cmax:scale(max),connectgaps:false,lighting:{ambient:1,diffuse:0,specular:0}});
  else traces.push({...base,type:'heatmap',x:xy.x,y:xy.y,z:zcolor,zmin:0,zmax:scale(max),hoverongaps:false,zsmooth:false});
+ if(q('anchors').checked&&frame!=='native'){
+ const poly=frame==='proposed'?s.proposed.polygon_native:frame==='candidate'?s.candidate_polygon:s.reviewed_polygon;
+ if(poly){const t=transforms(s),sx=['horizontal','both'].includes(t.flip)?-1:1,sy=['vertical','both'].includes(t.flip)?-1:1,loop=poly.concat([poly[0]]),xx=loop.map(p=>(p[0]-t.center[0])*sx),yy=loop.map(p=>(p[1]-t.center[1])*sy);
+ const line={x:xx,y:yy,mode:'lines',line:{color:s.color,width:3},name:s.animal+' cavity proposal',hovertemplate:s.animal+' cavity anchor · '+t.flip+' flip<extra>Not anatomically approved</extra>',showlegend:false};
+ traces.push(stack?{...line,type:'scatter3d',z:xx.map(()=>s.order+.015)}:{...line,type:'scatter'});
+ if(frame==='proposed'&&s.proposed.orientation_cue_native){const cue=s.proposed.orientation_cue_native,xx=[0,(cue[0]-t.center[0])*sx],yy=[0,(cue[1]-t.center[1])*sy],cueTrace={x:xx,y:yy,mode:'lines+markers',line:{color:s.color,width:2,dash:'dot'},marker:{color:s.color,size:6,symbol:'circle'},hovertemplate:s.animal+' adjacent-structure cue · proposal<extra>Orientation only; not validated homology</extra>',showlegend:false};traces.push(stack?{...cueTrace,type:'scatter3d',z:[s.order+.02,s.order+.02]}:{...cueTrace,type:'scatter'});}
+ traces.push(stack?{type:'scatter3d',x:[0],y:[0],z:[s.order+.02],mode:'markers',marker:{color:s.color,size:4},hoverinfo:'skip',showlegend:false}:{type:'scatter',x:[0],y:[0],mode:'markers',marker:{color:s.color,size:8,symbol:'cross'},hoverinfo:'skip',showlegend:false});}}
  if(stack)traces.push({type:'scatter3d',x:[Math.min(...xy.x)],y:[Math.min(...xy.y)],z:[s.order],mode:'text',text:[s.animal+' · '+s.group],textfont:{color:s.color,size:12},hoverinfo:'skip',showlegend:false});
  }
- const layout=common();layout.title.text=(stack?'Exploded comparison stack':'Overlapping sections')+' · '+value('arm')+' · '+active.length+' layers';
+ const layout=common();layout.title.text=(frame==='proposed'?'Proposed alignment | ':'')+(stack?'Exploded comparison stack':'Overlapping sections')+' · '+value('arm')+' · '+active.length+' layers';
  if(es.length){const [xr,yr]=extent(es);if(stack){layout.scene=scene(xr,yr,+value('separation')/100,'Display layer · not tissue depth');layout.scene.zaxis.range=[-.3,5.3];layout.scene.zaxis.tickvals=es.map(s=>s.order);layout.scene.zaxis.ticktext=es.map(s=>s.animal);}
  else{layout.xaxis={title:{text:(frame==='native'?'Native x':'Centered x')+' · export units'},range:xr};layout.yaxis={title:{text:(frame==='native'?'Native y':'Centered y')+' · export units'},range:[yr[1],yr[0]],scaleanchor:'x',scaleratio:1};}}
- if(!active.length)layout.annotations=[{xref:'paper',yref:'paper',x:.5,y:.5,showarrow:false,text:es.length?'No layers selected. Use Show all layers or the section checkboxes.':'No reviewed sections are available.<br>Choose Native coordinates or Candidate-centered geometry.',font:{size:17,color:'#597381'}}];
+ if(!active.length)layout.annotations=[{xref:'paper',yref:'paper',x:.5,y:.5,showarrow:false,text:es.length?'No layers selected. Use Show all layers or the section checkboxes.':'No sections are available in this frame.<br>Choose Feature-aligned proposals or Native coordinates.',font:{size:17,color:'#597381'}}];
  q('details').innerHTML='<span class="stat">Visible: '+(active.map(s=>s.animal).join(' · ')||'none')+'</span> &nbsp; '+(geometryColor?(key==='support'?'Colors identify animals. Filled bins show observed objects, not a traced tissue mask.':'Colors identify animals; shade represents log(1 + all-object count). These are detection reconstructions, not microscope pixels. Shared count scale within the arm.'):'Each layer retains its own values; layers are never pooled. Color limits are shared within the PLA arm. Flat blending is for inspection, not a numerical group estimate.');
  return {traces,layout};}
 let sequence=Promise.resolve();
@@ -143,9 +151,9 @@ function render(){q('notice').hidden=false;q('minimum-value').textContent=value(
  root.querySelectorAll('[data-view]').forEach(b=>{b.classList.toggle('active',b.dataset.view===state.view);b.setAttribute('aria-selected',b.dataset.view===state.view?'true':'false');});
  try{const result=state.view==='surface'?surface():state.view==='channels'?channels():layers();sequence=sequence.then(()=>Plotly.react(q('plot'),result.traces,result.layout,config)).catch(error=>{q('notice').className='notice warning';q('notice').textContent='Viewer error: '+error.message;});}catch(error){q('notice').className='notice warning';q('notice').textContent=error.message;}}
 function resetCamera(){state.camera=null;state.revision++;}
-root.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>{state.view=b.dataset.view;resetCamera();refreshLayers();render();});
+root.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>{state.view=b.dataset.view;if(state.view==='layers'&&!state.layerOpened){q('bin').value='250';state.layerOpened=true;}resetCamera();refreshLayers();render();});
 for(const role of ['arm','group'])q(role).onchange=()=>{refreshAnimals();state.step=0;refreshLayers(true);resetCamera();render();};
-for(const role of ['animal','bin','minimum','metric','height','pla-subset','channel-opacity','layer-opacity','separation','layer-metric','chat','pla'])q(role).onchange=()=>{render();};
+for(const role of ['animal','bin','minimum','metric','height','pla-subset','channel-opacity','layer-opacity','separation','layer-metric','anchors','chat','pla'])q(role).onchange=()=>{render();};
 q('frame').onchange=()=>{const candidate=value('frame')==='candidate';for(const option of q('layer-metric').options)option.disabled=candidate&&!['support','n_all'].includes(option.value);if(candidate&&!['support','n_all'].includes(value('layer-metric')))q('layer-metric').value='n_all';state.step=0;refreshLayers(true);resetCamera();render();};
 q('metric').onchange=()=>{q('height').value=['fraction','large_fraction','mean_area'].includes(value('metric'))?'linear':'log';render();};
 q('layer-view').onchange=()=>{resetCamera();render();};
@@ -154,6 +162,6 @@ function step(n){state.one=true;state.step=Math.max(0,Math.min(n,eligible().leng
 q('step').oninput=()=>step(+value('step'));q('previous').onclick=()=>step(state.step-1);q('next').onclick=()=>step(state.step+1);
 for(const r of ['reset','channel-reset'])q(r).onclick=()=>{resetCamera();render();};
 q('top').onclick=()=>{state.camera={eye:{x:0,y:0,z:2.5},up:{x:0,y:1,z:0}};state.revision++;render();};q('oblique').onclick=()=>{resetCamera();render();};
-refreshAnimals();refreshLayers(true);q('loading').hidden=true;render();
+if(!DATA.sections.some(s=>s.proposed))q('frame').value='native';refreshAnimals();refreshLayers(true);q('loading').hidden=true;render();
 })();
 </script>

@@ -28,11 +28,12 @@ def _grid_payload(grid, fine=False):
     return result
 
 
-def explorer_payload(fine, geometry, surfaces, metrics, metadata, reviews):
+def explorer_payload(fine, geometry, surfaces, metrics, metadata, reviews, proposals=None):
     """Keep measured grids separate and disclose each coordinate transform."""
     from plotly.colors import get_colorscale
     by_job = {r['job']: r for r in reviews}
     ready = review_status(reviews).set_index('job').ready.to_dict()
+    proposed = {p['job']:p for p in (proposals or [])}
     sections = []
     for arm in ARMS.values():
         rows = metadata[metadata.pla_arm == arm].set_index('animal_id').loc[ANIMAL_ORDER]
@@ -49,7 +50,7 @@ def explorer_payload(fine, geometry, surfaces, metrics, metadata, reviews):
                 reviewed_center=polygon_centroid(r['reviewed_polygon_native']).tolist() if approved else None,
                 reviewed_polygon=r['reviewed_polygon_native'] if approved else None,
                 reviewed_flip=r['orientation'] if approved else None,
-                ready=approved,
+                ready=approved, proposed=proposed.get(job),
                 fine=_grid_payload(fine[job], fine=True),
                 grids={str(int(g[job]['width'])): _grid_payload(g[job])
                        for g in (geometry, surfaces, metrics)},
@@ -61,14 +62,14 @@ def explorer_payload(fine, geometry, surfaces, metrics, metadata, reviews):
                 version=VERSION)
 
 
-def explorer_html(fine, geometry, surfaces, metrics, metadata, reviews, include_plotly=True):
+def explorer_html(fine, geometry, surfaces, metrics, metadata, reviews, include_plotly=True, proposals=None):
     """Return an offline HTML output embedded in a trusted Jupyter notebook.
 
     No server, CDN, widget extension, or live kernel is needed after rendering.
     GitHub suppresses JavaScript; the notebook supplies static companion figures.
     """
     from plotly.offline import get_plotlyjs
-    payload = explorer_payload(fine, geometry, surfaces, metrics, metadata, reviews)
+    payload = explorer_payload(fine, geometry, surfaces, metrics, metadata, reviews, proposals=proposals)
     data = json.dumps(payload, separators=(',', ':'), ensure_ascii=False, allow_nan=False)
     data = data.replace('<', '\\u003c')
     template = Path(__file__).with_name('explorer.html').read_text()

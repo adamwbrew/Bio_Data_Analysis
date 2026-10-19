@@ -46,6 +46,17 @@ test_review_gate_prevents_accidental_group_maps (test_handoff.SpatialHandoffTest
 test_reviewed_maps_never_pool_the_two_arms (test_handoff.SpatialHandoffTests) ... ok
 test_surface_selection_preserves_each_sections_xy_ratio (test_handoff.SpatialHandoffTests) ... ok
 test_translation_and_flips_preserve_distances_and_center (test_handoff.SpatialHandoffTests) ... ok
+test_annotation_hash_mismatch_fails_closed (test_normalization_alignment.AlignmentTests) ... ok
+test_boundary_score_is_symmetric_and_exact_matches_are_zero (test_normalization_alignment.AlignmentTests) ... ok
+test_partial_boundary_trim_tolerates_small_missing_piece_but_reports_tail (test_normalization_alignment.AlignmentTests) ... ok
+test_proposals_never_unlock_reviewed_coordinates (test_normalization_alignment.AlignmentTests) ... ok
+test_translation_and_flips_preserve_all_pairwise_distances (test_normalization_alignment.AlignmentTests) ... ok
+test_denominators_expose_unequal_pooling_and_keep_equal_animals (test_normalization_alignment.NormalizationTests) ... ok
+test_missing_association_and_overlap_do_not_disappear_in_audit (test_normalization_alignment.NormalizationTests) ... ok
+test_two_directions_reverse_estimate_and_interval_not_relative_baseline (test_normalization_alignment.NormalizationTests) ... ok
+test_within_animal_arm_difference_uses_same_identity (test_normalization_alignment.NormalizationTests) ... ok
+test_internal_cue_selects_vertical_family_without_moving_anchor (test_normalization_alignment.OrientationCueTests) ... ok
+test_missing_or_horizontal_cue_preserves_all_candidates (test_normalization_alignment.OrientationCueTests) ... ok
 test_all_notebook_cells_have_valid_python (test_notebook_setup.NotebookSetupTests) ... ok
 test_setup_recovers_stale_imports_and_rebinds_functions (test_notebook_setup.NotebookSetupTests) ... ok
 test_spatial_main_setup_refreshes_explorer_and_handoff (test_notebook_setup.NotebookSetupTests) ... ok
@@ -62,6 +73,6 @@ test_portable_page_embeds_original_pixels_and_trusted_explorer (test_standalone_
 test_server_exposes_only_document_and_health_and_reloads_snapshot (test_standalone_app.StandaloneAppTests) ... ok
 
 ----------------------------------------------------------------------
-Ran 62 tests in 9.321s
+Ran 73 tests in 8.629s
 
 OK

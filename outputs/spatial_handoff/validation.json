@@ -1,50 +1,47 @@
 {
-  "verified_utc": "2026-10-19T19:26:11.694523+00:00",
-  "execution": "Both notebooks completed fresh-kernel Run All from raw CSVs, including condition comparisons and updated portable app.",
+  "verified_utc": "2026-10-19T19:57:53.605180+00:00",
+  "execution": "Both notebooks completed fresh-kernel Run All from all raw CSVs; outputs include normalization, both subtraction directions, within-animal arm comparison and feature-based alignment proposals.",
   "notebooks": [
     {
       "notebook": "PLA_ChAT_scientific_analysis.ipynb",
-      "notebook_sha256": "7c7f917d6553ce6b719802622c7104a38a59985c9a4714dfbda5de30e36bfbfa",
-      "code_cells_with_saved_execution": 19,
-      "code_cells": 19,
+      "notebook_sha256": "ffb005efcaec22f8054b5af3ed17b631847c2a279f5da0f3b8460723a372132e",
+      "code_cells": 22,
+      "code_cells_with_saved_execution": 22,
       "error_outputs": 0,
       "stderr_outputs": 0,
       "embedded_explorers": 1,
-      "embedded_condition_comparisons": 1,
-      "additional_plotly_outputs": 0
+      "embedded_condition_comparisons": 1
     },
     {
       "notebook": "PLA_ChAT_spatial_handoff_analysis.ipynb",
-      "notebook_sha256": "3248c7daf7ab77aab2c6ada80e379730b782adab2e598f9fb4ae58ef1dafef4f",
-      "code_cells_with_saved_execution": 37,
-      "code_cells": 37,
+      "notebook_sha256": "1478a67e3894ba794fe1f597a6ff7069522930d7b3a8d3fb80745abe6138845a",
+      "code_cells": 40,
+      "code_cells_with_saved_execution": 40,
       "error_outputs": 0,
       "stderr_outputs": 0,
       "embedded_explorers": 1,
-      "embedded_condition_comparisons": 1,
-      "additional_plotly_outputs": 4
+      "embedded_condition_comparisons": 1
     }
   ],
-  "automated_tests_passed": 62,
+  "automated_tests_passed": 73,
   "test_log": "test_results.txt",
-  "javascript_syntax_check": "node --check passed for condition comparison template",
+  "javascript_syntax_check": "node --check passed for both HTML templates",
   "browser_checks": [
-    "Saved main notebook opened and trusted in JupyterLab; condition arm and individual-animal tab controls render and update",
-    "App arm and metric selection; association percentages and count units checked",
-    "Individual-animal heatmaps and size-standardization curves render",
-    "Spatial subtraction shows 0/12 reviews with no invented anatomical map",
-    "Downloaded PFKP size-comparison CSV matches the saved analysis table numerically"
+    "Both subtraction directions, reversed deletion endpoints, size contrasts and normalization audit checked in live app and trusted JupyterLab main notebook",
+    "PFKP reverse-direction normalization CSV matches all four saved analysis rows",
+    "All 12 proposed layers visible; per-animal stepping, flat overlay, 3D stack and internal orientation cues render",
+    "No browser console errors in final app checks; anatomical review gate remains 0/12"
   ],
   "figure_exports": {
-    "png": 56,
-    "svg": 56,
+    "png": 61,
+    "svg": 61,
     "png_export_dpi": 300,
-    "new_condition_figures": [
+    "new_figures": [
       {
-        "file": "13_condition_averages_difference.png",
+        "file": "17_normalization_both_directions.png",
         "pixels": [
-          5134,
-          2909
+          4768,
+          1932
         ],
         "dpi": [
           299.9994,
@@ -52,10 +49,10 @@
         ]
       },
       {
-        "file": "14_condition_robustness.png",
+        "file": "18_within_animal_arm_comparison.png",
         "pixels": [
-          3539,
-          3125
+          4171,
+          1789
         ],
         "dpi": [
           299.9994,
@@ -63,10 +60,10 @@
         ]
       },
       {
-        "file": "15_condition_size_standardization.png",
+        "file": "19_feature_alignment_before_after.png",
         "pixels": [
-          4834,
-          3063
+          5070,
+          3580
         ],
         "dpi": [
           299.9994,
@@ -74,10 +71,21 @@
         ]
       },
       {
-        "file": "16_condition_image_layout.png",
+        "file": "20_proposed_cavity_traces_hk1.png",
         "pixels": [
-          4029,
-          2768
+          4541,
+          2964
+        ],
+        "dpi": [
+          299.9994,
+          299.9994
+        ]
+      },
+      {
+        "file": "20_proposed_cavity_traces_pfkp.png",
+        "pixels": [
+          4772,
+          2964
         ],
         "dpi": [
           299.9994,
@@ -86,23 +94,23 @@
       }
     ]
   },
-  "protocol": "protocols/v1.2.0_091d0f1818b0.json",
+  "protocol": "protocols/v1.3.0_1ad711eaf12e.json",
   "protocol_code_hashes_match": true,
-  "limits": "Equal-animal exploratory comparisons with n=3 per condition per arm. Size reweighting does not adjust all confounding. Source-image layout requires review. Anatomical subtraction is gated; 3D surfaces and ordinal layers are not a brain volume.",
+  "anatomical_approval_records_unchanged": true,
+  "limits": "n=3 animals per condition per arm. PLA-count and size normalization do not correct tissue area, ChAT availability or confounding. Cavity traces and adjacent-structure cues are computational visual proposals from detections; source microscopy, scale, homology and support remain unapproved. Group anatomical subtraction remains gated.",
   "standalone_app": {
     "path": "outputs/spatial_handoff/app/index.html",
-    "sha256": "820e68f32cd595df6e66cc8c9b353d3571835b0e814824aabe3e464405a4a4cd",
-    "bytes": 14390651,
+    "sha256": "0c487bd41f4b408cd7bc92408d16a5fb429040b486a29036cd6abd12265d7edf",
+    "bytes": 19882041,
     "sections": 12,
     "object_totals": {
       "n_all": 3010776,
       "n_pla": 310024,
       "n_chat": 2700752
     },
-    "embedded_scientific_figures": 6,
+    "embedded_scientific_figures": 11,
+    "comparison_tabs": 5,
     "remote_assets": 0,
-    "comparison_tabs": 4,
-    "launcher": "Launch_Spatial_Explorer.command",
     "bind": "127.0.0.1:8050"
   }
 }

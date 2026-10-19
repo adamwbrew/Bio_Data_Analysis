@@ -10,7 +10,7 @@ def code(s):cells.append(nbf.v4.new_code_cell(dedent(s).strip(),metadata={'scrol
 
 md('''
 # PLA–ChAT spatial analysis · from raw HALO detections to scientific review
-**Raw-data handoff edition · protocol 1.2.0 · research checked 19 October 2026**
+**Raw-data handoff edition · protocol 1.3.0 · research checked 19 October 2026**
 
 ### Open the Plotly app
 **[Open the spatial app in your browser](http://127.0.0.1:8050/)** for the 3D, channel and layer controls plus the main scientific figures. First double-click `Launch_Spatial_Explorer.command` in this repository on your Mac, or run `python scripts/serve_spatial_app.py` in a terminal. Leave the terminal open while using the link. The app works from the saved results without running this notebook or installing extra packages.
@@ -47,11 +47,12 @@ import matplotlib.pyplot as plt
 import plotly.io as pio
 from IPython.display import display, Markdown, HTML
 # Reload in dependency order so a second Run All uses edited local functions.
-for name in ['bio_visuals.data', 'bio_visuals.entire_dataset', 'bio_visuals.handoff', 'bio_visuals.handoff_plots', 'bio_visuals.explorer', 'bio_visuals.condition_comparison', 'bio_visuals.condition_views', 'bio_visuals.condition_layout', 'bio_visuals.standalone_app']:
+for name in ['bio_visuals.data', 'bio_visuals.entire_dataset', 'bio_visuals.handoff', 'bio_visuals.handoff_plots', 'bio_visuals.explorer', 'bio_visuals.condition_comparison', 'bio_visuals.condition_views', 'bio_visuals.condition_layout', 'bio_visuals.normalization', 'bio_visuals.feature_alignment', 'bio_visuals.standalone_app']:
     importlib.reload(importlib.import_module(name))
 from bio_visuals import entire_dataset as raw, handoff as h, handoff_plots as hp
 from bio_visuals.explorer import explorer_html
 from bio_visuals import condition_comparison as cc, condition_views as cv, condition_layout as cl
+from bio_visuals import normalization as norm, feature_alignment as fa
 from bio_visuals.standalone_app import write_standalone_app
 hp.style()
 pd.set_option('display.max_columns', 18)
@@ -163,16 +164,28 @@ if not REVIEW_PATH.exists():
     REVIEW_PATH.write_text(json.dumps(reviews, indent=2) + '\\n')
 status = h.review_status(reviews)
 print('All four grid resolutions conserve every primary object count.')
+alignment_proposals, alignment_scores = fa.alignment_proposals(geometry, metadata)
+coarse_proposals, coarse_scores = fa.alignment_proposals(surfaces, metadata)
+coarse_by_job = {p['job']: p for p in coarse_proposals}
+for proposal in alignment_proposals:
+    proposal['coarse_flip'] = coarse_by_job[proposal['job']]['flip']
+    proposal['flip_resolution_stable'] = proposal['flip'] == proposal['coarse_flip']
+alignment_scores['geometry_bin'] = 250
+coarse_scores['geometry_bin'] = 500
+alignment_scores = pd.concat([alignment_scores, coarse_scores], ignore_index=True)
+alignment_scores.to_csv(TABLES / 'alignment_flip_scores.csv.gz', index=False, compression='gzip')
+(TABLES / 'alignment_proposals.json').write_text(json.dumps(alignment_proposals, indent=2, ensure_ascii=False) + '\\n')
+
 ''')
 md('''
 <a id="comparison"></a>
 ## Running versus non-running · overlay the averages, then subtract
 
-The scientist asked whether overlaying Running and non-running measurements, and subtracting Running from non-running, reveals a useful pattern. **Home cage is the non-running group.** The first answer uses section-wide measurements, so it does not require claiming that unreviewed pixels are anatomically equivalent. The interactive panel overlays condition distributions and size curves; the spatial explorer below provides the actual section layers.
+The scientist asked whether overlaying Running and non-running measurements, and subtracting Running from non-running, reveals a useful pattern. **Home cage is the non-running group.** The first answer uses section-wide measurements, so it does not require claiming that unreviewed pixels are anatomically equivalent. The interactive panel overlays condition distributions and size curves, and includes an explicit **Is it normalized?** audit; the spatial explorer below provides the actual section layers.
 
 **How the average is calculated:** count ChAT-positive PLA / all PLA separately for each animal, multiply by 100, then average the three animal percentages with equal weights. Calculate **Home cage mean − Running mean** within each PLA arm. Positive values mean more association in non-running animals. A difference of 22 percentage points is an absolute difference between percentages, not a 22% relative change. Millions of detected objects do not increase the six-animal sample size. [Lazic, 2010](https://pmc.ncbi.nlm.nih.gov/articles/PMC2817684/), [Ho et al., 2019](https://pubmed.ncbi.nlm.nih.gov/31217592/).
 
-**Use the controls:** switch PLA arms and measurements, overlay the individual-animal values, inspect all nine cross-animal differences, and compare size-specific curves. Black intervals delete one animal from **each** group in all nine combinations; they are sensitivity ranges, **not confidence intervals**. No animals are assumed to be matched pairs.
+**Use the controls:** choose **Home cage − Running** or **Running − Home cage**, switch PLA arms and measurements, overlay the individual-animal values, inspect all nine cross-animal differences, and compare size-specific curves. Black intervals delete one animal from **each** group in all nine combinations; they are sensitivity ranges, **not confidence intervals**. No animals are assumed to be matched pairs.
 ''')
 code('''
 condition_results = cc.comparison_results(objects, metadata, min_per_stratum=10)
@@ -191,6 +204,47 @@ comparison_fragment = cv.comparison_html(condition_results, registration=compari
 display(HTML(comparison_fragment))
 ''')
 code("show(cv.average_difference_figure(condition_results), '13_condition_averages_difference')")
+
+md('''
+### Normalization audit · what has actually been divided by what?
+
+**Yes, the main association percentages are normalized to PLA count. They are not tissue-area densities or ChAT-opportunity-corrected effects.** The word “raw” in the size plot means *before size reweighting*, not unnormalized counts.
+
+| Quantity | Calculation within each animal | What it corrects | What remains unresolved |
+|---|---|---|---|
+| Primary association | 100 × ChAT-positive PLA count / all PLA count | Different total PLA export counts | ChAT abundance/coverage, segmentation, tissue composition and section level |
+| Group mean | Mean of three animal percentages, each weighted 1/3 | Prevents animals with more objects dominating | Three animals still provide limited biological replication |
+| Common-size association | Sum of within-size percentages × shared size weights | Different proportions of small/large PLA | Within-bin size variation and other biological/technical differences |
+| Actual overlap-area ratio | 100 × summed exported overlap area / summed PLA area | Expresses overlap relative to measured PLA area | Different estimand; repeated object area is not unique tissue area |
+| PLA / ChAT counts | Number of exported detections | **No normalization** | Sampled area, detection sensitivity and section completeness |
+| Difference / between-animal SE | Difference divided by √(s²Home/3 + s²Running/3) | Expresses gap relative to animal-to-animal variation | Not biological correction, a spatial Z-map, or a significance claim |
+
+**Do not normalize each image to its own maximum before subtraction:** that would remove real magnitude differences. Map colors use shared scales; color scaling is a display choice. True tissue density needs a valid ROI area and x/y calibration. ChAT object counts cannot substitute for the fraction of tissue occupied by ChAT because segmentation fragments and object sizes differ. Microscopy research cautions that overlap and randomization depend on spatial structure; simply dividing by ChAT counts or scrambling independent pixels would not establish enrichment. [McDonald & Dunn, 2013](https://pmc.ncbi.nlm.nih.gov/articles/PMC4428547/).
+''')
+code('''
+show(norm.normalization_figure(condition_results), '17_normalization_both_directions')
+display(condition_results['directions'])
+display(condition_results['denominators'])
+''')
+md('''
+**Read subtraction from both sides.** Home − Running is **+22.01 pp (HK1)** and **+22.58 pp (PFKP)**; Running − Home is **−22.01 pp** and **−22.58 pp**. The reversed sensitivity interval is [−upper, −lower]. These are the same observation with opposite signs, not corroborating tests. Relative percentage change uses the second group as denominator, so its magnitudes need not match after reversal. Both directions, ratios, animal-based SE and original denominators are exported and available in the app.
+
+The pooled-object row deliberately shows what happens if one ignores the animal as the unit of replication. It is a weighting diagnostic, not an alternative result selected for its size. The app exposes the per-animal weights so the consequence can be inspected directly.
+
+### Additional question · is the condition gap selective for one PLA arm?
+
+For each animal, subtract its HK1-arm association from its PFKP-arm association, then compare those animal-level arm gaps across conditions. This uses repeated animal identities; **the sections are physically different and are not subtracted spatially**. The two assays may differ in detection efficiency, so this contrast is descriptive and cannot establish relative protein abundance or activity.
+''')
+code('''
+show(norm.paired_arm_figure(condition_results), '18_within_animal_arm_comparison')
+arm_gaps = condition_results['paired_arms'].groupby('running_group').pfkp_minus_hk1_pp.mean()
+display(condition_results['paired_arms'])
+display(Markdown(f"**PFKP minus HK1:** Home cage {arm_gaps['Home cage']:.2f} pp; Running {arm_gaps['Running']:.2f} pp. "
+                 f"The condition difference between those arm gaps is **{arm_gaps['Home cage']-arm_gaps['Running']:+.2f} pp**. "
+                 "A strong claim of an arm-selective running response is not supported by these descriptive means. "
+                 "Prioritize shared ChAT staining/detection and tissue-composition checks before a mechanism-specific interpretation."))
+''')
+
 md('''
 ### Check 1 · Is the contrast driven by a single mouse?
 
@@ -239,6 +293,32 @@ The observed direction is consistent, but population uncertainty remains substan
 ''')
 code("display(condition_results['exact_summary'])")
 md('''
+### Align the visible image features · a concrete improvement to the layers
+
+The old overlay retained native image offsets by default. Its automatic enclosed-hole detector also missed **3/12 cavities** and often traced only part of a cavity. The new default **Feature-aligned** view uses **12 inspectable cavity trace proposals**, drawn from the 100-unit all-detection reconstructions. These are computational visual annotations, not source-microscopy annotations or investigator approvals. Five traces have visibly ambiguous boundaries and are explicitly flagged.
+
+1. Calculate the geometric centroid of each proposed internal-cavity polygon. Translation is fixed by that anchor, even when external tissue is cut off.
+2. Within each PLA arm, use 21F as a fixed orientation reference. Where identifiable, annotate the adjacent loop-like structure and match its **above/below relationship to the cavity** to the reference. This selects the vertical orientation family without changing the cavity anchor; horizontal handedness is still geometric. If the cue is not identifiable (21M/PFKP), retain all four possibilities and flag it. Rank the remaining **none / horizontal / vertical / both flips** using the mean nearest-boundary distance in both directions after dropping the largest 20% of distances in each direction. Boundaries come from all-object occupancy, with one-bin closing and the largest connected component; PLA positivity and condition contrast do not select the transform.
+3. Record every flip score, the full 90th-percentile residual and the margin between the best two flips. A margin below 10% is an ambiguity flag, not a statistical confidence threshold. Retain the unrestricted boundary-only winner too: **22F/PFKP changes from none to vertical when the internal cue is used**, showing why the exterior alone is insufficient. The cue is visually proposed homology, not independently validated anatomy. Repeat flip ranking at 500-unit bins and flag any disagreement with the primary 250-unit geometry. The untrimmed residual exposes mismatches that the robust score downweights. No continuous rotation, rescaling, warping or missing-tissue reconstruction is performed.
+
+Partial-image registration research supports using surviving characteristic shape features when the exterior is incomplete. Our simpler, handoff-constrained method is a **proposal**, not a replication or validation of that method. A low fitting residual is not independent target-registration accuracy. The cavity is the anchor; independent source-image landmarks, expected cut edge and section-level metadata must validate it. [Pichat et al., 2017](https://arxiv.org/abs/1708.08117), [local handoff, pp. 4–9](HALO_spatial_analysis_raw_data_handoff.pdf).
+''')
+code('''
+show(fa.alignment_figure(geometry, alignment_proposals), '19_feature_alignment_before_after')
+alignment_table = pd.DataFrame(alignment_proposals)
+table(alignment_table[['animal_id','pla_arm','job','flip','ambiguous_boundary','flip_ambiguous',
+                       'native_boundary_distance','centered_boundary_distance','aligned_boundary_distance',
+                       'boundary_p90','flip_margin_fraction','boundary_best_flip','cue_boundary_conflict',
+                       'orientation_cue_used','coarse_flip','flip_resolution_stable']], 'alignment_geometry_diagnostics')
+for arm, key in [('TDP43–HK1','hk1'),('TDP43–PFKP','pfkp')]:
+    show(fa.landmark_figure(fine, alignment_proposals, arm), f'20_proposed_cavity_traces_{key}')
+''')
+md('''
+**Inspect it interactively:** choose **Overlapping layers → Feature-aligned**, then flat overlay or 3D stack. Cavity outlines, a shared anchor and the adjacent-structure cue remain visible; toggle animals or step one at a time. Switch to **Native image coordinates** for the before view, or **Candidate-centered** for the old automated proposals. Feature-aligned mode may display each section’s measured values, but it never pools animals or turns a tentative overlap into an anatomical group difference. Every object retains its measured value and spacing.
+
+**What still needs the scientist:** confirm the traced cavity in each original image, independently review proposed flips and the expected cut edge, verify common coordinate scale and section level, and supply tissue ROI masks. No approval records were changed. All 12 sections are visible for review now; group anatomical subtraction remains gated until correspondence and support are defensible. Missing tissue stays unmeasured rather than being filled from another animal.
+''')
+md('''
 <a id="explore"></a>
 ## Interactive control center · start with the data
 
@@ -249,11 +329,11 @@ md('''
 - **Channel overlay:** independently switch PLA and ChAT on/off, change opacity, and select ChAT-positive or ChAT-negative PLA. This view retains the fine 100-unit reconstruction.
 - **Overlapping layers:** use the flat overlay or exploded 3D stack; show all sections, toggle individual layers, or step through them one at a time. The stack's vertical axis is **display order**, not anatomical depth.
 
-Native coordinates show all available sections. Candidate-centered mode translates only the available geometric proposals and is restricted to **geometry QC**, because orientation, scale and anatomy have not been reviewed. Missing proposals are named, not invented. Reviewed mode becomes available section by section only after all review requirements pass. The two PLA arms never share a layer stack.
+Feature-aligned mode now shows all 12 sections using the inspectable proposals above. Native coordinates show the original image positions. Candidate-centered mode translates only the available geometric proposals and is restricted to **geometry QC**, because orientation, scale and anatomy have not been reviewed. Missing proposals are named, not invented. Reviewed mode becomes available section by section only after all review requirements pass. The two PLA arms never share a layer stack.
 
 These controls are embedded in the notebook and work without a live kernel after rendering. **GitHub disables notebook JavaScript:** open the downloaded notebook in JupyterLab or VS Code, trust the reviewed file and Run All. Static companions below support readers using GitHub.
 ''')
-code("display(HTML(explorer_html(fine, geometry, surfaces, metrics, metadata, reviews)))")
+code("display(HTML(explorer_html(fine, geometry, surfaces, metrics, metadata, reviews, proposals=alignment_proposals)))")
 md('''
 <a id="native"></a>
 ## 3 · See the tissue: native reconstructed overlays
@@ -272,7 +352,7 @@ The handoff prescribes a traced ventricular cavity, a geometric polygon centroid
 
 **First-pass proposal method:** use the union of all PLA and ChAT detections on a 250-unit grid; close occupied bins with two iterations of a 3×3 cross; identify enclosed holes; trace the largest hole if it covers at least six bins. This uses overall geometry, not a ChAT-positive subset or a Running-effect hotspot. It is a reproducible *proposal generator*, not a validated ventricular detector. Closing can fragment, shrink or bridge gaps. The polygon is traced around the resulting component and its area centroid is calculated by the shoelace formula.
 
-**Current status:** none of the sections has a signed-off anatomical trace, orientation, scale or tissue mask. All previews retain `none` as an unapproved flip choice. Missing cavity proposals remain missing. Review each polygon against the native data, especially the complex left-side void in 23M/HK1; several traces cover only part of the visible cavity. Do not advance these proposals automatically.
+**Current status:** none of the sections has a signed-off anatomical trace, orientation, scale or tissue mask. The legacy automatic previews below retain `none` as an unapproved flip choice and preserve their three missing candidates. The newer feature-aligned proposals above are separate and include all 12 sections. Review each polygon against the native data, especially the complex left-side void in 23M/HK1; several traces cover only part of the visible cavity. Do not advance these proposals automatically.
 ''')
 code("table(status, 'registration_gate')")
 for arm,key in [('TDP43–HK1','hk1'),('TDP43–PFKP','pfkp')]:
@@ -489,7 +569,7 @@ All core results are embedded in this notebook. Supplementary outputs live in `o
 **Methods not claimed as completed:** true microscopy-image overlay, anatomical volume reconstruction, calibrated tissue-area density, validated ventricular registration, spatial enrichment, cross-marker PCA and confirmed causal running effects. The supplied data do not establish those results. The notebook supplies the native views, review tools, animal-level analyses and exact inputs needed to progress toward them.
 ''')
 code('''
-app_path = write_standalone_app(explorer_html(fine, geometry, surfaces, metrics, metadata, reviews, include_plotly=False), ROOT,
+app_path = write_standalone_app(explorer_html(fine, geometry, surfaces, metrics, metadata, reviews, include_plotly=False, proposals=alignment_proposals), ROOT,
                                 comparison_fragment=cv.comparison_html(condition_results, registration=cc.condition_registration(objects, reviews, PARAMETERS['metric_bin'], PARAMETERS['min_pla_per_bin'])))
 display(Markdown(f'**Plotly app refreshed.** [Open the running app](http://127.0.0.1:8050/) · '
                  f'[Portable browser copy]({app_path.relative_to(ROOT).as_posix()}). '
