@@ -54,6 +54,30 @@ class MorphologyViewsTests(unittest.TestCase):
         self.assertNotIn('__ROOT_ID__', first)
         self.assertNotIn('__DATA__', first)
 
+    def test_excluded_qc_payload_preserves_source_identity_and_missing_morphology(self):
+        target = dict(pla_arm='TDP43–HK1', animal_id='21F', job='4998',
+                      sample_rank=1, object_id=321, source_file='section_A.csv',
+                      x=1234.5, y=6789., window_xmin=734.5, window_xmax=1734.5,
+                      window_ymin=6289., window_ymax=7289., area=.04,
+                      min_diameter=np.nan, max_diameter=0.,
+                      exclusion_reason='Nonpositive maximum diameter',
+                      section_excluded_n=200)
+        result = {'excluded_review_targets': pd.DataFrame([target]),
+                  'review_targets': [{'object_id': 99}]}
+        payload = json.loads(json.dumps(views.explorer_payload(result), allow_nan=False))
+        exported = payload['excluded_review_targets'][0]
+        for field in ['source_file', 'job', 'object_id', 'x', 'y', 'window_xmin',
+                      'window_xmax', 'window_ymin', 'window_ymax', 'exclusion_reason']:
+            self.assertEqual(exported[field], target[field])
+        self.assertIsNone(exported['min_diameter'])
+        self.assertEqual(exported['max_diameter'], 0.)
+        self.assertEqual(exported['section_excluded_n'], 200)
+        self.assertEqual(payload['review_targets'], [{'object_id': 99}])
+        fragment = views.explorer_html(result, include_plotly=False)
+        self.assertIn('Download excluded-morphology QC targets', fragment)
+        self.assertIn('section_A.csv', fragment)
+        self.assertIn('not a representative sample', fragment)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -137,6 +137,66 @@ class MorphologyMLTests(unittest.TestCase):
         self.assertEqual(len(self.result['review_targets']), 36)
         self.assertTrue(self.result['review_targets'].source_file.str.endswith('.csv').all())
 
+    def test_excluded_qc_targets_preserve_provenance_and_do_not_change_fit(self):
+        additions = []
+        for job, count in [('100', 12), ('101', 8)]:
+            source = self.objects.loc[self.objects.job.eq(job)].iloc[0].to_dict()
+            for i in range(count):
+                row = dict(source, object_id=1000 + i, min_diameter=0., max_diameter=0.,
+                           x=float(i * 1100), y=float((i % 3) * 900))
+                if i == count - 2:
+                    row.update(area=0., min_diameter=.5, max_diameter=1.)
+                elif i == count - 1:
+                    row.update(min_diameter=-.2, max_diameter=1.)
+                additions.append(row)
+            additions.append(dict(source, object_id=2000, min_diameter=0., max_diameter=0., x=np.nan))
+        objects = pd.concat([self.objects, pd.DataFrame(additions)], ignore_index=True)
+        original = objects.copy(deep=True)
+        result = ml.run_analysis(objects, self.metadata, sample_per_animal=60, n_init=2)
+        pd.testing.assert_frame_equal(objects, original)
+        targets = result['excluded_review_targets']
+        self.assertEqual(targets.groupby('job').size().to_dict(), {'100': 6, '101': 6})
+        self.assertFalse(targets[['job', 'object_id']].duplicated().any())
+        self.assertTrue(np.isfinite(targets[['x', 'y', 'window_xmin', 'window_ymax']]).all().all())
+        self.assertTrue(targets.section_excluded_missing_coordinate_n.eq(1).all())
+        self.assertEqual(targets.groupby('job').section_excluded_n.first().to_dict(), {'100': 13, '101': 9})
+        self.assertTrue(targets.reason.str.contains('not a prevalence estimate').all())
+        for job, rows in targets.groupby('job'):
+            self.assertEqual(set(rows.exclusion_reason), {'Both reported diameters are zero',
+                                                         'Nonpositive PLA area', 'Negative minimum diameter'})
+            self.assertEqual(rows[['native_bin_x', 'native_bin_y']].drop_duplicates().shape[0], 6)
+            self.assertTrue(rows.source_file.eq(job + '.csv').all())
+        source = objects.set_index(['job', 'object_id'])
+        for row in targets.itertuples():
+            original_row = source.loc[(row.job, row.object_id)]
+            self.assertEqual((row.x, row.y), (original_row.x, original_row.y))
+            self.assertEqual((row.min_diameter, row.max_diameter),
+                             (original_row.min_diameter, original_row.max_diameter))
+            self.assertEqual(row.window_xmin, row.x - 500)
+            self.assertEqual(row.window_ymax, row.y + 500)
+        # Adding objects ineligible for morphology must not alter its fit or the
+        # original eligible-object image-review queue.
+        only_morphology = lambda r: [m for m in r['definitions']['models'] if m['feature_set'] == 'area_and_shape']
+        self.assertEqual(only_morphology(self.result), only_morphology(result))
+        pd.testing.assert_frame_equal(self.result['review_targets'], result['review_targets'])
+        prepared, _ = ml._validate(objects.sample(frac=1, random_state=31), self.metadata)
+        pd.testing.assert_frame_equal(targets, ml._excluded_review_targets(prepared))
+        prepared.chat_present = 1 - prepared.chat_present
+        unchanged = ml._excluded_review_targets(prepared)
+        pd.testing.assert_frame_equal(targets.drop(columns='chat_present'), unchanged.drop(columns='chat_present'))
+
+    def test_excluded_qc_empty_and_unlocatable_records_are_not_invented(self):
+        empty = self.result['excluded_review_targets']
+        self.assertTrue(empty.empty)
+        self.assertEqual(list(empty.columns), ml.EXCLUDED_REVIEW_COLUMNS)
+        changed = self.objects.copy()
+        changed.loc[0, ['min_diameter', 'max_diameter']] = 0.
+        changed.loc[0, 'x'] = np.nan
+        prepared, _ = ml._validate(changed, self.metadata)
+        targets = ml._excluded_review_targets(prepared)
+        self.assertTrue(targets.empty)
+        self.assertEqual(list(targets.columns), ml.EXCLUDED_REVIEW_COLUMNS)
+
 
 if __name__ == '__main__':
     unittest.main()

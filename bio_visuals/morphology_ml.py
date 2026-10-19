@@ -29,7 +29,16 @@ PARAMETERS = dict(features=['log10(area)', 'min_diameter / max_diameter'],
                   selection='K=3 is prespecified for interpretation; K=2 and K=4 are sensitivity checks, not selected by condition differences',
                   stability='Leave one animal out, refit scaler and centroids on the other five; held-out agreement to the full-data reference is descriptive stability, NOT predictive accuracy',
                   normalization='Equal-animal common phenotype mixture, with at least 10 objects and complete association in every animal per retained phenotype',
-                  spatial='500-unit native bins; phenotype percentage among valid PLA objects, masked below 10 valid PLA; no cross-animal registration or tissue-area inference')
+                  spatial='500-unit native bins; phenotype percentage among valid PLA objects, masked below 10 valid PLA; no cross-animal registration or tissue-area inference',
+                  excluded_review='Up to six finite-coordinate excluded detections per section: cover exclusion reasons first, then maximize distance from selected native 500-unit bins; deterministic row-major/object-ID ties. QC navigation sample, not prevalence or an inferential sample')
+
+EXCLUDED_REVIEW_COLUMNS = [
+    'job', 'animal_id', 'running_group', 'pla_arm', 'sample_rank', 'selection',
+    'object_id', 'source_file', 'x', 'y', 'area', 'min_diameter', 'max_diameter',
+    'chat_present', 'window_xmin', 'window_xmax', 'window_ymin', 'window_ymax',
+    'native_bin_x', 'native_bin_y', 'exclusion_reason', 'section_excluded_n',
+    'section_excluded_missing_coordinate_n', 'reason',
+]
 
 
 def _mean_complete(values):
@@ -275,6 +284,90 @@ def _spatial(group, width, minimum, full_group=None):
                 all_pla_missing_coordinate_n=int((~all_finite).sum()))
 
 
+def _excluded_review_targets(prepared, limit=6, width=500.):
+    """Select excluded measurements for source-image QC, never for inference.
+
+    No outcome or condition determines selection. Preserve one candidate per
+    exclusion-reason/native-bin combination, then cover reasons before spreading
+    the remaining choices across occupied bins. Coordinates remain unmodified;
+    objects without finite coordinates cannot provide a source-image window.
+    """
+    excluded = prepared.loc[~prepared.valid].copy()
+    if excluded.empty:
+        return pd.DataFrame(columns=EXCLUDED_REVIEW_COLUMNS)
+
+    def exclusion_reason(row):
+        reasons = []
+        if not np.isfinite(row.area):
+            reasons.append('Nonfinite PLA area')
+        elif row.area <= 0:
+            reasons.append('Nonpositive PLA area')
+        if not np.isfinite(row.min_diameter) or not np.isfinite(row.max_diameter):
+            reasons.append('Nonfinite diameter')
+        else:
+            if row.min_diameter == 0 and row.max_diameter == 0:
+                reasons.append('Both reported diameters are zero')
+            elif row.max_diameter <= 0:
+                reasons.append('Nonpositive maximum diameter')
+            if row.min_diameter < 0:
+                reasons.append('Negative minimum diameter')
+            if row.min_diameter > row.max_diameter:
+                reasons.append('Minimum diameter exceeds maximum')
+        return '; '.join(reasons)
+
+    excluded['exclusion_reason'] = [exclusion_reason(row) for row in excluded.itertuples()]
+    records = []
+    for job, section in excluded.groupby('job', observed=True, sort=True):
+        finite = np.isfinite(section[['x', 'y']]).all(axis=1)
+        candidates = section.loc[finite].copy()
+        if candidates.empty:
+            continue
+        candidates['native_bin_x'] = np.floor(candidates.x / width).astype(int)
+        candidates['native_bin_y'] = np.floor(candidates.y / width).astype(int)
+        candidates = (candidates.sort_values(['native_bin_y', 'native_bin_x', 'object_id'], kind='mergesort')
+                      .drop_duplicates(['exclusion_reason', 'native_bin_x', 'native_bin_y'])
+                      .reset_index(drop=True))
+        coords = candidates[['native_bin_x', 'native_bin_y']].to_numpy(float)
+        selected = []
+
+        def choose(indices):
+            indices = np.asarray(indices, dtype=int)
+            if not selected:
+                return int(indices[0])
+            distances = cdist(coords[indices], coords[selected], metric='sqeuclidean').min(axis=1)
+            # Candidate order resolves equal distances reproducibly.
+            return int(indices[np.argmax(distances)])
+
+        # Reason-first inclusion prevents abundant zero-diameter records from
+        # crowding rarer malformed values out of this small QC queue.
+        for reason in sorted(candidates.exclusion_reason.unique()):
+            if len(selected) >= limit:
+                break
+            selected.append(choose(candidates.index[candidates.exclusion_reason.eq(reason)]))
+        while len(selected) < min(limit, len(candidates)):
+            remaining = [i for i in candidates.index if i not in selected]
+            selected.append(choose(remaining))
+        for rank, index in enumerate(selected, 1):
+            item = candidates.iloc[index]
+            records.append(dict(
+                job=str(job), animal_id=item.animal_id, running_group=item.running_group,
+                pla_arm=item.pla_arm, sample_rank=rank,
+                selection='Excluded morphology QC · reason-first spatial spread',
+                object_id=item.object_id, source_file=str(item.source_file),
+                x=float(item.x), y=float(item.y), area=float(item.area),
+                min_diameter=float(item.min_diameter), max_diameter=float(item.max_diameter),
+                chat_present=float(item.chat_present),
+                window_xmin=float(item.x - width), window_xmax=float(item.x + width),
+                window_ymin=float(item.y - width), window_ymax=float(item.y + width),
+                native_bin_x=int(item.native_bin_x), native_bin_y=int(item.native_bin_y),
+                exclusion_reason=item.exclusion_reason, section_excluded_n=len(section),
+                section_excluded_missing_coordinate_n=int((~finite).sum()),
+                reason='Inspect source channels and HALO segmentation/measurement precision. '
+                       'This is a deliberately selected QC navigation sample, not a prevalence estimate '
+                       'or inferential sample; these detections remain in the primary analysis.'))
+    return pd.DataFrame(records, columns=EXCLUDED_REVIEW_COLUMNS)
+
+
 def run_analysis(objects, metadata, sample_per_animal=3000, random_seed=SEED,
                  n_init=8, min_cluster_n=10, spatial_width=500., min_spatial_n=10):
     """Fit and audit exploratory morphology clusters, returning tables + JSON.
@@ -316,6 +409,7 @@ def run_analysis(objects, metadata, sample_per_animal=3000, random_seed=SEED,
     raw = pd.DataFrame(raw)
     result = dict(profiles=[], animals=[], contrasts=[], standardized=[], stability=[],
                   stability_clusters=[], audit=pd.DataFrame(audit), review_targets=[],
+                  excluded_review_targets=_excluded_review_targets(p),
                   scatter=[], spatial=[], weights=[], standardized_animals=[], fit_audit=[],
                   area_only_standardized=[])
     models = []
@@ -433,6 +527,7 @@ def run_analysis(objects, metadata, sample_per_animal=3000, random_seed=SEED,
                                  interpretation='Morphology clusters are descriptive measurement partitions. They may reflect segmentation or section/acquisition effects.',
                                  profiles='Medians use all assigned valid objects; they are descriptive pooled profiles. Fit sampling is balanced by animal.',
                                  source_review=f"{len(result['review_targets'])} native-coordinate review targets: one typical and one 99th-distance-percentile detection per animal/arm/phenotype. Original microscopy images are unavailable.",
+                                 excluded_source_review=f"{len(result['excluded_review_targets'])} separate excluded-morphology QC targets, up to six per section. Reason-first spatial spread is deliberately selected, not representative or suitable for estimating exclusion prevalence. Missing-coordinate detections are not assigned invented windows.",
                                  alignment='Native maps only; unapproved image alignment never enters fitting, normalization or stability checks.')
     # Enforce serializable, finite model definitions independently of the views.
     json.dumps(result['definitions'], allow_nan=False)

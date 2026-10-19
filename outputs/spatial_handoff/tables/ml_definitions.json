@@ -24,7 +24,8 @@
     "selection": "K=3 is prespecified for interpretation; K=2 and K=4 are sensitivity checks, not selected by condition differences",
     "stability": "Leave one animal out, refit scaler and centroids on the other five; held-out agreement to the full-data reference is descriptive stability, NOT predictive accuracy",
     "normalization": "Equal-animal common phenotype mixture, with at least 10 objects and complete association in every animal per retained phenotype",
-    "spatial": "500-unit native bins; phenotype percentage among valid PLA objects, masked below 10 valid PLA; no cross-animal registration or tissue-area inference"
+    "spatial": "500-unit native bins; phenotype percentage among valid PLA objects, masked below 10 valid PLA; no cross-animal registration or tissue-area inference",
+    "excluded_review": "Up to six finite-coordinate excluded detections per section: cover exclusion reasons first, then maximize distance from selected native 500-unit bins; deterministic row-major/object-ID ties. QC navigation sample, not prevalence or an inferential sample"
   },
   "models": [
     {
@@ -346,5 +347,6 @@
   "interpretation": "Morphology clusters are descriptive measurement partitions. They may reflect segmentation or section/acquisition effects.",
   "profiles": "Medians use all assigned valid objects; they are descriptive pooled profiles. Fit sampling is balanced by animal.",
   "source_review": "72 native-coordinate review targets: one typical and one 99th-distance-percentile detection per animal/arm/phenotype. Original microscopy images are unavailable.",
+  "excluded_source_review": "72 separate excluded-morphology QC targets, up to six per section. Reason-first spatial spread is deliberately selected, not representative or suitable for estimating exclusion prevalence. Missing-coordinate detections are not assigned invented windows.",
   "alignment": "Native maps only; unapproved image alignment never enters fitting, normalization or stability checks."
 }

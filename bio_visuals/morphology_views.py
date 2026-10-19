@@ -252,7 +252,7 @@ def _json_clean(value):
 def explorer_payload(result):
     """Expose only interpretable summaries and sampled native coordinates."""
     keys = ('profiles', 'animals', 'contrasts', 'standardized', 'area_only_standardized', 'stability',
-            'scatter', 'spatial', 'audit', 'review_targets', 'definitions')
+            'scatter', 'spatial', 'audit', 'review_targets', 'excluded_review_targets', 'definitions')
     payload = {key: result.get(key, []) for key in keys}
     payload.update(arms=_arms(result), animal_order=ANIMAL_ORDER,
                    cluster_colors=CLUSTER_COLORS, group_colors=GROUP_COLORS)

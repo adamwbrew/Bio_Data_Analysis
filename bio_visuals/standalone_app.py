@@ -56,6 +56,23 @@ GALLERY = (
      "the same section. Solid curves use all PLA; dashed curves apply a conservative "
      "edge check. Export units are uncalibrated; these are not molecular distances."),
 )
+GALLERY_TOPICS = {
+    "21_morphology_patterns.png": "morphology",
+    "22_morphology_stability.png": "morphology",
+    "23_morphology_native_hk1.png": "morphology",
+    "23_morphology_native_pfkp.png": "morphology",
+    "17_normalization_both_directions.png": "comparison",
+    "18_within_animal_arm_comparison.png": "comparison",
+    "19_feature_alignment_before_after.png": "alignment",
+    "20_proposed_cavity_traces_hk1.png": "alignment",
+    "20_proposed_cavity_traces_pfkp.png": "alignment",
+    "13_condition_averages_difference.png": "comparison",
+    "14_condition_robustness.png": "comparison",
+    "15_condition_size_standardization.png": "comparison",
+    "16_condition_image_layout.png": "review",
+    "10_size_and_filter_sensitivity.png": "review",
+    "11_nearest_chat_distance.png": "review",
+}
 
 
 def _gallery(root):
@@ -77,7 +94,8 @@ def _gallery(root):
             content = ('<p class="missing">This figure is not in this snapshot yet. '
                        'Run the scientific notebook to completion to generate it, '
                        'then refresh this app.</p>')
-        cards.append('<article class="result-card"><h3>' + escape(title) + '</h3><p>'
+        topic = escape(GALLERY_TOPICS.get(name, "review"), quote=True)
+        cards.append('<article class="result-card" data-topic="' + topic + '"><h3>' + escape(title) + '</h3><p>'
                      + escape(caption) + '</p>' + content + '</article>')
     return "\n".join(cards)
 
@@ -170,36 +188,44 @@ _PAGE = '''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>PLA–ChAT | Spatial Explorer</title>
 <style>
-html{scroll-behavior:smooth}body{margin:0;background:#edf3f5;color:#173447;font:16px/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+html{scroll-behavior:smooth}body{margin:0;background:#edf3f5;color:#173447;font:16px/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}[hidden]{display:none!important}.app-shell>[id]{scroll-margin-top:86px}
 .app-shell{max-width:1448px;margin:auto;padding:30px 24px 64px}.app-heading{display:flex;gap:24px;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;margin-bottom:24px}
 .app-heading h1{font-size:clamp(27px,4vw,42px);letter-spacing:-1px;line-height:1.13;margin:5px 0 12px}.app-heading p{max-width:740px;margin:0;color:#486777}.app-eyebrow{font-size:12px;letter-spacing:1.7px;font-weight:750;color:#087e8b}
-.app-nav{display:flex;gap:8px;flex-wrap:wrap}.app-nav a,.result-actions button{border:1px solid #bdd0da;border-radius:8px;padding:9px 13px;color:#17485b;background:white;text-decoration:none;font:inherit;font-size:14px;cursor:pointer}.app-nav a:first-child{background:#087e8b;color:white;border-color:#087e8b}
+.app-nav{display:flex;gap:8px;flex-wrap:wrap;position:sticky;top:0;z-index:100;background:#edf3f5f5;padding:12px 0;margin:0 0 18px;border-bottom:1px solid #cbdce4}.app-nav a,.result-actions button{border:1px solid #bdd0da;border-radius:8px;padding:9px 13px;color:#17485b;background:white;text-decoration:none;font:inherit;font-size:14px;cursor:pointer}.app-nav a:hover,.app-nav a[aria-current=location]{background:#087e8b;color:white;border-color:#087e8b}.app-nav a:focus-visible,.result-actions button:focus-visible,.gallery-filter select:focus-visible{outline:3px solid #63bdc5;outline-offset:3px}.gallery-filter{display:flex;gap:14px;align-items:center;flex-wrap:wrap;background:white;padding:13px 16px;border:1px solid #d0dfe5;border-radius:9px}.gallery-filter label{font-weight:650}.gallery-filter select{font:inherit;padding:8px;border:1px solid #bdd0da;border-radius:6px;color:#173447;background:white}.gallery-filter span{font-size:13px;color:#486777}
 .app-guide{background:white;border:1px solid #d0dfe5;border-radius:12px;padding:16px 20px;margin-bottom:18px}.app-guide summary{font-weight:750;cursor:pointer}.app-guide p{margin:10px 0}.app-guide ol{padding-left:22px;margin:10px 0}.app-guide li{margin:7px 0}
 .app-shell h2{font-size:27px;letter-spacing:-.3px;margin:0 0 8px}.app-results{margin-top:38px}.app-results>p{color:#486777;margin-top:0}.result-card{padding:22px;background:white;border:1px solid #d0dfe5;border-radius:14px;margin-top:18px}.result-card h3{font-size:21px;margin:0 0 6px}.result-card p{max-width:1080px;color:#486777;margin:0 0 16px}.result-card img{display:block;width:100%;height:auto;background:white}.result-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.result-actions button:hover,.app-nav a:hover{filter:brightness(.94)}.missing{padding:18px;background:#fff3dc;border-radius:8px}
 .app-note{color:#486777;font-size:13px;margin:18px 0 0}.app-footer{margin-top:30px;font-size:13px;color:#486777;border-top:1px solid #cbdce4;padding-top:18px}.halo-explorer{margin-left:auto!important;margin-right:auto!important}
-@media(max-width:650px){.app-shell{padding:20px 12px}.result-card{padding:14px}.app-heading{gap:16px}}
+@media(max-width:650px){.app-shell{padding:20px 12px}.result-card{padding:14px}.app-heading{gap:16px}.app-nav{gap:5px}.app-nav a{padding:7px 9px;font-size:12px}.app-shell>[id]{scroll-margin-top:130px}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style></head><body><main class="app-shell">
 <header class="app-heading"><div><div class="app-eyebrow">SCIENTIFIC DATA · INTERACTIVE PLOTLY APP</div>
-<h1>PLA–ChAT Spatial Explorer</h1><p>Compare non-running and running animals, inspect the average difference, then explore the measured sections and overlapping layers. The notebook records the methods and reproducible results.</p></div>
-<nav class="app-nav" aria-label="App navigation"><a href="#comparison">Running comparison</a><a href="#machine-learning">Machine learning</a><a href="#explore">Explore sections</a><a href="#results">Figures &amp; next steps</a><a href="#reading-guide">Reading guide</a></nav></header>
-<details class="app-guide" id="reading-guide"><summary>Start here: three ways to inspect the data</summary><ol>
-<li><strong>3D measurements:</strong> select a section and measurement, drag to rotate and scroll to zoom. Height represents the selected measurement, not tissue depth.</li>
-<li><strong>Channel overlay:</strong> toggle ChAT and PLA detections, select positive or negative PLA and adjust opacity.</li>
-<li><strong>Overlapping layers:</strong> choose a flat overlay or separated stack, then show all layers or step through one at a time. Section checkboxes control which animals appear.</li></ol>
-<p><strong>Coordinate frames:</strong> native preserves exported positions. Candidate-centered is an unreviewed geometry check; reviewed alignment appears only after the required scientific review. Stack spacing and order are display choices, not measured physical depth.</p>
+<h1>PLA–ChAT Spatial Explorer</h1><p>Compare non-running and running animals, inspect the average difference, then explore the measured sections, learned morphology patterns and overlapping layers. The notebook records the methods and reproducible results.</p></div></header>
+<nav class="app-nav" aria-label="App navigation"><a href="#comparison">Running comparison</a><a href="#machine-learning">Machine learning</a><a href="#explore">Explore sections</a><a href="#results">Figure library</a><a href="#reading-guide">Reading guide</a></nav>
+<details class="app-guide" id="reading-guide"><summary>Start here: a reading order and what each view answers</summary><ol>
+<li><strong>Running comparison:</strong> start with the six animal measurements and their group means. Inspect normalization and both subtraction directions, then use the size and individual-animal checks to judge how stable the observed gap is.</li>
+<li><strong>Machine learning:</strong> inspect area-and-shape groups learned without running or ChAT labels. Native maps locate these patterns, and downloadable image-review targets identify specific source objects to examine. This is exploratory pattern finding, not a validated predictor.</li>
+<li><strong>Explore sections:</strong> use the channel overlay to toggle ChAT and PLA detections. In 3D measurements, drag to rotate and scroll to zoom; height represents a measurement, not tissue depth. In overlapping layers, choose a flat overlay or separated stack, then show all layers or step through one at a time.</li>
+<li><strong>Figure library:</strong> filter the results by question and open or save the original high-resolution figures for discussion with the lab.</li></ol>
+<p><strong>Coordinate frames:</strong> native preserves exported positions. Feature-aligned uses proposed cavity anchors and orientation cues; it is a review preview, not approved anatomy. Candidate-centered is an older geometry check. Reviewed alignment and spatial group subtraction require scientific sign-off for the relevant sections. Stack spacing and order are display choices, not measured physical depth.</p>
 <p>These views reconstruct detections, not original microscopy pixels. Keep the two PLA arms separate. Blank bins are unknown or below the selected support threshold; exported x/y units have not been physically calibrated.</p></details>
 <section id="comparison" aria-label="Running versus non-running comparison">__COMPARISON__</section>
-<section class="app-guide" style="margin-top:18px"><h2>What to investigate next</h2><p><strong>Completed checks:</strong> equal-animal averages, all nine delete-one-per-group contrasts and common-size-distribution standardization. A positive association gap remains in both PLA arms.</p><ol>
+<section class="app-guide" style="margin-top:18px"><h2>What to investigate next</h2><p><strong>Completed checks:</strong> equal-animal averages, all nine delete-one-per-group contrasts, common-size standardization and exploratory morphology matching. Home-cage association remains higher in both PLA arms. These checks describe the measured data; they do not remove acquisition or sampling differences.</p><ol>
 <li><strong>Check image layout and detection first:</strong> Running sections occupy the lower-X side and Home-cage sections the higher-X side of the exports. Obtain original channels and composite/acquisition provenance; inspect illumination, background, ChAT segmentation and consistent thresholds using blinded, equivalent fields. If offsets were added only after detection, placement alone cannot change the association fractions.</li>
-<li><strong>Locate the difference anatomically:</strong> review the ventricular landmarks, orientation, coordinate scale and sampling support for all 12 sections. The notebook can then show Home mean, Running mean, their difference and contributing-animal counts. Unsupported bins remain blank.</li>
+<li><strong>Inspect concrete model targets:</strong> open Machine learning, select a typical or far-from-center detection, and download its source-file, object-ID and coordinate table. A separate excluded-morphology QC download helps inspect detections that could not enter the model. Review zero-diameter, large and elongated detections before interpreting them as biological morphology.</li>
+<li><strong>Locate the difference anatomically:</strong> review the proposed cavity landmarks, orientation, coordinate scale and sampling support for all 12 sections. With approved registration and sufficient shared support, the notebook can show Home mean, Running mean, their difference and contributing-animal counts. Unsupported bins remain blank.</li>
 <li><strong>Test a biological explanation:</strong> use negative PLA controls, matched section levels and additional animals. ChAT-positive PLA describes detected association; it does not establish binding, neuron loss, metabolic flux or a causal running effect.</li></ol><p>See the image-layout figure and native-coordinate review windows in the notebook for concrete source-image requests. Three animals per condition remain the biological sample size.</p></section>
 <section id="machine-learning" aria-label="Exploratory machine learning" style="margin:30px 0">__MACHINE_LEARNING__</section>
 <section id="explore" aria-label="Interactive spatial controls">__EXPLORER__</section>
 <p class="app-note">This is a saved snapshot generated __GENERATED__. Filters work locally without a notebook kernel or internet connection. Changes to source data or review metadata do not recalculate automatically: run <strong>PLA_ChAT_scientific_analysis.ipynb</strong> to completion and refresh this page.</p>
-<section class="app-results" id="results"><h2>Scientific results at a glance</h2><p>Use these companion figures to connect the spatial exploration to animal-level comparisons and sensitivity checks. Figures retain their original 300 dpi PNG pixels.</p>__GALLERY__</section>
+<section class="app-results" id="results"><h2>Figure library</h2><p>Connect spatial patterns to animal-level comparisons and sensitivity checks. Figures retain their original 300 dpi PNG pixels.</p><div class="gallery-filter"><label for="figure-topic">Show figures about</label><select id="figure-topic"><option value="all">All results</option><option value="comparison">Running comparison &amp; normalization</option><option value="morphology">Machine learning &amp; morphology</option><option value="alignment">Layer alignment &amp; cavity review</option><option value="review">Source-image &amp; measurement checks</option></select><span id="figure-count" role="status" aria-live="polite"></span></div>__GALLERY__</section>
 <footer class="app-footer">Methods, data exclusions, review status and analysis code: <strong>PLA_ChAT_scientific_analysis.ipynb</strong> and the accompanying Git repository. The browser app is a visual companion to that analysis. Closing this tab leaves the local launcher running; stop it with Control+C in its Terminal window.</footer>
 </main><script>
 (function(){
+  const gallery=document.getElementById('results'),topic=document.getElementById('figure-topic'),cards=Array.from(gallery.querySelectorAll('.result-card'));
+  function filterFigures(){let shown=0;cards.forEach(card=>{card.hidden=topic.value!=='all'&&card.dataset.topic!==topic.value;if(!card.hidden)shown++;});document.getElementById('figure-count').textContent=shown+' of '+cards.length+' figures';}
+  topic.addEventListener('change',filterFigures);filterFigures();
+  const navigation=Array.from(document.querySelectorAll('.app-nav a'));
+  function markNavigation(){navigation.forEach(link=>{if(link.hash===location.hash)link.setAttribute('aria-current','location');else link.removeAttribute('aria-current');});}
+  window.addEventListener('hashchange',markNavigation);markNavigation();
   function imageBlob(image){const parts=image.src.split(',');const raw=atob(parts[1]);const bytes=new Uint8Array(raw.length);for(let i=0;i<raw.length;i++)bytes[i]=raw.charCodeAt(i);return new Blob([bytes],{type:'image/png'});}
   document.querySelectorAll('[data-save]').forEach(button=>button.addEventListener('click',()=>{
     const image=document.getElementById(button.dataset.save),url=URL.createObjectURL(imageBlob(image)),a=document.createElement('a');a.href=url;a.download=button.dataset.filename;a.click();setTimeout(()=>URL.revokeObjectURL(url),60000);

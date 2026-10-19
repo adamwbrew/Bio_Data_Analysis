@@ -10,7 +10,7 @@ def code(s):cells.append(nbf.v4.new_code_cell(dedent(s).strip(),metadata={'scrol
 
 md('''
 # PLA–ChAT spatial analysis · from raw HALO detections to scientific review
-**Raw-data handoff edition · protocol 1.4.0 · research checked 19 October 2026**
+**Raw-data handoff edition · protocol 1.4.1 · research checked 19 October 2026**
 
 ### Open the Plotly app
 **[Open the spatial app in your browser](http://127.0.0.1:8050/)** for the 3D, channel and layer controls plus the main scientific figures. First double-click `Launch_Spatial_Explorer.command` in this repository on your Mac, or run `python scripts/serve_spatial_app.py` in a terminal. Leave the terminal open while using the link. The app works from the saved results without running this notebook or installing extra packages.
@@ -23,10 +23,10 @@ This notebook reconstructs all **12 ChAT-panel sections** from the expanded data
 
 **Start here:** [non-running minus Running](#comparison) → [machine learning](#machine-learning) → [interactive control center](#explore) → [experiment and inputs](#experiment) → [native overlays](#native) → [registration review](#registration) → [heat maps and zoom](#maps) → [interactive 3D](#three-d) → [animal-level findings](#findings) → [scientist action list](#actions).
 
-The [main scientific notebook](PLA_ChAT_scientific_analysis.ipynb) now puts the interactive control center first, followed by the main findings. This longer notebook retains the full audit, static figure collection and research methods. The [original exploratory notebook](PLA_ChAT_visual_analysis.ipynb) remains available for the historical box/outline analysis.
+The [main scientific notebook](PLA_ChAT_scientific_analysis.ipynb) starts with a compact findings summary, followed by comparisons, machine learning and interactive spatial views. This longer notebook retains the full audit, static figure collection and research methods. The [original exploratory notebook](PLA_ChAT_visual_analysis.ipynb) remains available for the historical box/outline analysis.
 
 ### Run and explore
-1. Open in JupyterLab or VS Code, select this repository's `.venv` Python kernel, then **Run All**. Install `requirements.txt` into the selected kernel if necessary. A fresh clone also needs the 13 raw CSVs in `entire Chat dataset/`; raw files and the handoff PDF are supplied separately.
+1. **Read saved results without rerunning.** Open this notebook or the portable app. To recompute, follow [setup instructions](docs/quickstart.md), select the project Python kernel, then **Run All**. A fresh clone needs the raw CSVs supplied separately.
 2. Use the **animal slider**, drag, hover and mouse-wheel zoom in the interactive figures. Static companion figures remain readable in GitHub and viewers that disable JavaScript. Trust a notebook only after reviewing its code; an untrusted notebook may suppress interactive outputs.
 3. The notebook never waits for manual input during Run All. The optional review editor near the end needs a live kernel. Confirmed anatomical reviews are **not** pre-filled.
 ''')
@@ -45,7 +45,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import plotly.io as pio
-from IPython.display import display, Markdown, HTML
+from IPython.display import display, Markdown, HTML, Image
 # Reload in dependency order so a second Run All uses edited local functions.
 for name in ['bio_visuals.data', 'bio_visuals.entire_dataset', 'bio_visuals.handoff', 'bio_visuals.handoff_plots', 'bio_visuals.explorer', 'bio_visuals.condition_comparison', 'bio_visuals.condition_views', 'bio_visuals.condition_layout', 'bio_visuals.normalization', 'bio_visuals.feature_alignment', 'bio_visuals.morphology_ml', 'bio_visuals.morphology_views', 'bio_visuals.standalone_app']:
     importlib.reload(importlib.import_module(name))
@@ -70,8 +70,10 @@ SHOW_REVIEW_EDITOR = False    # Set True only when conducting an actual geometry
 PARAMETERS = dict(h.PARAMETERS)
 
 def show(fig, name):
-    hp.save(fig, OUT, name)
-    display(fig)
+    saved = hp.save(fig, OUT, name)
+    # Explicit PNG embedding works with Agg, VS Code, Jupyter and static GitHub previews.
+    # Display width changes layout only; the complete 300-DPI image stays embedded.
+    display(Image(filename=str(saved), embed=True, width=1100))
     plt.close(fig)
 
 def table(frame, name):
@@ -228,7 +230,7 @@ display(condition_results['directions'])
 display(condition_results['denominators'])
 ''')
 md('''
-**Read subtraction from both sides.** Home − Running is **+22.01 pp (HK1)** and **+22.58 pp (PFKP)**; Running − Home is **−22.01 pp** and **−22.58 pp**. The reversed sensitivity interval is [−upper, −lower]. These are the same observation with opposite signs, not corroborating tests. Relative percentage change uses the second group as denominator, so its magnitudes need not match after reversal. Both directions, ratios, animal-based SE and original denominators are exported and available in the app.
+**Read subtraction from both sides.** The table and figure above show Home − Running and Running − Home. Their absolute differences are exact sign reversals, and the reversed sensitivity interval is [−upper, −lower]. These are the same observation with opposite signs, not corroborating tests. Relative percentage change uses the second group as denominator, so its magnitudes need not match after reversal. Both directions, ratios, animal-based SE and original denominators are exported and available in the app.
 
 The pooled-object row deliberately shows what happens if one ignores the animal as the unit of replication. It is a weighting diagnostic, not an alternative result selected for its size. The app exposes the per-animal weights so the consequence can be inspected directly.
 
@@ -415,12 +417,21 @@ for arm, key in [('TDP43–HK1', 'hk1'), ('TDP43–PFKP', 'pfkp')]:
     show(mv.spatial_figure(ml_results, arm), f'23_morphology_native_{key}')
 display(ml_results['review_targets'].head(12))
 display(Markdown('**All selected review targets:** [download the source-linked table](outputs/spatial_handoff/tables/ml_review_targets.csv.gz). '
-                 'Selections are balanced across animals and morphology groups; do not treat them as independently tested biological hotspots.'))
+                 'These are morphology-eligible objects, balanced across animals and model groups; they do not sample excluded detections or independently tested hotspots.'))
+excluded_targets = ml_results['excluded_review_targets']
+display(Markdown(f'**Separate measurement-QC queue: {len(excluded_targets)} excluded detections.** '
+                 '[Download source coordinates and reasons](outputs/spatial_handoff/tables/ml_excluded_review_targets.csv.gz), '
+                 'or use the separate download button in the app. Up to six targets per section cover exclusion reasons and separated native bins; '
+                 'these are deliberate inspection examples, not a random or prevalence-estimating sample. '
+                 'Targets without finite coordinates cannot be located and are counted in the table. '
+                 'Request both fluorescence channels and HALO segmentation at these windows before deciding whether a common detection correction is needed.'))
+display(excluded_targets[['animal_id','pla_arm','job','object_id','x','y','exclusion_reason']].head(12))
 ''')
 md('''
 ### What the scientist can do with these results
 
 - **Inspect the model groups:** request the representative and extreme source-image crops, with segmentation outlines and both channels. Check whether large or low-diameter-ratio groups reflect meaningful structures, merged detections or edge effects before naming them biologically.
+- **Inspect excluded measurements separately:** use the dedicated excluded-detection queue and exclusion map to review zero or invalid diameters. Document any correction rule across animals before rerunning; do not remove cases to strengthen the condition contrast.
 - **Test the composition explanation:** compare the all-PLA, eligible-PLA and common-morphology-mixture contrasts. If a gap persists, prioritize ChAT availability, detection thresholds and matched anatomy alongside a biological explanation; morphology standardization alone cannot distinguish them.
 - **Follow unstable groups cautiously:** inspect leave-one-animal-out agreement, including group-specific Jaccard values in `ml_stability_clusters.csv.gz`. If a group is unstable, use its underlying continuous measurements and avoid interpreting its boundary as a distinct population.
 - **Validate a focused hypothesis:** lock the feature definitions, scaling and group centroids before analyzing an independent animal cohort. Add original-image review, negative controls, section levels and acquisition metadata. More object rows cannot replace more animals.
@@ -438,9 +449,9 @@ md('''
 - **Channel overlay:** independently switch PLA and ChAT on/off, change opacity, and select ChAT-positive or ChAT-negative PLA. This view retains the fine 100-unit reconstruction.
 - **Overlapping layers:** use the flat overlay or exploded 3D stack; show all sections, toggle individual layers, or step through them one at a time. The stack's vertical axis is **display order**, not anatomical depth.
 
-Feature-aligned mode now shows all 12 sections using the inspectable proposals above. Native coordinates show the original image positions. Candidate-centered mode translates only the available geometric proposals and is restricted to **geometry QC**, because orientation, scale and anatomy have not been reviewed. Missing proposals are named, not invented. Reviewed mode becomes available section by section only after all review requirements pass. The two PLA arms never share a layer stack.
+Feature-aligned mode now shows all 12 sections using the inspectable alignment proposals. Native coordinates show the original image positions. Candidate-centered mode translates only the available geometric proposals and is restricted to **geometry QC**, because orientation, scale and anatomy have not been reviewed. Missing proposals are named, not invented. Reviewed mode becomes available section by section only after all review requirements pass. The two PLA arms never share a layer stack.
 
-These controls are embedded in the notebook and work without a live kernel after rendering. **GitHub disables notebook JavaScript:** open the downloaded notebook in JupyterLab or VS Code, trust the reviewed file and Run All. Static companions below support readers using GitHub.
+These controls are embedded in the notebook and work without a live kernel after rendering. **GitHub disables notebook JavaScript:** use the portable app, or open the saved notebook in JupyterLab or VS Code and trust it after reviewing its code. Run All is needed only to recompute. Static companions below support readers using GitHub.
 ''')
 code("display(HTML(explorer_html(fine, geometry, surfaces, metrics, metadata, reviews, proposals=alignment_proposals)))")
 md('''
@@ -524,8 +535,8 @@ The displayed 21F sections are a fixed example per arm, not selected for a condi
 code('''
 for row in metadata.itertuples():
     fig = hp.detailed_section(fine[str(row.job)], metrics[str(row.job)], row)
-    hp.save(fig, OUT, f'07_section_{row.job}_six_metrics')
-    if row.animal_id == '21F': display(fig)
+    saved = hp.save(fig, OUT, f'07_section_{row.job}_six_metrics')
+    if row.animal_id == '21F': display(Image(filename=str(saved), embed=True, width=1100))
     plt.close(fig)
 ''')
 md('''
@@ -668,6 +679,8 @@ else:
                      'The missing requirements are listed below.'))
     display(status[['animal_id','pla_arm','ready','needs_review']])
 ''')
+# This cell intentionally emits a status table until anatomical review permits maps.
+cells[-1].metadata['static_figure_optional'] = True
 md('''
 ## 11 · Reproducibility and a practical handoff
 

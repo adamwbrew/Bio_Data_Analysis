@@ -26,7 +26,7 @@ def reuse(prefix):
 
 md('''
 # PLA–ChAT · explore the sections and test the findings
-**Main scientific notebook · interactive edition · 19 October 2026 · protocol 1.4.0**
+**Main scientific notebook · saved results and interactive analysis · 19 October 2026 · protocol 1.4.1**
 
 ### Open the Plotly app
 **[Open the spatial app in your browser](http://127.0.0.1:8050/)** for a full-window view of the 3D surfaces, channel overlays, overlapping layers and scientific comparison figures.
@@ -35,12 +35,14 @@ md('''
 
 **Without a server:** open the [portable app file](outputs/spatial_handoff/app/index.html) in a web browser. In VS Code, use your browser rather than opening the HTML as source text. The app is a saved snapshot; **Run All** refreshes it after the analysis finishes. The complete analysis and core results remain in this notebook.
 
-Start with the **non-running versus Running comparison**: overlay animal values, subtract the group averages, and inspect size and individual-animal checks. Then use the spatial explorer to move the 3D view, inspect channels, and overlay or separate animal layers. This notebook then connects what you see to the animal-level findings and the next scientific decisions. The longer [spatial handoff notebook](PLA_ChAT_spatial_handoff_analysis.ipynb) holds the complete input audit, all section figures and detailed research methods.
+Start with the **findings at a glance** below, then follow the comparisons, morphology checks and spatial views. The [full audit notebook](PLA_ChAT_spatial_handoff_analysis.ipynb) contains the complete input audit, figure atlas and detailed methods.
 
-**Open this file in JupyterLab or VS Code**, select the project Python environment, and **Run All**. Review and trust the notebook to enable embedded JavaScript. GitHub shows the saved static figures but suppresses interactive controls. The explorer is saved **inside this notebook**, with its data and plotting library; it does not require a separate website or a live kernel after rendering.
+**To read:** open the saved notebook; no raw files or rerun are needed. GitHub displays the static figures. JupyterLab or VS Code can also show the embedded controls after you review and trust the notebook. The portable app is the simplest option for full interaction.
+
+**To recompute:** obtain the raw inputs, install the project environment and use **Run All**. See [setup and rerun instructions](docs/quickstart.md). A new run refreshes the saved app at the end.
 
 ### Go directly to a result
-[Non-running minus Running](#comparison) · [Machine learning](#machine-learning) · [Interactive 3D / channels / layers](#explore) · [Size sensitivity](#sizes) · [Layer alignment review](#registration) · [Image-review coordinates and decisions](#actions)
+[Findings at a glance](#overview) · [Condition comparison](#comparison) · [Machine learning](#machine-learning) · [Interactive 3D / channels / layers](#explore) · [Alignment review](#registration) · [Next decisions](#actions)
 
 **What is reconstructed:** 12 physical sections from six animals, measured by HALO; 3,010,776 detected objects after excluding the interrupted duplicate. HK1–TDP43 and PFKP–TDP43 are different PLA arms and stay separate. Coordinates reconstruct detections, not microscope pixels. The 3D measurement view uses signal height; the exploded stack uses an ordinal layer axis. Neither is an anatomical volume.
 ''')
@@ -57,16 +59,57 @@ load = load.replace("table(repeat_audit, 'interrupted_repeat_audit')", "repeat_a
 load = load.replace("display(metadata[['job','animal_id','running_group','pla_arm','rows','image_label','marker_panel']])", '')
 code(load)
 reuse('fine = h.make_grids')
-# Reuse the complete comparison block from the audit to keep both notebooks identical.
+# Calculate once, so the early summary is generated from this run's results.
+code('''
+condition_results = cc.comparison_results(objects, metadata, min_per_stratum=10)
+ml_results = ml.run_analysis(objects, metadata)
+headline = condition_results['contrasts'].query("metric == 'association_pct'")
+headline_ml = ml_results['standardized'].query('k == 3').set_index('pla_arm')
+headline_audit = ml_results['audit']
+n_pla = int(headline_audit.n_pla.sum())
+n_excluded = n_pla - int(headline_audit.n_valid.sum())
+review_ready = int(h.review_status(reviews).ready.sum())
+overview = ['<a id="overview"></a>\\n## Findings at a glance',
+    '**Question:** is PLA association with ChAT different between Home-cage and Running animals, '
+    'and can size or shape explain the difference? Each arm has three animals per condition.',
+    '| PLA arm | Home-cage mean | Running mean | Home − Running | After common morphology mixture |\\n'
+    '|---|---:|---:|---:|---:|']
+for r in headline.itertuples():
+    s = headline_ml.loc[r.pla_arm]
+    overview[-1] += (f'\\n| {r.pla_arm} | {r.home_mean:.2f}% | {r.running_mean:.2f}% | '
+                    f'{r.home_minus_running:+.2f} pp | {s.standardized_difference_pp:+.2f} pp |')
+overview += [
+    '**Read the units:** pp means percentage points. Each group mean gives every animal equal weight. '
+    'The first difference uses all PLA; the final column reweights the eligible size-and-shape measurements. '
+    'Neither corrects tissue area, ChAT availability or acquisition differences.',
+    f'**Measurement review:** {n_excluded:,}/{n_pla:,} PLA ({100*n_excluded/n_pla:.1f}%) lack usable morphology. '
+    'They remain in the primary comparison. Use the separate excluded-detection review list to inspect their segmentation.',
+    '**Interpretation:** compare the primary, fixed-size, common-morphology and area-only estimates below. '
+    'Persistence across these checks narrows a composition-only explanation; it cannot separate biology from '
+    'condition-related imaging, marker or segmentation differences.',
+    f'**Next decisions:** review source-image crops and ChAT detection first; investigate the condition-aligned image layout. '
+    f'Anatomical approvals: **{review_ready}/{len(reviews)}**. The interactive layer stack is a review aid; '
+    'anatomical group subtraction requires approved correspondence and tissue support.'
+]
+display(Markdown('\\n\\n'.join(overview)))
+''')
+# Keep the scientific comparison and ML together; move geometry methods beside the layers.
 start = next(i for i,c in enumerate(source) if c.source.startswith('<a id="comparison">'))
+alignment_start = next(i for i,c in enumerate(source) if c.source.startswith('### Align the visible image features'))
+ml_start = next(i for i,c in enumerate(source) if c.source.startswith('<a id="machine-learning">'))
 end = next(i for i,c in enumerate(source) if c.source.startswith('<a id="explore">'))
-cells.extend(copy.deepcopy(source[start:end]))
+blocks = copy.deepcopy(source[start:alignment_start] + source[ml_start:end])
+for cell in blocks:
+    if cell.cell_type == 'code':
+        cell.source = cell.source.replace('condition_results = cc.comparison_results(objects, metadata, min_per_stratum=10)', '# condition_results was computed for the overview above.')
+        cell.source = cell.source.replace('ml_results = ml.run_analysis(objects, metadata)', '# ml_results was computed for the overview above.')
+cells.extend(blocks)
 reuse('<a id="explore"></a>')
 reuse('display(HTML(explorer_html')
 md('''
 ### Saved preview for static viewers
 
-If the control center above shows a loading/instructions message, you are probably viewing an untrusted notebook or GitHub's static preview. Open the notebook locally and Run All. The figures below are **static companions**, not the controls. In the live explorer, the top tabs switch between the actual 3D, channel and layer views.
+GitHub shows these saved figures and disables JavaScript controls. Open the portable app for interaction, or review and trust the saved notebook locally. Rerun only when recomputing the results. In the live explorer, the top tabs switch between 3D, channel and layer views.
 ''')
 code("show(hp.native_atlas(fine, metadata, 'TDP43–HK1'), '02_native_overlay_hk1')\nshow(hp.surface_preview(surfaces, metadata, 'TDP43–HK1'), '08_surface_companion_hk1')")
 md('''
@@ -88,12 +131,13 @@ md('''
 <a id="registration"></a>
 ## What the overlapping layers can tell us now
 
-**Use the third explorer tab → Feature-aligned.** All 12 sections now have cavity-anchor proposals with internal orientation cues and geometry-ranked discrete flips. Inspect flat overlays, the 3D comparison stack and one-layer controls; show cavity outlines to see the common anchor. The before/after figure and full trace atlas above make each transform inspectable. **Native image coordinates** preserves the original offsets; **Candidate-centered** retains the old 9/12 automatic proposals for comparison.
+**Use the third explorer tab → Feature-aligned.** Each section has a cavity-anchor proposal with internal orientation cues and geometry-ranked discrete flips. Inspect flat overlays, the 3D comparison stack and one-layer controls. The before/after figure and full trace atlas below make each transform inspectable. **Native image coordinates** preserves the original offsets; **Candidate-centered** retains the earlier automatic proposals for comparison.
 
 This is a visual comparison of different animals and physical sections. Display order is 21F → 23M → 24M → 22F → 21M → 22M, not a serial anatomical sequence. Vertical spacing is a display control. The proposed geometry uses no scaling, continuous rotation or warping; cropped tissue cannot move the cavity anchor.
 
-**0/12 sections are anatomically approved.** The separate proposal file records computational visual traces and flip scores without modifying investigator reviews. Review uncertain boundaries and low-margin flips in the original images before approving anatomical means or subtraction. Individual measurement layers can be inspected in the proposed frame, but are never pooled there.
+**Check the approval status below.** The separate proposal file records computational visual traces and flip scores without modifying investigator reviews. Review uncertain boundaries and low-margin flips in the original images before approving anatomical means or subtraction. Individual measurement layers can be inspected in the proposed frame, but are never pooled there.
 ''')
+cells.extend(copy.deepcopy(source[alignment_start:ml_start]))
 code("display(h.review_status(reviews)[['animal_id','pla_arm','candidate_found','ready','needs_review']])")
 md('''
 ### Optional landmark review

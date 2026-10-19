@@ -20,7 +20,7 @@ from matplotlib.path import Path as MplPath
 
 from .entire_dataset import run_summary, _sha256
 
-VERSION = '1.4.0'
+VERSION = '1.4.1'
 GROUPS = {'22F': 'Running', '21M': 'Running', '22M': 'Running',
           '21F': 'Home cage', '23M': 'Home cage', '24M': 'Home cage'}
 ANIMAL_ORDER = ['21F', '23M', '24M', '22F', '21M', '22M']
@@ -49,7 +49,7 @@ PARAMETERS.update(interactive_views='3D measurements, 100-unit channel overlay, 
                   size_standardization='Equal-animal reference size proportions; require 10 PLA and observed association in every animal per included stratum',
                   exact_enumeration='20 allocations of six animals; design diagnostic only, exchangeability unverified',
                   morphology_ml='Outcome-blind size-and-shape K-means separately by arm; equal-animal fit sample; K=3 descriptive, K=2/4 sensitivity; leave-one-animal-out refits; native 500-unit composition maps, minimum 10 eligible PLA per bin; exact model settings saved in ml_definitions.json',
-                  changelog='1.4.0: exploratory morphology machine learning, animal-aware stability, phenotype-standardized association contrasts and native review targets. Primary analysis and anatomical approvals unchanged.')
+                  changelog='1.4.1: portable embedded notebook figures with output validation, generated findings overview, separate excluded-morphology QC targets and clearer offline app access. Primary analysis, model fits and anatomical approvals unchanged.')
 
 
 def section_metadata(manifest):
@@ -414,6 +414,7 @@ def write_protocol(root,out,manifest,reviews,parameters=None):
     root=Path(root);out=Path(out);p=dict(parameters or PARAMETERS)
     versions={name:importlib.metadata.version(name) for name in ('numpy','pandas','scipy','matplotlib','plotly','nbformat','nbclient')}
     codepaths=['bio_visuals/handoff.py','bio_visuals/handoff_plots.py','bio_visuals/explorer.py','bio_visuals/explorer.html','bio_visuals/standalone_app.py','bio_visuals/condition_comparison.py','bio_visuals/condition_views.py','bio_visuals/condition_comparison.html','bio_visuals/condition_layout.py','bio_visuals/normalization.py','bio_visuals/feature_alignment.py','bio_visuals/morphology_ml.py','bio_visuals/morphology_views.py','bio_visuals/morphology_explorer.html','metadata/handoff_landmark_proposals.json','bio_visuals/entire_dataset.py','bio_visuals/data.py','scripts/build_spatial_handoff_notebook.py','scripts/build_scientific_notebook.py','scripts/serve_spatial_app.py']
+    codepaths += ['bio_visuals/notebook_validation.py', 'scripts/execute_spatial_handoff_notebook.py']
     code={name:_sha256(root/name) for name in codepaths}
     handoff=root/'HALO_spatial_analysis_raw_data_handoff.pdf'
     document=dict(parameters=p,section_reviews=reviews,

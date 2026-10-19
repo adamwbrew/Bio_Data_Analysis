@@ -1,12 +1,13 @@
 {
-  "verified_utc": "2026-10-19T20:20:15.300474+00:00",
-  "execution": "Both notebooks completed fresh-kernel Run All from all raw CSVs; outputs include outcome-blind morphology machine learning, area-only sensitivity, whole-animal omission stability, native morphology/exclusion maps and source-linked review targets.",
+  "verified_utc": "2026-10-19T20:46:02.714696+00:00",
+  "execution": "Both notebooks completed fresh-kernel Run All from all raw CSVs. Explicit 300-DPI PNG embedding verified per figure cell; main overview computed from current results; separate excluded-morphology QC targets exported. Existing primary outcomes and model fits unchanged.",
   "notebooks": [
     {
       "notebook": "PLA_ChAT_scientific_analysis.ipynb",
-      "notebook_sha256": "1cbec5a301b7a1d32dbf97357eab5a720fc8a641265cf0d06ae5b549a237e8ed",
-      "code_cells": 26,
-      "code_cells_with_saved_execution": 26,
+      "notebook_sha256": "523bc29513176502dd500c43837e948a8d4dbfc2ea92f57e4af6e8ddfdbd8433",
+      "code_cells": 27,
+      "embedded_pngs": 17,
+      "code_cells_with_saved_execution": 27,
       "error_outputs": 0,
       "stderr_outputs": 0,
       "embedded_explorers": 1,
@@ -15,8 +16,9 @@
     },
     {
       "notebook": "PLA_ChAT_spatial_handoff_analysis.ipynb",
-      "notebook_sha256": "00a6be5e43d11d184410ad5c1723f0621c7c2cc10007eff41be36af75f6b9dd5",
+      "notebook_sha256": "af320fadd9c1ee4e8673dd310bb7e56cddff412a139402b96d9661cf7b5237d2",
       "code_cells": 44,
+      "embedded_pngs": 31,
       "code_cells_with_saved_execution": 44,
       "error_outputs": 0,
       "stderr_outputs": 0,
@@ -25,13 +27,13 @@
       "embedded_morphology_explorers": 1
     }
   ],
-  "automated_tests_passed": 83,
+  "automated_tests_passed": 93,
   "test_log": "test_results.txt",
   "javascript_syntax_check": "node --check passed for all three HTML templates",
   "browser_checks": [
-    "Morphology arm, animal, cluster, native exclusion-map and review-target selectors verified in the local app",
-    "Both morphology subtraction directions show exact sign reversal; model summaries and support remain visible",
-    "Saved ML figures and methods are present in the fully executed main and audit notebooks",
+    "Sticky navigation, scientific figure filters, ordered animal selector, morphology arm/cluster selection and both subtraction directions verified",
+    "Downloaded 36-row PFKP excluded-morphology QC CSV matches saved source identifiers, coordinates, windows and reasons",
+    "Main and audit notebooks include validated embedded PNG data; main static figures and generated overview visually checked in JupyterLab",
     "No browser console errors during final app checks; anatomical review gate remains 0/12"
   ],
   "figure_exports": {
@@ -85,14 +87,14 @@
       }
     ]
   },
-  "protocol": "protocols/v1.4.0_e0ba18c24cd2.json",
+  "protocol": "protocols/v1.4.1_1061c0df7f19.json",
   "protocol_code_hashes_match": true,
   "anatomical_approval_records_unchanged": true,
   "limits": "ML groups are exploratory measurement partitions; 49,618 diameter-invalid PLA are excluded only from morphology. Area-only sensitivity retains them. Refit agreement is stability, not prediction accuracy. n=3 animals per condition per arm. PLA-count and size normalization do not correct tissue area, ChAT availability or confounding. Cavity traces and adjacent-structure cues are computational visual proposals from detections; source microscopy, scale, homology and support remain unapproved. Group anatomical subtraction remains gated.",
   "standalone_app": {
     "path": "outputs/spatial_handoff/app/index.html",
-    "sha256": "512b0a7f9f1cec783b492afc99a1817206a9a6cc03c48012f043c240b2cbc9d8",
-    "bytes": 26144790,
+    "sha256": "01c7b95fd309ae3119989c86e7744f320257e31bf393ab8b639581a1e4aa9973",
+    "bytes": 26218322,
     "sections": 12,
     "object_totals": {
       "n_all": 3010776,
