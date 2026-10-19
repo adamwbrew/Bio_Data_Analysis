@@ -26,14 +26,23 @@ def reuse(prefix):
 
 md('''
 # PLA–ChAT · explore the sections and test the findings
-**Main scientific notebook · interactive edition · 19 October 2026 · protocol 1.1.0**
+**Main scientific notebook · saved results and interactive analysis · 19 October 2026 · protocol 1.4.1**
 
-The new analysis is here. Start with the **interactive spatial explorer**: move the 3D view, inspect the two channels, and overlay or separate the animal layers. This notebook then connects what you see to the animal-level findings and the next scientific decisions. The longer [spatial handoff notebook](PLA_ChAT_spatial_handoff_analysis.ipynb) holds the complete input audit, all section figures and detailed research methods.
+### Open the Plotly app
+**[Open the spatial app in your browser](http://127.0.0.1:8050/)** for a full-window view of the 3D surfaces, channel overlays, overlapping layers and scientific comparison figures.
 
-**Open this file in JupyterLab or VS Code**, select the project Python environment, and **Run All**. Review and trust the notebook to enable embedded JavaScript. GitHub shows the saved static figures but suppresses interactive controls. The explorer is saved **inside this notebook**, with its data and plotting library; it does not require a separate website or a live kernel after rendering.
+**First launch:** double-click `Launch_Spatial_Explorer.command` in this repository on your Mac, or run `python scripts/serve_spatial_app.py` in a terminal. The browser opens automatically; leave the terminal open while using the link. No notebook renderer or additional Python packages are needed to explore the saved results.
+
+**Without a server:** open the [portable app file](outputs/spatial_handoff/app/index.html) in a web browser. In VS Code, use your browser rather than opening the HTML as source text. The app is a saved snapshot; **Run All** refreshes it after the analysis finishes. The complete analysis and core results remain in this notebook.
+
+Start with the **findings at a glance** below, then follow the comparisons, morphology checks and spatial views. The [full audit notebook](PLA_ChAT_spatial_handoff_analysis.ipynb) contains the complete input audit, figure atlas and detailed methods.
+
+**To read:** open the saved notebook; no raw files or rerun are needed. GitHub displays the static figures. JupyterLab or VS Code can also show the embedded controls after you review and trust the notebook. The portable app is the simplest option for full interaction.
+
+**To recompute:** obtain the raw inputs, install the project environment and use **Run All**. See [setup and rerun instructions](docs/quickstart.md). A new run refreshes the saved app at the end.
 
 ### Go directly to a result
-[Interactive 3D / channels / layers](#explore) · [Animal-level comparison](#findings) · [Size sensitivity](#sizes) · [Layer alignment review](#registration) · [Image-review coordinates and decisions](#actions)
+[Findings at a glance](#overview) · [Condition comparison](#comparison) · [Machine learning](#machine-learning) · [Interactive 3D / channels / layers](#explore) · [Alignment review](#registration) · [Next decisions](#actions)
 
 **What is reconstructed:** 12 physical sections from six animals, measured by HALO; 3,010,776 detected objects after excluding the interrupted duplicate. HK1–TDP43 and PFKP–TDP43 are different PLA arms and stay separate. Coordinates reconstruct detections, not microscope pixels. The 3D measurement view uses signal height; the exploded stack uses an ordinal layer axis. Neither is an anatomical volume.
 ''')
@@ -50,31 +59,62 @@ load = load.replace("table(repeat_audit, 'interrupted_repeat_audit')", "repeat_a
 load = load.replace("display(metadata[['job','animal_id','running_group','pla_arm','rows','image_label','marker_panel']])", '')
 code(load)
 reuse('fine = h.make_grids')
+# Calculate once, so the early summary is generated from this run's results.
+code('''
+condition_results = cc.comparison_results(objects, metadata, min_per_stratum=10)
+ml_results = ml.run_analysis(objects, metadata)
+headline = condition_results['contrasts'].query("metric == 'association_pct'")
+headline_ml = ml_results['standardized'].query('k == 3').set_index('pla_arm')
+headline_audit = ml_results['audit']
+n_pla = int(headline_audit.n_pla.sum())
+n_excluded = n_pla - int(headline_audit.n_valid.sum())
+review_ready = int(h.review_status(reviews).ready.sum())
+overview = ['<a id="overview"></a>\\n## Findings at a glance',
+    '**Question:** is PLA association with ChAT different between Home-cage and Running animals, '
+    'and can size or shape explain the difference? Each arm has three animals per condition.',
+    '| PLA arm | Home-cage mean | Running mean | Home − Running | After common morphology mixture |\\n'
+    '|---|---:|---:|---:|---:|']
+for r in headline.itertuples():
+    s = headline_ml.loc[r.pla_arm]
+    overview[-1] += (f'\\n| {r.pla_arm} | {r.home_mean:.2f}% | {r.running_mean:.2f}% | '
+                    f'{r.home_minus_running:+.2f} pp | {s.standardized_difference_pp:+.2f} pp |')
+overview += [
+    '**Read the units:** pp means percentage points. Each group mean gives every animal equal weight. '
+    'The first difference uses all PLA; the final column reweights the eligible size-and-shape measurements. '
+    'Neither corrects tissue area, ChAT availability or acquisition differences.',
+    f'**Measurement review:** {n_excluded:,}/{n_pla:,} PLA ({100*n_excluded/n_pla:.1f}%) lack usable morphology. '
+    'They remain in the primary comparison. Use the separate excluded-detection review list to inspect their segmentation.',
+    '**Interpretation:** compare the primary, fixed-size, common-morphology and area-only estimates below. '
+    'Persistence across these checks narrows a composition-only explanation; it cannot separate biology from '
+    'condition-related imaging, marker or segmentation differences.',
+    f'**Next decisions:** review source-image crops and ChAT detection first; investigate the condition-aligned image layout. '
+    f'Anatomical approvals: **{review_ready}/{len(reviews)}**. The interactive layer stack is a review aid; '
+    'anatomical group subtraction requires approved correspondence and tissue support.'
+]
+display(Markdown('\\n\\n'.join(overview)))
+''')
+# Keep the scientific comparison and ML together; move geometry methods beside the layers.
+start = next(i for i,c in enumerate(source) if c.source.startswith('<a id="comparison">'))
+alignment_start = next(i for i,c in enumerate(source) if c.source.startswith('### Align the visible image features'))
+ml_start = next(i for i,c in enumerate(source) if c.source.startswith('<a id="machine-learning">'))
+end = next(i for i,c in enumerate(source) if c.source.startswith('<a id="explore">'))
+blocks = copy.deepcopy(source[start:alignment_start] + source[ml_start:end])
+for cell in blocks:
+    if cell.cell_type == 'code':
+        cell.source = cell.source.replace('condition_results = cc.comparison_results(objects, metadata, min_per_stratum=10)', '# condition_results was computed for the overview above.')
+        cell.source = cell.source.replace('ml_results = ml.run_analysis(objects, metadata)', '# ml_results was computed for the overview above.')
+cells.extend(blocks)
 reuse('<a id="explore"></a>')
 reuse('display(HTML(explorer_html')
 md('''
 ### Saved preview for static viewers
 
-If the control center above shows a loading/instructions message, you are probably viewing an untrusted notebook or GitHub's static preview. Open the notebook locally and Run All. The figures below are **static companions**, not the controls. In the live explorer, the top tabs switch between the actual 3D, channel and layer views.
+GitHub shows these saved figures and disables JavaScript controls. Open the portable app for interaction, or review and trust the saved notebook locally. Rerun only when recomputing the results. In the live explorer, the top tabs switch between 3D, channel and layer views.
 ''')
 code("show(hp.native_atlas(fine, metadata, 'TDP43–HK1'), '02_native_overlay_hk1')\nshow(hp.surface_preview(surfaces, metadata, 'TDP43–HK1'), '08_surface_companion_hk1')")
 md('''
-<a id="findings"></a>
-## 1 · What changes between animals?
-
-The relevant replicate is the **animal**, not each punctum. Each animal has one section in each PLA arm, so the plots below show three independent animal values per condition per arm. Horizontal bars weight each animal equally.
-
-**Current result:** the Running animals have a lower fraction of PLA detections flagged ChAT-positive in both arms: approximately **53.6% → 31.6% for HK1** and **73.2% → 50.6% for PFKP**. These are reductions of about **22 percentage points**, not a demonstrated reduction in protein binding, neuron count or glycolytic activity. ChAT detection opportunity and PLA size differ too; the following checks show why those alternatives matter.
-
-In the explorer, select **ChAT-positive PLA (%)**, switch between conditions, then compare **PLA object count** and **ChAT object count** at the same bin size. A high fraction supported by very few PLA is not the same evidence as a well-populated bin. Spatial location must not be compared anatomically before registration is reviewed.
-''')
-reuse("show(hp.group_summary_figure(summary)")
-md('''
-**Read the contrast table carefully:** `running_minus_home` is an equal-animal mean difference. The leave-pair-out range removes one animal from each group in every possible combination; it is a sensitivity check, **not a confidence interval**. With n=3 per group, the consistent direction is useful for deciding what to investigate, while effect magnitude and biological mechanism remain uncertain.
-''')
-md('''
 <a id="sizes"></a>
-## 2 · Is the difference tied to punctum size or marker availability?
+## Additional sensitivity · size filters and marker availability
 
 Larger PLA objects are more likely to be ChAT-positive. The left panels compare association within fixed size categories; the right panels show how the group summary changes when small PLA objects are removed. Thin lines retain individual animals. These are exploratory cutoffs shared across animals, not validated classes of aggregates.
 
@@ -89,16 +129,15 @@ The next curves ask how far each PLA midpoint is from the nearest ChAT midpoint.
 reuse('proximity_curves, proximity_summary =')
 md('''
 <a id="registration"></a>
-## 3 · What the overlapping layers can tell us now
+## What the overlapping layers can tell us now
 
-**Use the third explorer tab.** Start with native coordinates and all layers to inspect the original dimensions. Switch to **Candidate-centered** to superimpose the available void-centered silhouettes. Toggle layers or choose **One at a time** to see which section drives a shape mismatch. Move between the flat overlay and exploded stack to remove occlusion.
+**Use the third explorer tab → Feature-aligned.** Each section has a cavity-anchor proposal with internal orientation cues and geometry-ranked discrete flips. Inspect flat overlays, the 3D comparison stack and one-layer controls. The before/after figure and full trace atlas below make each transform inspectable. **Native image coordinates** preserves the original offsets; **Candidate-centered** retains the earlier automatic proposals for comparison.
 
-The stack order is **21F → 23M → 24M → 22F → 21M → 22M**, chosen to put Home-cage animals before Running animals. It is a display order across different animals, not an anterior–posterior sequence. The vertical separation slider is visual spacing only. No serial-section depth is available.
+This is a visual comparison of different animals and physical sections. Display order is 21F → 23M → 24M → 22F → 21M → 22M, not a serial anatomical sequence. Vertical spacing is a display control. The proposed geometry uses no scaling, continuous rotation or warping; cropped tissue cannot move the cavity anchor.
 
-The handoff requires a reviewed ventricular trace, discrete orientation choice and translation, with no forced rescaling or nonlinear warping. **9/12 sections have automated cavity candidates; 0/12 are approved.** Missing candidates are 22M/HK1, 21M/PFKP and 24M/PFKP. Candidate-centered controls therefore show geometry only, explicitly name omissions, and do not produce biological group maps. Reviewed mode is initially empty by design; the review editor below records actual scientist decisions.
-
-Native per-section measurement maps remain available as a descriptive first pass. No smoothing, pooling or anatomical labeling is introduced by the explorer. Its minimum-PLA slider changes displayed support, not the stored raw object table or the fixed analysis summaries below.
+**Check the approval status below.** The separate proposal file records computational visual traces and flip scores without modifying investigator reviews. Review uncertain boundaries and low-margin flips in the original images before approving anatomical means or subtraction. Individual measurement layers can be inspected in the proposed frame, but are never pooled there.
 ''')
+cells.extend(copy.deepcopy(source[alignment_start:ml_start]))
 code("display(h.review_status(reviews)[['animal_id','pla_arm','candidate_found','ready','needs_review']])")
 md('''
 ### Optional landmark review
@@ -106,9 +145,10 @@ md('''
 Set `SHOW_REVIEW_EDITOR = True` in setup and rerun this cell when a scientist is ready to review the original images and native plots. Saving a reviewed section updates the JSON review file only on an explicit button click. Rerun the grid/review and explorer cells to incorporate saved decisions. Detailed candidate and orientation panels remain in the full audit notebook.
 ''')
 reuse('if SHOW_REVIEW_EDITOR:')
+reuse('reviews = h.load_reviews')
 md('''
 <a id="actions"></a>
-## 4 · Actionable image windows and next decisions
+## Actionable image windows and next decisions
 
 The table gives native-coordinate windows selected by two declared rules: **largest PLA count** and **highest supported ChAT-positive fraction** within each section. They are review targets, not independently tested hotspots. Use animal, PLA arm, job and source filename together to request the matching original microscopy crop.
 ''')
@@ -116,7 +156,8 @@ code("queue = h.spatial_review_queue(metrics, metadata)\ntable(queue.drop(column
 md('''
 | Decision | Evidence to inspect | Action that would change the interpretation |
 |---|---|---|
-| Is lower ChAT-positive PLA biological or detection-dependent? | Animal dots, channel toggles, counts and area/size sensitivity | Review matched fluorescence crops, negative controls and HALO thresholds; keep the two PLA arms separate. |
+| Is the positive non-running minus Running gap biological or detection-dependent? | Animal dots, all nine deletion checks, size-standardized comparison and independent ChAT counts | Review matched fluorescence crops, negative controls and HALO thresholds; keep the two PLA arms separate. |
+| Does image layout contribute to the condition difference? | Running and Home sections occupy different X sides in every source image | Review original channels, composite provenance, illumination/background and consistent segmentation thresholds in blinded equivalent fields. |
 | Do sections share an anatomical reference? | Flat and exploded geometry layers, candidate polygon QC and orientation panels | Validate ventricular traces and discrete flips; supply calibration and ROI masks before group spatial differences. |
 | Do large objects represent relevant structures or merged detections? | Mean size / large-PLA maps and review windows | Inspect segmentation against raw images; document any common size filter before recomputation. |
 | Does spatial proximity exceed geometric opportunity? | Nearest-ChAT curves and independent ChAT abundance | Add physical scale, valid tissue support and a pre-specified geometry-aware null model. |
@@ -132,6 +173,7 @@ Run `python scripts/execute_spatial_handoff_notebook.py PLA_ChAT_scientific_anal
 The [full handoff notebook](PLA_ChAT_spatial_handoff_analysis.ipynb) supplies the detailed audit and figure atlas. The [original exploratory notebook](PLA_ChAT_visual_analysis.ipynb) retains the historical workflow. The earlier version of this scientific notebook is preserved in [Git history](https://github.com/adamwbrew/Bio_Data_Analysis/blob/b1e5a841446b938788ac373f40d39a14ca2df6d8/PLA_ChAT_scientific_analysis.ipynb).
 ''')
 code("protocol_path = h.write_protocol(ROOT, OUT, manifest, reviews, PARAMETERS)\nprint('Protocol:', protocol_path.relative_to(ROOT))\nprint('Exploration is embedded above; current anatomical review approvals:', int(h.review_status(reviews).ready.sum()))")
+reuse('app_path = write_standalone_app')
 notebook = nbf.v4.new_notebook(cells=cells, metadata=copy.deepcopy(audit['nb'].metadata))
 nbf.write(notebook, ROOT / 'PLA_ChAT_scientific_analysis.ipynb')
 print(f'Built main scientific notebook: {len(cells)} cells')

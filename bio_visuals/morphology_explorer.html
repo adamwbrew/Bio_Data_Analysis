@@ -1,0 +1,162 @@
+<div id="__ROOT_ID__" class="halo-morphology">
+  <style>
+    .halo-morphology{font:15px/1.55 system-ui,-apple-system,sans-serif;color:#173447;background:#fff;border:1px solid #d8e3e8;border-radius:15px;padding:23px;max-width:100%;box-sizing:border-box}
+    .halo-morphology *{box-sizing:border-box}.halo-morphology h2{font-size:25px;line-height:1.25;margin:0 0 10px}.halo-morphology h3{font-size:18px;margin:0 0 4px}
+    .halo-morphology p{margin:8px 0 14px}.halo-morphology .hm-muted{color:#526977;font-size:13px}.halo-morphology .hm-controls{display:flex;gap:15px;flex-wrap:wrap;padding:15px;background:#edf3f5;border-radius:10px;margin:16px 0}
+    .halo-morphology label{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:650}.halo-morphology select{font:inherit;font-weight:400;min-width:125px;padding:9px;border:1px solid #afc3ce;border-radius:6px;background:#fff;color:#173447}
+    .halo-morphology .hm-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:18px}.halo-morphology .hm-card{border:1px solid #dbe4e9;border-radius:10px;padding:14px;min-width:0;overflow:hidden}
+    .halo-morphology .hm-plot{width:100%;height:430px}.halo-morphology .hm-plot.hm-map{height:500px}.halo-morphology .hm-finding{background:#eff7f6;border-left:4px solid #087e8b;padding:14px 16px;margin:15px 0;border-radius:4px}
+    .halo-morphology .hm-alert{background:#fff7e8;border:1px solid #ead4a2;padding:13px;border-radius:8px;font-size:13px}.halo-morphology .hm-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:15px 0}
+    .halo-morphology button{background:#173447;color:#fff;border:0;border-radius:6px;padding:9px 13px;font:inherit;cursor:pointer}.halo-morphology button:focus-visible,.halo-morphology select:focus-visible,.halo-morphology summary:focus-visible{outline:3px solid #63bdc5;outline-offset:3px}.halo-morphology button:disabled,.halo-morphology select:disabled{opacity:.6;cursor:default}.halo-morphology details{border-top:1px solid #dce7ec;padding-top:12px;margin-top:14px}.halo-morphology summary{font-weight:650;cursor:pointer}.halo-morphology code{font-size:12px}.halo-morphology .hm-target-source{overflow-wrap:anywhere;margin-top:10px;padding:10px;background:#f2f6f8;border-radius:6px}.halo-morphology [hidden]{display:none!important}
+    @media(max-width:850px){.halo-morphology .hm-grid{grid-template-columns:1fr}.halo-morphology{padding:15px}.halo-morphology .hm-plot{height:380px}.halo-morphology .hm-plot.hm-map{height:440px}}
+  </style>
+  <h2>Explore the learned morphology patterns</h2>
+  <p>Find where measured PLA objects share similar <strong>area and shape</strong>, then inspect their ChAT association. Clusters are descriptive groups of detections, not cell types or diagnoses.</p>
+  <div class="hm-alert"><strong>Exploratory analysis · six animals.</strong> Running status, ChAT association and spatial coordinates are excluded from model fitting. Comparisons use animal averages. These patterns guide image review and follow-up experiments; they do not establish a causal running effect.</div>
+  <p data-hm="coverage" class="hm-muted"></p>
+  <div class="hm-controls">
+    <label>PLA arm<select data-hm="arm" aria-label="Morphology PLA arm"></select></label>
+    <label>Animal / native section<select data-hm="animal" aria-label="Morphology animal"></select></label>
+    <label>Map cluster<select data-hm="cluster" aria-label="Morphology map cluster"></select></label>
+    <label>Map value<select data-hm="mapmetric" aria-label="Morphology map value"><option value="cluster">Cluster share · eligible PLA</option><option value="excluded">Excluded morphology · all PLA</option></select></label>
+    <label>Image-review target<select data-hm="target" aria-label="Morphology image review target"><option value="">Show cluster map</option></select></label>
+    <label>Subtract<select data-hm="direction" aria-label="Morphology subtraction direction"><option value="1">Home cage − Running</option><option value="-1">Running − Home cage</option></select></label>
+  </div>
+  <div data-hm="finding" class="hm-finding" role="status" aria-live="polite"></div>
+  <div class="hm-grid">
+    <section class="hm-card"><h3>Native spatial pattern</h3><p class="hm-muted" data-hm="map-caption"></p><div data-hm="map" class="hm-plot hm-map"></div><p class="hm-muted hm-target-source" data-hm="target-source" hidden></p></section>
+    <section class="hm-card"><h3>Area and shape of sampled objects</h3><p class="hm-muted">A fixed sample from the selected animal, colored by cluster. The model uses log area and shape ratio; the axis here shows original area.</p><div data-hm="scatter" class="hm-plot hm-map"></div></section>
+    <section class="hm-card"><h3>Morphology mixture · all six animals</h3><p class="hm-muted">Every dot is one animal. Short lines show equal-animal group means. Counts do not determine an animal’s weight.</p><div data-hm="composition" class="hm-plot"></div></section>
+    <section class="hm-card"><h3>ChAT association within each cluster</h3><p class="hm-muted">Same animal-level comparison after conditioning on learned morphology. The association marker was not used to fit these groups.</p><div data-hm="association" class="hm-plot"></div></section>
+    <section class="hm-card"><h3>Does matching the morphology mix change the gap?</h3><p class="hm-muted">Compare the full and eligible sets, an area-only model, and 2–4 morphology clusters. Common mixtures use the same supported cluster weights for every animal.</p><div data-hm="sensitivity" class="hm-plot"></div></section>
+    <section class="hm-card"><h3>Does the clustering survive omitting an animal?</h3><p class="hm-muted">Refit on five animals, then compare assignments for the omitted animal against the full-data reference. High agreement means stability, not validated prediction.</p><div data-hm="stability" class="hm-plot"></div></section>
+  </div>
+  <div class="hm-actions"><button type="button" data-hm="download">Download animal-level cluster table</button><button type="button" data-hm="download-targets">Download eligible-object review targets</button><button type="button" data-hm="download-excluded">Download excluded-morphology QC targets</button></div>
+  <p class="hm-muted" data-hm="excluded-coverage"></p>
+  <p class="hm-muted">All downloads use the selected PLA arm. The animal and map controls change the top two panels. Group comparisons below always use all six animals. Drag to zoom, hover for denominators, double-click to reset. Plot camera icons export high-resolution PNGs.</p>
+  <details><summary>How to interpret this analysis and decide what to inspect next</summary>
+    <p><strong>Start with morphology, then association.</strong> A change in cluster proportions means the measured object mix differs. A condition difference within clusters may persist after accounting for this two-feature mixture; it still may reflect imaging, segmentation, marker availability or tissue sampling.</p>
+    <p><strong>Follow up on image regions.</strong> Use the selected cluster map to find supported regions worth checking in the source microscopy images. Check that larger or elongated objects are genuine puncta rather than merged detections or boundaries. Obtain independently replicated animals before predictive modeling or confirmatory testing.</p>
+    <p><strong>Map limits.</strong> Cluster fractions use eligible PLA detections in a native 500 × 500-unit bin, with at least 10 eligible detections. The exclusion map uses excluded detections / all PLA, with at least 10 total PLA detections. Gray means PLA was observed but the selected fraction is unsupported; white means no PLA detections. Coordinates are uncalibrated export units. There is no smoothing, cross-animal overlay, tissue-area normalization or anatomical registration here.</p>
+    <p><strong>Model limits.</strong> The model is fitted separately for each PLA arm, using equal-sized animal samples and feature scaling learned from training data. C1–C3 are sorted by fitted area within that arm and are not biological identities shared across arms. Invalid morphology is excluded and counted in the audit. The shape ratio is minimum diameter / maximum diameter. A reported zero minimum diameter may reflect export precision or segmentation; do not interpret it as confirmed biological elongation.</p>
+  </details>
+  <script>__PLOTLY__</script>
+  <script>
+  (function(){
+    const root=document.getElementById('__ROOT_ID__'), D=__DATA__;
+    const el=k=>root.querySelector('[data-hm="'+k+'"]');
+    const color=D.cluster_colors, gc=D.group_colors, groups=['Home cage','Running'];
+    const fmt=(v,d=1)=>v===null||v===undefined||!Number.isFinite(Number(v))?'not estimable':Number(v).toFixed(d);
+    const signed=(v,d=2)=>v===null||v===undefined||!Number.isFinite(Number(v))?'not estimable':(v>=0?'+':'')+Number(v).toFixed(d);
+    const config={responsive:true,displaylogo:false,scrollZoom:true,toImageButtonOptions:{format:'png',scale:3,filename:'PLA_ChAT_morphology'}};
+    const base={font:{family:'system-ui, sans-serif',size:12,color:'#173447'},paper_bgcolor:'#fff',plot_bgcolor:'#fff',margin:{l:65,r:22,t:15,b:65},hovermode:'closest',legend:{orientation:'h',y:1.13,x:0},autosize:true};
+    const empty=(target,text)=>Plotly.react(el(target),[],Object.assign({},base,{annotations:[{text:text,x:.5,y:.5,xref:'paper',yref:'paper',showarrow:false}],xaxis:{visible:false},yaxis:{visible:false}}),config);
+    function populate(target,rows){el(target).replaceChildren();for(const r of rows){const o=document.createElement('option');o.value=r.value;o.textContent=r.label;el(target).appendChild(o);}}
+    populate('arm',D.arms.map(a=>({value:a,label:a})));
+    const nTotal=D.audit.reduce((sum,r)=>sum+r.n_pla,0), nExcluded=D.audit.reduce((sum,r)=>sum+r.n_excluded,0);
+    el('coverage').textContent='Morphology coverage: '+(nTotal-nExcluded).toLocaleString()+' / '+nTotal.toLocaleString()+' PLA objects retained ('+fmt(100*(nTotal-nExcluded)/nTotal)+'%). '+nExcluded.toLocaleString()+' objects with unusable morphology are excluded from this model only. Primary unfiltered results remain unchanged. The area-only sensitivity checks the wider input set.';
+    function arm(){return el('arm').value;}function section(){return D.spatial.find(s=>s.pla_arm===arm()&&s.animal_id===el('animal').value);}
+    function reset(){
+      const old=el('animal').value, rows=D.spatial.filter(s=>s.pla_arm===arm()).sort((a,b)=>D.animal_order.indexOf(a.animal_id)-D.animal_order.indexOf(b.animal_id));
+      populate('animal',rows.map(s=>({value:s.animal_id,label:s.animal_id+' · '+s.running_group})));
+      if(rows.some(s=>s.animal_id===old))el('animal').value=old;
+      const cs=[...new Set(D.animals.filter(r=>r.pla_arm===arm()).map(r=>r.cluster))].sort((a,b)=>a-b);
+      populate('cluster',cs.map(c=>({value:String(c),label:'C'+c+' · area rank '+c})));
+      const qc=(D.excluded_review_targets||[]).filter(r=>r.pla_arm===arm());
+      el('download-excluded').disabled=!qc.length;
+      el('excluded-coverage').textContent=qc.length?arm()+': '+qc.length+' additional source-linked QC targets sample detections excluded from morphology fitting. They remain in the primary unfiltered analysis. These targets span exclusion reasons and native locations; they are a review guide, not a representative sample or an estimate of failure prevalence. Use the audit for total exclusions.':'No source-linked excluded-morphology QC targets are available for this arm.';
+      draw();
+    }
+    function animalPlots(){
+      const rows=D.animals.filter(r=>r.pla_arm===arm()), cs=[...new Set(rows.map(r=>r.cluster))].sort((a,b)=>a-b);
+      for(const spec of [{target:'composition',metric:'proportion_pct',label:'Share of eligible PLA (%)'},{target:'association',metric:'association_pct',label:'ChAT-positive PLA in cluster (%)'}]){
+        const traces=[];
+        for(let gi=0;gi<groups.length;gi++){
+          const g=groups[gi], offset=gi===0?-.18:.18, gx=[],gy=[],custom=[],mx=[],my=[];
+          for(let ci=0;ci<cs.length;ci++){
+            const rr=rows.filter(r=>r.cluster===cs[ci]&&r.running_group===g).sort((a,b)=>D.animal_order.indexOf(a.animal_id)-D.animal_order.indexOf(b.animal_id));
+            const valid=[];
+            rr.forEach((r,j)=>{if(r[spec.metric]!==null){gx.push(ci+offset+(j-1)*.065);gy.push(r[spec.metric]);valid.push(r[spec.metric]);custom.push([r.animal_id,r.cluster,r.n,r.n_total_valid,r.n_positive]);}});
+            if(valid.length){const mean=valid.reduce((a,b)=>a+b,0)/valid.length;mx.push(ci+offset-.11,ci+offset+.11,null);my.push(mean,mean,null);}
+          }
+          traces.push({type:'scatter',mode:'markers',name:g,x:gx,y:gy,customdata:custom,marker:{size:9,color:gc[g],line:{color:'#fff',width:1}},hovertemplate:'%{customdata[0]} · C%{customdata[1]}<br>'+spec.label+': %{y:.2f}<br>Cluster PLA: %{customdata[2]:,}<br>Eligible section PLA: %{customdata[3]:,}<br>ChAT-positive in cluster: %{customdata[4]:,}<extra>'+g+'</extra>'});
+          traces.push({type:'scatter',mode:'lines',x:mx,y:my,line:{color:gc[g],width:4},showlegend:false,hoverinfo:'skip'});
+        }
+        Plotly.react(el(spec.target),traces,Object.assign({},base,{xaxis:{tickvals:cs.map((_,i)=>i),ticktext:cs.map(c=>'C'+c),range:[-.5,cs.length-.5],title:'Learned morphology cluster'},yaxis:{range:[0,105],title:spec.label,gridcolor:'#e8eef1'}}),config);
+      }
+    }
+    function targets(){
+      const s=section(), c=Number(el('cluster').value), rows=s?D.review_targets.filter(r=>String(r.job)===String(s.job)&&r.cluster===c):[];
+      populate('target',[{value:'',label:'Show cluster map'},...rows.map((r,i)=>({value:String(i),label:r.selection+' · object '+r.object_id}))]);
+    }
+    function mapPlots(){
+      const s=section(), c=el('cluster').value;
+      if(!s){empty('map','No supported section');empty('scatter','No sampled objects');return;}
+      const excluded=el('mapmetric').value==='excluded'&&Array.isArray(s.excluded_fraction_pct), all=s.n_all||s.n;
+      const denominator=excluded?all:s.n;
+      const raw=excluded?s.excluded_fraction_pct:s.cluster_fractions[c];
+      const z=raw.map((row,y)=>row.map((v,x)=>denominator[y][x]>=s.min_count?v:null));
+      const support=all.map(row=>row.map(v=>v>0?1:null));
+      const counts=s.n.map((row,y)=>row.map((v,x)=>[v,all[y][x],s.n_excluded?s.n_excluded[y][x]:null]));
+      const traces=[{type:'heatmap',x:s.x,y:s.y,z:support,zmin:0,zmax:1,colorscale:[[0,'#e5ebee'],[1,'#e5ebee']],showscale:false,hoverinfo:'skip'},
+        {type:'heatmap',x:s.x,y:s.y,z:z,customdata:counts,zmin:0,zmax:100,colorscale:excluded?'Cividis':'Viridis',zsmooth:false,hoverongaps:false,colorbar:{title:{text:excluded?'Excluded<br>(%)':'Cluster share<br>(%)'},thickness:13,len:.8},hovertemplate:'x %{x:,.0f} · y %{y:,.0f}<br>'+(excluded?'Excluded':'C'+c+' share')+': %{z:.1f}%<br>Eligible PLA: %{customdata[0]:,}<br>All PLA: %{customdata[1]:,}<br>Excluded morphology: %{customdata[2]:,}<extra>'+s.animal_id+'</extra>'}];
+      const candidates=D.review_targets.filter(r=>String(r.job)===String(s.job)&&r.cluster===Number(c)), selected=excluded||el('target').value===''?null:candidates[Number(el('target').value)];
+      el('target').disabled=excluded;
+      el('target-source').hidden=!selected;
+      el('target-source').textContent=selected?'Source CSV: '+selected.source_file+' | HALO job '+selected.job+' | object '+selected.object_id+'. Review window: x '+fmt(selected.window_xmin,0)+'–'+fmt(selected.window_xmax,0)+', y '+fmt(selected.window_ymin,0)+'–'+fmt(selected.window_ymax,0)+' (native export units). Download the review-target table for the complete source reference.':'';
+      if(selected)traces.push({type:'scatter',mode:'markers',x:[selected.x],y:[selected.y],name:'Review target',showlegend:false,marker:{symbol:'cross',size:15,color:'#e44a36',line:{color:'#fff',width:1}},hovertemplate:'Object '+selected.object_id+'<br>x %{x:,.1f} · y %{y:,.1f}<br>'+selected.selection+'<extra>Image review target</extra>'});
+      Plotly.react(el('map'),traces,Object.assign({},base,{margin:{l:67,r:85,t:10,b:65},xaxis:{title:'x · native export units',constrain:'domain'},yaxis:{title:'y · native export units',autorange:'reversed',scaleanchor:'x',scaleratio:1},uirevision:s.job}),config);
+      el('map-caption').textContent=s.animal_id+' · '+s.running_group+' · '+(excluded?'Excluded morphology':'C'+c)+'. Unsmoothed '+s.width+'-unit bins; fractions need ≥'+s.min_count+(excluded?' total':' eligible')+' PLA objects. Gray is observed PLA with insufficient support for this metric; white is no PLA support.'+(selected?' Review object '+selected.object_id+' near ('+fmt(selected.x)+', '+fmt(selected.y)+'); inspect a ±500-unit window in the source image.':'');
+      const rows=D.scatter.filter(r=>r.pla_arm===arm()&&r.animal_id===s.animal_id), out=[];
+      for(const cluster of [...new Set(rows.map(r=>r.cluster))].sort((a,b)=>a-b)){
+        const rr=rows.filter(r=>r.cluster===cluster);
+        out.push({type:'scattergl',mode:'markers',name:'C'+cluster,x:rr.map(r=>r.area),y:rr.map(r=>r.shape),customdata:rr.map(r=>r.chat_present),marker:{color:color[cluster],size:Number(c)===cluster?6:4,opacity:Number(c)===cluster?.8:.3},hovertemplate:'Area %{x:.4g} µm²<br>Shape ratio %{y:.3f}<br>ChAT present: %{customdata}<extra>C'+cluster+'</extra>'});
+      }
+      Plotly.react(el('scatter'),out,Object.assign({},base,{xaxis:{title:'PLA area (µm²) · log scale',type:'log'},yaxis:{title:'Minimum / maximum diameter',range:[-.03,1.05],gridcolor:'#e8eef1'},uirevision:s.job}),config);
+      const chosen=D.animals.find(r=>r.pla_arm===arm()&&r.animal_id===s.animal_id&&r.cluster===Number(c));
+      const contrast=D.contrasts.find(r=>r.pla_arm===arm()&&r.cluster===Number(c)&&r.metric==='association_pct');
+      const mixture=D.contrasts.find(r=>r.pla_arm===arm()&&r.cluster===Number(c)&&r.metric==='proportion_pct');
+      const profile=D.profiles.find(r=>r.pla_arm===arm()&&r.cluster===Number(c)), zeroNote=profile&&profile.zero_min_pct>1?' '+fmt(profile.zero_min_pct)+'% of this arm’s C'+c+' objects have a reported zero minimum diameter; inspect precision/segmentation before biological interpretation.':'';
+      const direction=Number(el('direction').value), caption=direction===1?'Home cage − Running':'Running − Home cage';
+      el('finding').textContent=chosen?s.animal_id+' · C'+c+': '+Number(chosen.n).toLocaleString()+' eligible PLA objects ('+fmt(chosen.proportion_pct)+'% of the section’s eligible PLA); '+fmt(chosen.association_pct)+'% are ChAT-positive. '+(contrast&&contrast.difference_pp!==null?caption+' association within C'+c+' = '+signed(direction*contrast.difference_pp)+' percentage points. ':'')+(mixture&&mixture.difference_pp!==null?caption+' share of eligible PLA in C'+c+' = '+signed(direction*mixture.difference_pp)+' percentage points. These are different measurements and may have opposite signs; both comparisons give every animal equal weight. ':'')+zeroNote:'No supported cluster summary.';
+    }
+    function checks(){
+      const rows=D.standardized.filter(r=>r.pla_arm===arm()).sort((a,b)=>a.k-b.k), dir=Number(el('direction').value), caption=dir===1?'Home cage − Running':'Running − Home cage';
+      if(rows.length){
+        const area=D.area_only_standardized.find(r=>r.pla_arm===arm());
+        const labels=['All PLA<br>observed','Eligible PLA<br>observed','Same area<br>mix · k=3',...rows.map(r=>'Morphology<br>mix · k='+r.k)];
+        const values=[rows[0].raw_difference_pp,rows[0].valid_difference_pp,area?area.standardized_difference_pp:null,...rows.map(r=>r.standardized_difference_pp)];
+        const x=values.map((_,i)=>i), y=values.map(v=>v===null?null:dir*v);
+        const traces=[{type:'scatter',mode:'markers+text',x:x,y:y,text:y.map(v=>signed(v)),textposition:'top center',showlegend:false,marker:{size:11,color:['#445c6a','#8799a3','#805AA4',...rows.map(()=>'#087e8b')]},customdata:labels,hovertemplate:'%{customdata}<br>'+caption+': %{y:+.2f} pp<extra>Equal-animal contrast</extra>'},{type:'scatter',mode:'lines',x:x.slice(3),y:y.slice(3),line:{color:'#087e8b',width:2},showlegend:false,hoverinfo:'skip'}];
+        Plotly.react(el('sensitivity'),traces,Object.assign({},base,{margin:{l:65,r:22,t:22,b:90},xaxis:{tickvals:x,ticktext:labels,tickfont:{size:10},range:[-.5,x.length-.5]},yaxis:{title:caption+' (pp)',rangemode:'tozero',zeroline:true,zerolinecolor:'#80949e',gridcolor:'#e8eef1'}}),config);
+      }else empty('sensitivity','No supported standardization');
+      const ss=D.stability.filter(r=>r.pla_arm===arm());
+      if(ss.length){
+        const ordered=ss.slice().sort((a,b)=>D.animal_order.indexOf(a.animal_id)-D.animal_order.indexOf(b.animal_id));
+        const traces=[{type:'bar',orientation:'h',x:ordered.map(r=>r.agreement_pct),y:ordered.map(r=>r.animal_id+' · ARI '+fmt(r.ari,3)),text:ordered.map(r=>fmt(r.agreement_pct)+'%'),textposition:'outside',cliponaxis:false,marker:{color:ordered.map(r=>gc[D.animal_order.indexOf(r.animal_id)<3?'Home cage':'Running'])},customdata:ordered.map(r=>[r.fit_animals,r.heldout_n]),hovertemplate:'Omitted %{y}<br>Assignments agreeing %{x:.1f}%<br>Fit animals %{customdata[0]}<br>Held-out objects %{customdata[1]:,}<extra>Refit stability</extra>'}];
+        Plotly.react(el('stability'),traces,Object.assign({},base,{margin:{l:130,r:50,t:20,b:70},xaxis:{range:[0,112],title:'Matched assignments agreeing (%)',gridcolor:'#e8eef1'},yaxis:{autorange:'reversed'},bargap:.4,showlegend:false}),config);
+      }else empty('stability','No omitted-animal stability estimates');
+    }
+    function draw(){targets();mapPlots();animalPlots();checks();}
+    el('arm').addEventListener('change',reset);el('animal').addEventListener('change',()=>{targets();mapPlots();});el('cluster').addEventListener('change',()=>{targets();mapPlots();});el('target').addEventListener('change',mapPlots);el('mapmetric').addEventListener('change',mapPlots);el('direction').addEventListener('change',()=>{mapPlots();checks();});
+    function downloadRows(rows,keys,name){
+      const quote=v=>'"'+String(v===null||v===undefined?'':v).replace(/"/g,'""')+'"';
+      const csv=[keys.map(quote).join(','),...rows.map(r=>keys.map(k=>quote(r[k])).join(','))].join('\r\n');
+      const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'})), a=document.createElement('a');a.href=url;a.download=name+'_'+arm().replace(/[^A-Za-z0-9]+/g,'_')+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+    }
+    el('download').addEventListener('click',()=>{
+      const rows=D.animals.filter(r=>r.pla_arm===arm()).sort((a,b)=>D.animal_order.indexOf(a.animal_id)-D.animal_order.indexOf(b.animal_id)||a.cluster-b.cluster), keys=['pla_arm','animal_id','running_group','job','cluster','n','n_total_valid','n_positive','proportion_pct','association_pct','retained_pct'];
+      downloadRows(rows,keys,'PLA_ChAT_morphology');
+    });
+    el('download-targets').addEventListener('click',()=>{
+      const rows=D.review_targets.filter(r=>r.pla_arm===arm()).sort((a,b)=>D.animal_order.indexOf(a.animal_id)-D.animal_order.indexOf(b.animal_id)||a.cluster-b.cluster), keys=['pla_arm','animal_id','running_group','job','cluster','selection','source_file','object_id','x','y','window_xmin','window_xmax','window_ymin','window_ymax','area','shape','chat_present','reason'];
+      downloadRows(rows,keys,'PLA_ChAT_image_review_targets');
+    });
+    el('download-excluded').addEventListener('click',()=>{
+      const rows=(D.excluded_review_targets||[]).filter(r=>r.pla_arm===arm()).sort((a,b)=>D.animal_order.indexOf(a.animal_id)-D.animal_order.indexOf(b.animal_id)||a.sample_rank-b.sample_rank), keys=['pla_arm','animal_id','running_group','job','sample_rank','selection','source_file','object_id','x','y','window_xmin','window_xmax','window_ymin','window_ymax','native_bin_x','native_bin_y','area','min_diameter','max_diameter','chat_present','exclusion_reason','section_excluded_n','section_excluded_missing_coordinate_n','reason'];
+      downloadRows(rows,keys,'PLA_ChAT_excluded_morphology_QC_targets');
+    });
+    if(!D.arms.length){el('finding').textContent='No supported morphology results are available.';for(const k of ['map','scatter','composition','association','sensitivity','stability'])empty(k,'No supported measurements');}else reset();
+  })();
+  </script>
+</div>

@@ -1,0 +1,803 @@
+[
+  {
+    "job": "4998",
+    "animal_id": "21F",
+    "pla_arm": "TDP43–HK1",
+    "source_sha256": "3dc2fffe5a7369172f95578c11b5b8188e718922bcb687936ca02382463b1bd9",
+    "polygon_native": [
+      [
+        29200,
+        35400
+      ],
+      [
+        30800,
+        34500
+      ],
+      [
+        32900,
+        35900
+      ],
+      [
+        31200,
+        37100
+      ],
+      [
+        29900,
+        36800
+      ]
+    ],
+    "status": "Computational visual trace proposal; no anatomical approval",
+    "annotation_source": "100-unit all-object count reconstruction, inspected 2026-10-19; no source microscopy pixels available",
+    "annotator": "Codex",
+    "ambiguous_boundary": false,
+    "note": "Visible internal low-detection cavity; source-image confirmation still required.",
+    "orientation_cue_native": [
+      29800,
+      31700
+    ],
+    "orientation_cue_description": "Adjacent loop-like structure: use above/below cavity only; point is a visual orientation cue, not a segmented centroid or confirmed homologous landmark.",
+    "center": [
+      30904.110003022062,
+      35852.61408280447
+    ],
+    "flip": "none",
+    "reference_job": "4998",
+    "reference_animal": "21F",
+    "boundary_best_flip": "none",
+    "cue_boundary_conflict": false,
+    "orientation_cue_used": true,
+    "native_boundary_distance": 0.0,
+    "centered_boundary_distance": 0.0,
+    "aligned_boundary_distance": 0.0,
+    "boundary_p90": 0.0,
+    "flip_margin_fraction": 1.0,
+    "flip_ambiguous": false,
+    "method": "Cavity polygon centroid; adjacent-structure above/below cue where visible; boundary ranks remaining flips; no rotation, scale or warp",
+    "approved": false,
+    "coarse_flip": "none",
+    "flip_resolution_stable": true
+  },
+  {
+    "job": "5007",
+    "animal_id": "23M",
+    "pla_arm": "TDP43–HK1",
+    "source_sha256": "7c7a087618700ccb3ea05306b4bfa7e166f0b114bc9f53107742152033204397",
+    "polygon_native": [
+      [
+        27600,
+        34900
+      ],
+      [
+        29200,
+        33700
+      ],
+      [
+        30700,
+        34200
+      ],
+      [
+        32000,
+        35500
+      ],
+      [
+        31100,
+        36200
+      ],
+      [
+        29300,
+        36800
+      ],
+      [
+        27700,
+        36000
+      ]
+    ],
+    "status": "Computational visual trace proposal; no anatomical approval",
+    "annotation_source": "100-unit all-object count reconstruction, inspected 2026-10-19; no source microscopy pixels available",
+    "annotator": "Codex",
+    "ambiguous_boundary": true,
+    "note": "Boundary partly joins sparse peripheral detections; proposal needs independent tracing.",
+    "orientation_cue_native": [
+      29100,
+      31000
+    ],
+    "orientation_cue_description": "Adjacent loop-like structure: use above/below cavity only; point is a visual orientation cue, not a segmented centroid or confirmed homologous landmark.",
+    "center": [
+      29605.787037037036,
+      35299.1512345679
+    ],
+    "flip": "none",
+    "reference_job": "4998",
+    "reference_animal": "21F",
+    "boundary_best_flip": "none",
+    "cue_boundary_conflict": false,
+    "orientation_cue_used": true,
+    "native_boundary_distance": 350.5633841360558,
+    "centered_boundary_distance": 600.5494726084878,
+    "aligned_boundary_distance": 600.5494726084878,
+    "boundary_p90": 1872.7220775148087,
+    "flip_margin_fraction": 0.7265476639097411,
+    "flip_ambiguous": false,
+    "method": "Cavity polygon centroid; adjacent-structure above/below cue where visible; boundary ranks remaining flips; no rotation, scale or warp",
+    "approved": false,
+    "coarse_flip": "none",
+    "flip_resolution_stable": true
+  },
+  {
+    "job": "5002",
+    "animal_id": "24M",
+    "pla_arm": "TDP43–HK1",
+    "source_sha256": "1ba6bbfc4ca4a37ac075783b31255795a0c2d6ebc708ca1a208077fc8fcb9371",
+    "polygon_native": [
+      [
+        30900,
+        32600
+      ],
+      [
+        31800,
+        32100
+      ],
+      [
+        32800,
+        32200
+      ],
+      [
+        34000,
+        33900
+      ],
+      [
+        32300,
+        34500
+      ],
+      [
+        31400,
+        33800
+      ]
+    ],
+    "status": "Computational visual trace proposal; no anatomical approval",
+    "annotation_source": "100-unit all-object count reconstruction, inspected 2026-10-19; no source microscopy pixels available",
+    "annotator": "Codex",
+    "ambiguous_boundary": false,
+    "note": "Visible internal low-detection cavity; source-image confirmation still required.",
+    "orientation_cue_native": [
+      31800,
+      29600
+    ],
+    "orientation_cue_description": "Adjacent loop-like structure: use above/below cavity only; point is a visual orientation cue, not a segmented centroid or confirmed homologous landmark.",
+    "center": [
+      32361.684981684983,
+      33262.820512820515
+    ],
+    "flip": "none",
+    "reference_job": "4998",
+    "reference_animal": "21F",
+    "boundary_best_flip": "none",
+    "cue_boundary_conflict": false,
+    "orientation_cue_used": true,
+    "native_boundary_distance": 1548.1577912692987,
+    "centered_boundary_distance": 526.4049510219993,
+    "aligned_boundary_distance": 526.4049510219993,
+    "boundary_p90": 1340.4651030913901,
+    "flip_margin_fraction": 0.7727033880128056,
+    "flip_ambiguous": false,
+    "method": "Cavity polygon centroid; adjacent-structure above/below cue where visible; boundary ranks remaining flips; no rotation, scale or warp",
+    "approved": false,
+    "coarse_flip": "none",
+    "flip_resolution_stable": true
+  },
+  {
+    "job": "4997",
+    "animal_id": "22F",
+    "pla_arm": "TDP43–HK1",
+    "source_sha256": "2eeb66efe0a7918ed3b89066d94723f6944e53fdc68a084ba8824af6d3b282ef",
+    "polygon_native": [
+      [
+        4700,
+        35900
+      ],
+      [
+        5900,
+        34500
+      ],
+      [
+        7100,
+        35100
+      ],
+      [
+        6900,
+        36300
+      ],
+      [
+        6200,
+        37100
+      ],
+      [
+        4700,
+        37100
+      ]
+    ],
+    "status": "Computational visual trace proposal; no anatomical approval",
+    "annotation_source": "100-unit all-object count reconstruction, inspected 2026-10-19; no source microscopy pixels available",
+    "annotator": "Codex",
+    "ambiguous_boundary": true,
+    "note": "Boundary partly joins sparse peripheral detections; proposal needs independent tracing.",
+    "orientation_cue_native": [
+      6000,
+      39700
+    ],
+    "orientation_cue_description": "Adjacent loop-like structure: use above/below cavity only; point is a visual orientation cue, not a segmented centroid or confirmed homologous landmark.",
+    "center": [
+      5868.1547619047615,
+      35945.23809523809
+    ],
+    "flip": "vertical",
+    "reference_job": "4998",
+    "reference_animal": "21F",
+    "boundary_best_flip": "vertical",
+    "cue_boundary_conflict": false,
+    "orientation_cue_used": true,
+    "native_boundary_distance": 12789.019827561855,
+    "centered_boundary_distance": 816.1158570993782,
+    "aligned_boundary_distance": 729.9293394879851,
+    "boundary_p90": 2286.45603398252,
+    "flip_margin_fraction": 0.7017799721897386,
+    "flip_ambiguous": false,
+    "method": "Cavity polygon centroid; adjacent-structure above/below cue where visible; boundary ranks remaining flips; no rotation, scale or warp",
+    "approved": false,
+    "coarse_flip": "vertical",
+    "flip_resolution_stable": true
+  },
+  {
+    "job": "5006",
+    "animal_id": "21M",
+    "pla_arm": "TDP43–HK1",
+    "source_sha256": "b36743617af5013290dc326bde525772098c6b31b2a0ae5eab2092550c8943ea",
+    "polygon_native": [
+      [
+        3000,
+        33000
+      ],
+      [
+        4100,
+        32100
+      ],
+      [
+        5600,
+        32900
+      ],
+      [
+        6350,
+        34300
+      ],
+      [
+        4700,
+        35400
+      ],
+      [
+        3200,
+        34900
+      ]
+    ],
+    "status": "Computational visual trace proposal; no anatomical approval",
+    "annotation_source": "100-unit all-object count reconstruction, inspected 2026-10-19; no source microscopy pixels available",
+    "annotator": "Codex",
+    "ambiguous_boundary": false,
+    "note": "Visible internal low-detection cavity; source-image confirmation still required.",
+    "orientation_cue_native": [
+      4000,
+      29100
+    ],
+    "orientation_cue_description": "Adjacent loop-like structure: use above/below cavity only; point is a visual orientation cue, not a segmented centroid or confirmed homologous landmark.",
+    "center": [
+      4492.180149168101,
+      33817.53298909925
+    ],
+    "flip": "none",
+    "reference_job": "4998",
+    "reference_animal": "21F",
+    "boundary_best_flip": "none",
+    "cue_boundary_conflict": false,
+    "orientation_cue_used": true,
+    "native_boundary_distance": 14960.054505245884,
+    "centered_boundary_distance": 917.5769013157053,
+    "aligned_boundary_distance": 917.5769013157053,
+    "boundary_p90": 2162.2144611764497,
+    "flip_margin_fraction": 0.6074387737866347,
+    "flip_ambiguous": false,
+    "method": "Cavity polygon centroid; adjacent-structure above/below cue where visible; boundary ranks remaining flips; no rotation, scale or warp",
+    "approved": false,
+    "coarse_flip": "none",
+    "flip_resolution_stable": true
+  },
+  {
+    "job": "5001",
+    "animal_id": "22M",
+    "pla_arm": "TDP43–HK1",
+    "source_sha256": "2e4e329f0623bd2bb3407cf4a1cee8d28460d76308fe89d53386617e0e3d2226",
+    "polygon_native": [
+      [
+        6000,
+        33200
+      ],
+      [
+        6900,
+        32100
+      ],
+      [
+        8700,
+        32300
+      ],
+      [
+        8400,
+        33200
+      ],
+      [
+        8700,
+        33700
+      ],
+      [
+        8000,
+        34200
+      ],
+      [
+        6600,
+        33900
+      ]
+    ],
+    "status": "Computational visual trace proposal; no anatomical approval",
+    "annotation_source": "100-unit all-object count reconstruction, inspected 2026-10-19; no source microscopy pixels available",
+    "annotator": "Codex",
+    "ambiguous_boundary": false,
+    "note": "Visible internal low-detection cavity; source-image confirmation still required.",
+    "orientation_cue_native": [
+      7300,
+      37100
+    ],
+    "orientation_cue_description": "Adjacent loop-like structure: use above/below cavity only; point is a visual orientation cue, not a segmented centroid or confirmed homologous landmark.",
+    "center": [
+      7453.948462177888,
+      33127.09891936825
+    ],
+    "flip": "vertical",
+    "reference_job": "4998",
+    "reference_animal": "21F",
+    "boundary_best_flip": "vertical",
+    "cue_boundary_conflict": false,
+    "orientation_cue_used": true,
+    "native_boundary_distance": 11450.351210298286,
+    "centered_boundary_distance": 903.9451662773729,
+    "aligned_boundary_distance": 513.66483512757,
+    "boundary_p90": 1861.6059505700134,
+    "flip_margin_fraction": 0.784552973488134,
+    "flip_ambiguous": false,
+    "method": "Cavity polygon centroid; adjacent-structure above/below cue where visible; boundary ranks remaining flips; no rotation, scale or warp",
+    "approved": false,
+    "coarse_flip": "vertical",
+    "flip_resolution_stable": true
+  },
+  {
+    "job": "5020",
+    "animal_id": "21F",
+    "pla_arm": "TDP43–PFKP",
+    "source_sha256": "aad88d53e52707b222e9386adf8e8b7d0dbfced87e37aa805e5f3cc16eca6c13",
+    "polygon_native": [
+      [
+        28300,
+        7000
+      ],
+      [
+        29000,
+        6200
+      ],
+      [
+        30100,
+        6700
+      ],
+      [
+        31500,
+        7350
+      ],
+      [
+        32100,
+        8200
+      ],
+      [
+        31700,
+        9500
+      ],
+      [
+        30900,
+        10300
+      ],
+      [
+        30100,
+        9200
+      ],
+      [
+        29800,
+        8400
+      ],
+      [
+        28400,
+        7900
+      ]
+    ],
+    "status": "Computational visual trace proposal; no anatomical approval",
+    "annotation_source": "100-unit all-object count reconstruction, inspected 2026-10-19; no source microscopy pixels available",
+    "annotator": "Codex",
+    "ambiguous_boundary": true,
+    "note": "Boundary partly joins sparse peripheral detections; proposal needs independent tracing.",
+    "orientation_cue_native": [
+      29250,
+      10700
+    ],
+    "orientation_cue_description": "Adjacent loop-like structure: use above/below cavity only; point is a visual orientation cue, not a segmented centroid or confirmed homologous landmark.",
+    "center": [
+      30305.378401360544,
+      8037.670068027211
+    ],
+    "flip": "none",
+    "reference_job": "5020",
+    "reference_animal": "21F",
+    "boundary_best_flip": "none",
+    "cue_boundary_conflict": false,
+    "orientation_cue_used": true,
+    "native_boundary_distance": 0.0,
+    "centered_boundary_distance": 0.0,
+    "aligned_boundary_distance": 0.0,
+    "boundary_p90": 0.0,
+    "flip_margin_fraction": 1.0,
+    "flip_ambiguous": false,
+    "method": "Cavity polygon centroid; adjacent-structure above/below cue where visible; boundary ranks remaining flips; no rotation, scale or warp",
+    "approved": false,
+    "coarse_flip": "none",
+    "flip_resolution_stable": true
+  },
+  {
+    "job": "5005",
+    "animal_id": "23M",
+    "pla_arm": "TDP43–PFKP",
+    "source_sha256": "391641f73ddc1f6fa64c6cca5f9e16058fcaa9589af7a4c0823b2b50c0f71b6e",
+    "polygon_native": [
+      [
+        28600,
+        7400
+      ],
+      [
+        29600,
+        6800
+      ],
+      [
+        31100,
+        6750
+      ],
+      [
+        31900,
+        7150
+      ],
+      [
+        30600,
+        8100
+      ],
+      [
+        29900,
+        9050
+      ],
+      [
+        28900,
+        9050
+      ],
+      [
+        28400,
+        8400
+      ]
+    ],
+    "status": "Computational visual trace proposal; no anatomical approval",
+    "annotation_source": "100-unit all-object count reconstruction, inspected 2026-10-19; no source microscopy pixels available",
+    "annotator": "Codex",
+    "ambiguous_boundary": false,
+    "note": "Visible internal low-detection cavity; source-image confirmation still required.",
+    "orientation_cue_native": [
+      29200,
+      11800
+    ],
+    "orientation_cue_description": "Adjacent loop-like structure: use above/below cavity only; point is a visual orientation cue, not a segmented centroid or confirmed homologous landmark.",
+    "center": [
+      29861.387478849407,
+      7791.370558375635
+    ],
+    "flip": "none",
+    "reference_job": "5020",
+    "reference_animal": "21F",
+    "boundary_best_flip": "none",
+    "cue_boundary_conflict": false,
+    "orientation_cue_used": true,
+    "native_boundary_distance": 382.9072375389262,
+    "centered_boundary_distance": 529.7637876174867,
+    "aligned_boundary_distance": 529.7637876174867,
+    "boundary_p90": 1985.1148176346783,
+    "flip_margin_fraction": 0.6762827341632082,
+    "flip_ambiguous": false,
+    "method": "Cavity polygon centroid; adjacent-structure above/below cue where visible; boundary ranks remaining flips; no rotation, scale or warp",
+    "approved": false,
+    "coarse_flip": "none",
+    "flip_resolution_stable": true
+  },
+  {
+    "job": "5000",
+    "animal_id": "24M",
+    "pla_arm": "TDP43–PFKP",
+    "source_sha256": "4a05d72249ab4b9f5a55ae90173078664f39fc8287c24f19ee1a1c5af3f5e748",
+    "polygon_native": [
+      [
+        30700,
+        2700
+      ],
+      [
+        31700,
+        2150
+      ],
+      [
+        32500,
+        2500
+      ],
+      [
+        33000,
+        3350
+      ],
+      [
+        34000,
+        4200
+      ],
+      [
+        33000,
+        4600
+      ],
+      [
+        31700,
+        4400
+      ],
+      [
+        31000,
+        3650
+      ]
+    ],
+    "status": "Computational visual trace proposal; no anatomical approval",
+    "annotation_source": "100-unit all-object count reconstruction, inspected 2026-10-19; no source microscopy pixels available",
+    "annotator": "Codex",
+    "ambiguous_boundary": false,
+    "note": "Visible internal low-detection cavity; source-image confirmation still required.",
+    "orientation_cue_native": [
+      31300,
+      1200
+    ],
+    "orientation_cue_description": "Adjacent loop-like structure: use above/below cavity only; point is a visual orientation cue, not a segmented centroid or confirmed homologous landmark.",
+    "center": [
+      32152.6588845655,
+      3475.8662219751714
+    ],
+    "flip": "vertical",
+    "reference_job": "5020",
+    "reference_animal": "21F",
+    "boundary_best_flip": "vertical",
+    "cue_boundary_conflict": false,
+    "orientation_cue_used": true,
+    "native_boundary_distance": 930.4615905612121,
+    "centered_boundary_distance": 1470.3798755848602,
+    "aligned_boundary_distance": 972.8531273253024,
+    "boundary_p90": 2402.7576464418635,
+    "flip_margin_fraction": 0.46468807951888597,
+    "flip_ambiguous": false,
+    "method": "Cavity polygon centroid; adjacent-structure above/below cue where visible; boundary ranks remaining flips; no rotation, scale or warp",
+    "approved": false,
+    "coarse_flip": "vertical",
+    "flip_resolution_stable": true
+  },
+  {
+    "job": "5403",
+    "animal_id": "22F",
+    "pla_arm": "TDP43–PFKP",
+    "source_sha256": "f56b395ae0825e5fdb05dafae7112be24277895cca467b7bda84480d702665e7",
+    "polygon_native": [
+      [
+        5000,
+        8100
+      ],
+      [
+        6100,
+        7400
+      ],
+      [
+        7000,
+        8000
+      ],
+      [
+        7600,
+        8800
+      ],
+      [
+        7200,
+        9600
+      ],
+      [
+        5700,
+        9900
+      ],
+      [
+        5100,
+        9300
+      ]
+    ],
+    "status": "Computational visual trace proposal; no anatomical approval",
+    "annotation_source": "100-unit all-object count reconstruction, inspected 2026-10-19; no source microscopy pixels available",
+    "annotator": "Codex",
+    "ambiguous_boundary": true,
+    "note": "Boundary partly joins sparse peripheral detections; proposal needs independent tracing.",
+    "orientation_cue_native": [
+      5600,
+      4900
+    ],
+    "orientation_cue_description": "Adjacent loop-like structure: use above/below cavity only; point is a visual orientation cue, not a segmented centroid or confirmed homologous landmark.",
+    "center": [
+      6198.573573573573,
+      8728.340840840841
+    ],
+    "flip": "vertical",
+    "reference_job": "5020",
+    "reference_animal": "21F",
+    "boundary_best_flip": "none",
+    "cue_boundary_conflict": true,
+    "orientation_cue_used": true,
+    "native_boundary_distance": 10856.800799988645,
+    "centered_boundary_distance": 901.4244256841869,
+    "aligned_boundary_distance": 944.0507317576905,
+    "boundary_p90": 2588.236634383981,
+    "flip_margin_fraction": 0.5879596888022344,
+    "flip_ambiguous": false,
+    "method": "Cavity polygon centroid; adjacent-structure above/below cue where visible; boundary ranks remaining flips; no rotation, scale or warp",
+    "approved": false,
+    "coarse_flip": "vertical",
+    "flip_resolution_stable": true
+  },
+  {
+    "job": "5003",
+    "animal_id": "21M",
+    "pla_arm": "TDP43–PFKP",
+    "source_sha256": "c3e33c682c1709daabfe5922b2dd707eef6cb783d8f34baa4779205656e34755",
+    "polygon_native": [
+      [
+        3800,
+        8400
+      ],
+      [
+        4400,
+        7700
+      ],
+      [
+        5900,
+        8000
+      ],
+      [
+        5800,
+        8800
+      ],
+      [
+        6300,
+        9100
+      ],
+      [
+        6100,
+        10400
+      ],
+      [
+        5300,
+        11300
+      ],
+      [
+        4400,
+        10800
+      ],
+      [
+        3700,
+        9800
+      ]
+    ],
+    "status": "Computational visual trace proposal; no anatomical approval",
+    "annotation_source": "100-unit all-object count reconstruction, inspected 2026-10-19; no source microscopy pixels available",
+    "annotator": "Codex",
+    "ambiguous_boundary": true,
+    "note": "Boundary partly joins sparse peripheral detections; proposal needs independent tracing.",
+    "orientation_cue_native": null,
+    "orientation_cue_description": "Adjacent structure not confidently identifiable in this reconstruction; use boundary-only proposal and flag for source-image review.",
+    "center": [
+      4968.27430293896,
+      9409.41974378297
+    ],
+    "flip": "none",
+    "reference_job": "5020",
+    "reference_animal": "21F",
+    "boundary_best_flip": "none",
+    "cue_boundary_conflict": false,
+    "orientation_cue_used": false,
+    "native_boundary_distance": 12737.583777083104,
+    "centered_boundary_distance": 755.7227478660936,
+    "aligned_boundary_distance": 755.7227478660936,
+    "boundary_p90": 3329.752557068845,
+    "flip_margin_fraction": 0.45510271440077127,
+    "flip_ambiguous": false,
+    "method": "Cavity polygon centroid; adjacent-structure above/below cue where visible; boundary ranks remaining flips; no rotation, scale or warp",
+    "approved": false,
+    "coarse_flip": "none",
+    "flip_resolution_stable": true
+  },
+  {
+    "job": "4999",
+    "animal_id": "22M",
+    "pla_arm": "TDP43–PFKP",
+    "source_sha256": "9f77bd5d8f148edd95e8035445d2c22d46218ed9e5bc6fc9872616627dd44cf2",
+    "polygon_native": [
+      [
+        6900,
+        3400
+      ],
+      [
+        7800,
+        2500
+      ],
+      [
+        8900,
+        2500
+      ],
+      [
+        9600,
+        3300
+      ],
+      [
+        10400,
+        3700
+      ],
+      [
+        9900,
+        4150
+      ],
+      [
+        8500,
+        4450
+      ],
+      [
+        7200,
+        4250
+      ]
+    ],
+    "status": "Computational visual trace proposal; no anatomical approval",
+    "annotation_source": "100-unit all-object count reconstruction, inspected 2026-10-19; no source microscopy pixels available",
+    "annotator": "Codex",
+    "ambiguous_boundary": false,
+    "note": "Visible internal low-detection cavity; source-image confirmation still required.",
+    "orientation_cue_native": [
+      7700,
+      1300
+    ],
+    "orientation_cue_description": "Adjacent loop-like structure: use above/below cavity only; point is a visual orientation cue, not a segmented centroid or confirmed homologous landmark.",
+    "center": [
+      8464.542124542124,
+      3529.1849816849817
+    ],
+    "flip": "vertical",
+    "reference_job": "5020",
+    "reference_animal": "21F",
+    "boundary_best_flip": "vertical",
+    "cue_boundary_conflict": false,
+    "orientation_cue_used": true,
+    "native_boundary_distance": 9761.417340214182,
+    "centered_boundary_distance": 1369.836430921438,
+    "aligned_boundary_distance": 854.542917490061,
+    "boundary_p90": 2315.974305410325,
+    "flip_margin_fraction": 0.5594927310549196,
+    "flip_ambiguous": false,
+    "method": "Cavity polygon centroid; adjacent-structure above/below cue where visible; boundary ranks remaining flips; no rotation, scale or warp",
+    "approved": false,
+    "coarse_flip": "vertical",
+    "flip_resolution_stable": true
+  }
+]

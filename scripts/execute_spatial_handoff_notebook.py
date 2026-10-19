@@ -5,6 +5,8 @@ import nbformat
 from nbclient import NotebookClient
 from jupyter_client import KernelManager
 ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from bio_visuals.notebook_validation import validate_saved_outputs
 path=ROOT/(sys.argv[1] if len(sys.argv)>1 else 'PLA_ChAT_spatial_handoff_analysis.ipynb')
 if path.resolve().parent != ROOT or path.suffix != '.ipynb':
     raise ValueError('Choose a notebook in the repository root')
@@ -16,9 +18,11 @@ def progress(cell,cell_index,**kwargs):
 client=NotebookClient(nb,timeout=900,km=km,resources={'metadata':{'path':str(ROOT)}},on_cell_start=progress)
 try:
     client.execute()
+    counts = validate_saved_outputs(nb)
     nbformat.write(nb,path)
     errors=[o for c in nb.cells if c.cell_type=='code' for o in c.outputs if o.output_type=='error']
     assert not errors,errors
     print(f'Saved executed notebook: {path} ({path.stat().st_size/1e6:.1f} MB)',flush=True)
+    print(f'Validated saved outputs: {counts}', flush=True)
 finally:
     if km.has_kernel:km.shutdown_kernel(now=True)

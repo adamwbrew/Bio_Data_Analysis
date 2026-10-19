@@ -6,6 +6,26 @@ test_spatial_bins_conserve_objects_and_use_raw_local_support (test_analysis.Anal
 test_spatial_invalid_parameters_fail_clearly (test_analysis.AnalysisInvariantTests) ... ok
 test_spatial_smoothing_uses_ratio_of_weighted_counts_without_changing_raw_counts (test_analysis.AnalysisInvariantTests) ... ok
 test_summary_keeps_object_types_and_denominators_distinct (test_analysis.AnalysisInvariantTests) ... ok
+test_fresh_checkout_launcher_imports_without_site_packages (test_app_launcher.AppLauncherTests) ... ok
+test_unusable_python_and_missing_snapshot_report_action (test_app_launcher.AppLauncherTests) ... ok
+test_unusable_python_opens_portable_app_in_path_with_spaces (test_app_launcher.AppLauncherTests) ... ok
+test_actual_overlap_area_is_not_area_of_positive_objects (test_condition_comparison.ConditionComparisonTests) ... ok
+test_equal_animal_means_direction_and_arm_separation (test_condition_comparison.ConditionComparisonTests) ... ok
+test_exact_enumeration_only_primary_metric_and_minimum_two_sided_p (test_condition_comparison.ConditionComparisonTests) ... ok
+test_fixed_common_size_mix_distinguishes_composition_from_within_size_rates (test_condition_comparison.ConditionComparisonTests) ... ok
+test_missing_values_remain_unknown_and_strict_payload_serializes_null (test_condition_comparison.ConditionComparisonTests) ... ok
+test_nine_delete_pair_sensitivities_are_not_independent_pairs (test_condition_comparison.ConditionComparisonTests) ... ok
+test_registration_adapter_reverses_direction_and_preserves_unknown_bins (test_condition_comparison.ConditionComparisonTests) ... ok
+test_registration_gate_rejects_empty_partial_unready_and_duplicate_reviews (test_condition_comparison.ConditionComparisonTests) ... ok
+test_rejects_wrong_groups_repeated_animals_extra_jobs_and_invalid_flags (test_condition_comparison.ConditionComparisonTests) ... ok
+test_reviewed_registration_uses_equal_animals_and_observed_common_support (test_condition_comparison.ConditionComparisonTests) ... ok
+test_support_rule_requires_every_animal_and_restricted_retention_is_reported (test_condition_comparison.ConditionComparisonTests) ... ok
+test_conflicting_assignment_duplicates_and_unknown_jobs_rejected (test_condition_layout.ConditionLayoutTests) ... ok
+test_extents_use_original_boxes_and_contrasts_have_requested_sign (test_condition_layout.ConditionLayoutTests) ... ok
+test_figure_keeps_arms_separate_and_draws_both_condition_extents (test_condition_layout.ConditionLayoutTests) ... ok
+test_missing_association_stays_unknown_and_invalid_coordinates_rejected (test_condition_layout.ConditionLayoutTests) ... ok
+test_missing_condition_within_image_is_not_called_a_pair (test_condition_layout.ConditionLayoutTests) ... ok
+test_overlap_is_not_called_separation_and_opposite_effect_is_preserved (test_condition_layout.ConditionLayoutTests) ... ok
 test_bad_flags_ids_and_later_metadata_are_rejected (test_entire_dataset.CompleteDatasetTests) ... ok
 test_duplicate_multiset_matching_respects_multiplicity (test_entire_dataset.CompleteDatasetTests) ... ok
 test_equal_export_mean_is_distinct_from_detection_weighting (test_entire_dataset.CompleteDatasetTests) ... ok
@@ -29,6 +49,34 @@ test_review_gate_prevents_accidental_group_maps (test_handoff.SpatialHandoffTest
 test_reviewed_maps_never_pool_the_two_arms (test_handoff.SpatialHandoffTests) ... ok
 test_surface_selection_preserves_each_sections_xy_ratio (test_handoff.SpatialHandoffTests) ... ok
 test_translation_and_flips_preserve_distances_and_center (test_handoff.SpatialHandoffTests) ... ok
+test_common_mix_removes_pure_composition_difference (test_morphology_ml.MorphologyMLTests) ... ok
+test_equal_animal_fit_and_refit_scaler_excludes_heldout (test_morphology_ml.MorphologyMLTests) ... ok
+test_excluded_qc_empty_and_unlocatable_records_are_not_invented (test_morphology_ml.MorphologyMLTests) ... ok
+test_excluded_qc_targets_preserve_provenance_and_do_not_change_fit (test_morphology_ml.MorphologyMLTests) ... ok
+test_missing_outcome_never_becomes_negative_or_vanishes (test_morphology_ml.MorphologyMLTests) ... ok
+test_missing_shape_excluded_only_from_ml_and_area_sensitivity_retains_it (test_morphology_ml.MorphologyMLTests) ... ok
+test_native_spatial_percentages_conserve_valid_objects (test_morphology_ml.MorphologyMLTests) ... ok
+test_outcome_condition_and_coordinates_do_not_enter_fit (test_morphology_ml.MorphologyMLTests) ... ok
+test_partitions_are_repeatable_and_ari_is_label_invariant (test_morphology_ml.MorphologyMLTests) ... ok
+test_excluded_qc_payload_preserves_source_identity_and_missing_morphology (test_morphology_views.MorphologyViewsTests) ... ok
+test_fragment_ids_do_not_collide_and_script_text_is_escaped (test_morphology_views.MorphologyViewsTests) ... ok
+test_missing_estimates_are_null_not_zero_or_nonstandard_json (test_morphology_views.MorphologyViewsTests) ... ok
+test_native_fraction_masks_sparse_bins_but_keeps_supported_zero (test_morphology_views.MorphologyViewsTests) ... ok
+test_annotation_hash_mismatch_fails_closed (test_normalization_alignment.AlignmentTests) ... ok
+test_boundary_score_is_symmetric_and_exact_matches_are_zero (test_normalization_alignment.AlignmentTests) ... ok
+test_partial_boundary_trim_tolerates_small_missing_piece_but_reports_tail (test_normalization_alignment.AlignmentTests) ... ok
+test_proposals_never_unlock_reviewed_coordinates (test_normalization_alignment.AlignmentTests) ... ok
+test_translation_and_flips_preserve_all_pairwise_distances (test_normalization_alignment.AlignmentTests) ... ok
+test_denominators_expose_unequal_pooling_and_keep_equal_animals (test_normalization_alignment.NormalizationTests) ... ok
+test_missing_association_and_overlap_do_not_disappear_in_audit (test_normalization_alignment.NormalizationTests) ... ok
+test_two_directions_reverse_estimate_and_interval_not_relative_baseline (test_normalization_alignment.NormalizationTests) ... ok
+test_within_animal_arm_difference_uses_same_identity (test_normalization_alignment.NormalizationTests) ... ok
+test_internal_cue_selects_vertical_family_without_moving_anchor (test_normalization_alignment.OrientationCueTests) ... ok
+test_missing_or_horizontal_cue_preserves_all_candidates (test_normalization_alignment.OrientationCueTests) ... ok
+test_headless_figure_repr_and_dropped_images_are_rejected (test_notebook_outputs.SavedOutputTests) ... ok
+test_portable_png_and_interactive_formats_are_accepted (test_notebook_outputs.SavedOutputTests) ... ok
+test_real_notebook_helper_embeds_png_with_agg (test_notebook_outputs.SavedOutputTests) ... ok
+test_withheld_registration_map_is_optional_but_broken_figure_is_not (test_notebook_outputs.SavedOutputTests) ... ok
 test_all_notebook_cells_have_valid_python (test_notebook_setup.NotebookSetupTests) ... ok
 test_setup_recovers_stale_imports_and_rebinds_functions (test_notebook_setup.NotebookSetupTests) ... ok
 test_spatial_main_setup_refreshes_explorer_and_handoff (test_notebook_setup.NotebookSetupTests) ... ok
@@ -37,8 +85,14 @@ test_loader_selects_known_roi_modes_without_requiring_unselected_files (test_roi
 test_main_views_reject_pooled_repeat_runs (test_roi_comparison.ROIComparisonTests) ... ok
 test_paired_metrics_keep_runs_separate_and_report_percentage_points (test_roi_comparison.ROIComparisonTests) ... ok
 test_signatures_ignore_ids_and_count_duplicates_without_many_to_many_join (test_roi_comparison.ROIComparisonTests) ... ok
+test_gallery_metadata_is_html_escaped (test_standalone_app.StandaloneAppTests) ... ok
+test_launcher_checks_snapshot_identity_and_validates_port (test_standalone_app.StandaloneAppTests) ... ok
+test_missing_gallery_is_explicit_and_empty_explorer_is_rejected (test_standalone_app.StandaloneAppTests) ... ok
+test_missing_snapshot_and_port_collision_are_detected (test_standalone_app.StandaloneAppTests) ... ok
+test_portable_page_embeds_original_pixels_and_trusted_explorer (test_standalone_app.StandaloneAppTests) ... ok
+test_server_exposes_only_document_and_health_and_reloads_snapshot (test_standalone_app.StandaloneAppTests) ... ok
 
 ----------------------------------------------------------------------
-Ran 39 tests in 6.948s
+Ran 93 tests in 13.328s
 
 OK

@@ -1,0 +1,75 @@
+{
+  "direction": "Both directions available: Home cage minus Running is the stored primary contrast; reversing negates the difference and reverses interval endpoints",
+  "groups": [
+    "Home cage",
+    "Running"
+  ],
+  "primary_metric": "association_pct",
+  "metrics": {
+    "association_pct": {
+      "label": "PLA objects with ChAT signal",
+      "unit": "percentage points",
+      "caution": "Object association, not neuron counts, binding strength or metabolic flux."
+    },
+    "pla_count": {
+      "label": "PLA objects per section",
+      "unit": "objects",
+      "caution": "Unnormalized export count; sampled area, section level and detection can differ."
+    },
+    "chat_count": {
+      "label": "ChAT objects per section",
+      "unit": "objects",
+      "caution": "Segmented detections, not neurons; sampled tissue area is unavailable."
+    },
+    "mean_pla_area_um2": {
+      "label": "Mean PLA object area",
+      "unit": "µm²",
+      "caution": "Sensitive to large detections and segmentation."
+    },
+    "median_pla_area_um2": {
+      "label": "Median PLA object area",
+      "unit": "µm²",
+      "caution": "A per-animal median; group summaries average those medians."
+    },
+    "large_pla_pct": {
+      "label": "PLA objects with area ≥1 µm²",
+      "unit": "percentage points",
+      "caution": "Prespecified size sensitivity measure, not a validated biological class."
+    },
+    "overlap_area_ratio_pct": {
+      "label": "Actual ChAT-overlap area / total PLA area",
+      "unit": "percentage points",
+      "caution": "Sum of exported overlap areas / sum of PLA areas within each animal; not area of all positive objects."
+    }
+  },
+  "estimators": {
+    "raw": "All PLA objects (primary)",
+    "restricted": "Eligible size strata only, original within-animal mix",
+    "standardized": "Eligible size strata, same pooled size mix for every animal"
+  },
+  "biological_unit": "Animal; three animals per condition and PLA arm",
+  "weighting": "Every animal has equal weight; never pool object rows between animals",
+  "uncertainty": "Leave-one-animal-out from EACH group gives nine two-versus-two differences. The range is a sensitivity check, not a confidence interval.",
+  "cross_animal": "All nine Home-cage–Running differences share animals; they are not nine independent replicates or matched pairs.",
+  "exact_test": "All 20 allocations of six animals to groups of three, two-sided absolute mean difference. Meaningful only if animal labels are exchangeable; randomization and batch independence are not established here. Minimum attainable two-sided p is 0.10. Not a confirmatory significance test.",
+  "size_edges_um2": [
+    0,
+    0.03,
+    0.1,
+    0.3,
+    1,
+    null
+  ],
+  "size_labels": [
+    "<0.03",
+    "0.03–<0.1",
+    "0.1–<0.3",
+    "0.3–<1",
+    "≥1"
+  ],
+  "min_per_stratum": 10,
+  "size_weights": "Equal-animal mean of size proportions (count in stratum / all PLA objects), renormalized over strata with at least the minimum count and observed association in all six animals.",
+  "size_interpretation": "Raw is primary. Restricted isolates changes from excluding unsupported sizes. Standardized uses one common size mixture; this sensitivity analysis does not establish why groups differ or adjust all confounding. Its leave-pair-out range holds the full-cohort eligibility and common weights fixed.",
+  "spatial_status": "No pixelwise or anatomical subtraction: landmarks, orientation, scale and tissue support require review.",
+  "missing": "Missing measurements stay missing; group means require all three animals. Unknown area is outside known size strata and reduces retained coverage."
+}

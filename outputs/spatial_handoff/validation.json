@@ -1,48 +1,109 @@
 {
-  "verified_utc": "2026-10-19T18:09:52.927578+00:00",
-  "execution": "Both notebooks completed fresh-kernel Run All from the raw CSVs with the final explorer source.",
+  "verified_utc": "2026-10-19T20:46:02.714696+00:00",
+  "execution": "Both notebooks completed fresh-kernel Run All from all raw CSVs. Explicit 300-DPI PNG embedding verified per figure cell; main overview computed from current results; separate excluded-morphology QC targets exported. Existing primary outcomes and model fits unchanged.",
   "notebooks": [
     {
       "notebook": "PLA_ChAT_scientific_analysis.ipynb",
-      "notebook_sha256": "22ecabfc065dcd5ad23b866305091ff2e24bbf23a5d0caf130e18d9e38c58568",
-      "code_cells_with_saved_execution": 12,
-      "code_cells": 12,
+      "notebook_sha256": "523bc29513176502dd500c43837e948a8d4dbfc2ea92f57e4af6e8ddfdbd8433",
+      "code_cells": 27,
+      "embedded_pngs": 17,
+      "code_cells_with_saved_execution": 27,
       "error_outputs": 0,
       "stderr_outputs": 0,
       "embedded_explorers": 1,
-      "additional_plotly_outputs": 0
+      "embedded_condition_comparisons": 1,
+      "embedded_morphology_explorers": 1
     },
     {
       "notebook": "PLA_ChAT_spatial_handoff_analysis.ipynb",
-      "notebook_sha256": "4c5f21c25ee4bbbf202d8886c89985164a6b2355c1fe9c6c49a04419c588b41e",
-      "code_cells_with_saved_execution": 30,
-      "code_cells": 30,
+      "notebook_sha256": "af320fadd9c1ee4e8673dd310bb7e56cddff412a139402b96d9661cf7b5237d2",
+      "code_cells": 44,
+      "embedded_pngs": 31,
+      "code_cells_with_saved_execution": 44,
       "error_outputs": 0,
       "stderr_outputs": 0,
       "embedded_explorers": 1,
-      "additional_plotly_outputs": 4
+      "embedded_condition_comparisons": 1,
+      "embedded_morphology_explorers": 1
     }
   ],
-  "automated_tests_passed": 39,
+  "automated_tests_passed": 93,
   "test_log": "test_results.txt",
-  "javascript_syntax_check": "node --check passed",
+  "javascript_syntax_check": "node --check passed for all three HTML templates",
   "browser_checks": [
-    "Trusted JupyterLab renders embedded controls from saved notebook output without a live kernel",
-    "Actual main scientific notebook opened in JupyterLab with project Python environment",
-    "Combined PLA arm, group, section, bin and minimum-denominator filters",
-    "21M HK1 at 1,000-unit bins and minimum 25 PLA: 218/296 observed bins retained, matching independent Python calculation",
-    "3D rotation, top-down view, wheel zoom and reset",
-    "Independent ChAT/PLA visibility, positive/negative PLA subsets and opacity",
-    "Flat overlay, exploded stack, individual checkboxes, all layers and one-at-a-time stepping",
-    "Candidate geometry mode omits missing candidates and disallows unreviewed biological comparisons",
-    "Reviewed alignment remains empty until scientist review passes"
+    "Sticky navigation, scientific figure filters, ordered animal selector, morphology arm/cluster selection and both subtraction directions verified",
+    "Downloaded 36-row PFKP excluded-morphology QC CSV matches saved source identifiers, coordinates, windows and reasons",
+    "Main and audit notebooks include validated embedded PNG data; main static figures and generated overview visually checked in JupyterLab",
+    "No browser console errors during final app checks; anatomical review gate remains 0/12"
   ],
   "figure_exports": {
-    "png": 52,
-    "svg": 52,
-    "png_export_dpi": 300
+    "png": 65,
+    "svg": 65,
+    "png_export_dpi": 300,
+    "new_figures": [
+      {
+        "file": "21_morphology_patterns.png",
+        "pixels": [
+          5134,
+          2879
+        ],
+        "dpi": [
+          299.9994,
+          299.9994
+        ]
+      },
+      {
+        "file": "22_morphology_stability.png",
+        "pixels": [
+          4234,
+          2817
+        ],
+        "dpi": [
+          299.9994,
+          299.9994
+        ]
+      },
+      {
+        "file": "23_morphology_native_hk1.png",
+        "pixels": [
+          4587,
+          7371
+        ],
+        "dpi": [
+          299.9994,
+          299.9994
+        ]
+      },
+      {
+        "file": "23_morphology_native_pfkp.png",
+        "pixels": [
+          4713,
+          7371
+        ],
+        "dpi": [
+          299.9994,
+          299.9994
+        ]
+      }
+    ]
   },
-  "protocol": "protocols/v1.1.0_ce55edf001fa.json",
+  "protocol": "protocols/v1.4.1_1061c0df7f19.json",
   "protocol_code_hashes_match": true,
-  "limits": "Detection reconstructions, not microscope pixels. Measurement surfaces use signal height; exploded stacks use ordinal animal order, not anatomical depth. Candidate-centered mode supports geometry QC only. Anatomical comparisons remain gated on scientist review."
+  "anatomical_approval_records_unchanged": true,
+  "limits": "ML groups are exploratory measurement partitions; 49,618 diameter-invalid PLA are excluded only from morphology. Area-only sensitivity retains them. Refit agreement is stability, not prediction accuracy. n=3 animals per condition per arm. PLA-count and size normalization do not correct tissue area, ChAT availability or confounding. Cavity traces and adjacent-structure cues are computational visual proposals from detections; source microscopy, scale, homology and support remain unapproved. Group anatomical subtraction remains gated.",
+  "standalone_app": {
+    "path": "outputs/spatial_handoff/app/index.html",
+    "sha256": "01c7b95fd309ae3119989c86e7744f320257e31bf393ab8b639581a1e4aa9973",
+    "bytes": 26218322,
+    "sections": 12,
+    "object_totals": {
+      "n_all": 3010776,
+      "n_pla": 310024,
+      "n_chat": 2700752
+    },
+    "embedded_scientific_figures": 15,
+    "comparison_tabs": 5,
+    "remote_assets": 0,
+    "bind": "127.0.0.1:8050"
+  }
 }
