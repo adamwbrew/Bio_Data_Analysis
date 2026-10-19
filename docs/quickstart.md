@@ -1,16 +1,28 @@
-# Open the results or rerun the analysis
+# View the results in your browser
 
-## View the saved app — no analysis setup required
+**Start with the [results guide](results_guide.md) to read the findings on GitHub, or download the interactive app below.** Neither route requires Run All, raw data, a notebook kernel or Python setup.
 
-1. Download the repository using GitHub **Code → Download ZIP**, then unzip it. Use the branch or release containing the analysis you want; changes in an open pull request do not appear in `main` until merged.
-2. In the downloaded folder, open **`outputs/spatial_handoff/app/index.html`** with Chrome, Edge, Firefox or Safari. In VS Code, use **Reveal in Finder/File Explorer**, then open the HTML with your browser; the editor otherwise shows its source.
-3. Start with **Running comparison**, then **Machine learning** and the **Spatial explorer**. The app has all required plotting code, saved measurements and figure images embedded. It needs no raw CSVs, internet connection, notebook kernel or Python installation.
+## Download and open the app
 
-The HTML file is approximately 25 MB; allow a moment for its plots to initialize. GitHub's file preview is not a hosted application. You can share the downloaded `index.html` itself to share this saved result snapshot.
+1. **[Download the app and results ZIP](https://github.com/adamwbrew/Bio_Data_Analysis/archive/refs/heads/main.zip)** and unzip `Bio_Data_Analysis-main.zip`.
+2. In the unzipped folder, open **`outputs` → `spatial_handoff` → `app` → `index.html`**. Right-click the file and choose **Open With → Chrome, Edge, Firefox or Safari**. Allow a moment for its plots to initialize.
+3. Start with **Running comparison**, then **Machine learning** and **Explore sections**. Rotate and zoom the 3D views, filter the animal layers, inspect normalization and download figures or tables.
 
-### Use the local links in the notebooks
+The app includes its plotting library, saved measurements and figure images. It works offline after download, without Python, Jupyter or a server. You can share just `index.html` to share the same saved snapshot. The app and analysis updates are available on `main`.
 
-The notebook links open `http://127.0.0.1:8050/`. Start the local app first:
+**Smaller, single-file option:** right-click [the HTML file link](https://github.com/adamwbrew/Bio_Data_Analysis/raw/refs/heads/main/outputs/spatial_handoff/app/index.html), select **Save Link As…**, and keep the name `index.html` (approximately 26 MB). Then open it with your browser. Normal-clicking the raw HTML may show source code; GitHub does not host it as an app. If your browser adds `.txt`, rename the saved file to end in `.html`.
+
+## Optional: read the saved notebooks locally
+
+The **[full spatial handoff notebook](https://github.com/adamwbrew/Bio_Data_Analysis/raw/refs/heads/main/PLA_ChAT_spatial_handoff_analysis.ipynb?download=1) is approximately 76 MB and cannot be previewed on GitHub**. The **[main scientific notebook](https://github.com/adamwbrew/Bio_Data_Analysis/raw/refs/heads/main/PLA_ChAT_scientific_analysis.ipynb?download=1) is approximately 40 MB and may also fail to preview**. This is a viewer limitation, not missing results. Use the lightweight [results guide](results_guide.md) for a readable overview on GitHub and the downloaded app for interactive controls.
+
+For the complete saved notebook report, download the repository ZIP and open the `.ipynb` file in **VS Code with its Jupyter extension**, or in an existing **JupyterLab** installation. Saved text, tables and static figures can be read **without running any cells, obtaining raw CSVs or starting an analysis kernel**. Review the code before trusting a notebook to enable embedded HTML/JavaScript. If a viewer does not render those controls, use the portable app.
+
+Run All and the optional scientist review editor require a live Python environment. They are separate from viewing the saved results; setup for recomputation is below.
+
+### Optional: use the notebooks' localhost app links
+
+The notebook links to `http://127.0.0.1:8050/` require a local server. If you want to use those links instead of opening the portable HTML directly, download the full repository and start the app:
 
 | Platform | From the repository folder |
 |---|---|
@@ -22,13 +34,7 @@ These commands use **Python 3's standard library only**. They do not install or 
 
 The server only serves the app and its health check, and listens only on your own computer. The app generation time identifies the saved snapshot. Refreshing the page reloads the snapshot on disk; filters do not recompute scientific results.
 
-## Read the notebooks
-
-The [main scientific notebook](../PLA_ChAT_scientific_analysis.ipynb) is the primary report. The [full spatial handoff notebook](../PLA_ChAT_spatial_handoff_analysis.ipynb) adds all section figures and detailed methods. GitHub can show saved text, tables and static figures; it suppresses interactive JavaScript. If GitHub cannot preview a large notebook, download it and open it locally.
-
-For the easiest full interactive view, use the portable app. For local notebook use, open the notebook in JupyterLab or VS Code with its Jupyter extension. Review the code before trusting the file to enable embedded HTML/JavaScript. A live Python kernel is needed for **Run All** and the optional scientist review editor; it is not needed to view the standalone app.
-
-## Recompute from the source measurements
+## Optional: recompute from the source measurements
 
 Recomputation is optional when reviewing the published results. The repository excludes the raw files; downloading GitHub alone is not enough for Run All.
 
@@ -93,13 +99,14 @@ A completed run saves figures, tables, grid arrays, a protocol snapshot and the 
 
 | What you see | What to do |
 |---|---|
+| GitHub cannot render a large notebook | Read the [results guide](results_guide.md), download the app, or open the saved notebook locally. You do not need to rerun it. |
 | GitHub or VS Code shows HTML source | Open the downloaded app file with a web browser. |
 | `127.0.0.1:8050` cannot be reached | Start the launcher/server, or open the portable HTML directly. |
 | Port 8050 is already used | Run the server with `--port 8051`; follow the printed URL. |
 | Notebook controls do not render | Use the standalone app, or review/trust the notebook in a local compatible viewer. |
 | Run All reports missing CSVs | Place the thirteen expanded raw files in `entire Chat dataset/`; raw data are not in Git. |
 | An import is missing | Install `requirements.txt` into the same environment selected as the notebook kernel. |
-| Recent results are absent in GitHub `main` | Check whether the update is still on its pull-request branch; download that branch until merged. |
+| A downloaded app shows older results | Download a fresh copy from the link above and check its generation time. Existing local downloads do not update automatically. |
 | Anatomical comparison remains unavailable | This is expected while 0/12 reviews are approved. Inspect proposed layers now; scientist-reviewed correspondence is required for group anatomical maps. |
 
 See the [repository overview](../README.md) for the key findings and interpretation limits. Model groups are exploratory measurement patterns; 3D measurement heights and stacked animals are not measured anatomical depth.
